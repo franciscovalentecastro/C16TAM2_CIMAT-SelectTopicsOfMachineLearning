@@ -44,6 +44,9 @@ def main():
     train_dataset, test_dataset \
         = torch.utils.data.random_split(full_dataset, [train_size, test_size])
 
+    # Test with full dataset
+    test_dataset = full_dataset
+
     # Dataset information
     print("train_dataset : ", len(train_dataset))
     print("test_dataset : ", len(test_dataset))
@@ -94,7 +97,6 @@ def main():
 
             # forward + backward + optimize
             outputs = net(inputs)
-            # cprint(outputs.size(),inputs.size(),labels.size())
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
