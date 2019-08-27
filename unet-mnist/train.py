@@ -1,5 +1,5 @@
 import sys
-import numpy
+import numpy as np
 
 import torch
 import torch.nn as nn
@@ -38,7 +38,7 @@ def main():
     print("Device : ", device)
 
     # Load dataset
-    full_dataset = datasets.MNISTSegmentationDataset(dist_mean,dist_sd)
+    full_dataset = datasets.MNISTSegmentationDataset(dist_mean, dist_sd)
 
     # Divide into Train and Test
     train_size = int(train_percentage * len(full_dataset))
@@ -50,13 +50,13 @@ def main():
     print("test_dataset : ", len(test_dataset))
 
     # Create dataset loaders
-    trainloader = torch.utils.data.DataLoader(train_dataset, batch_size = train_batch,
-                                             shuffle = True, num_workers = 0)
+    trainloader = torch.utils.data.DataLoader(train_dataset,
+                                              batch_size=train_batch,
+                                              shuffle=True, num_workers=0)
 
-    testloader = torch.utils.data.DataLoader(test_dataset, batch_size = test_batch,
-                                             shuffle = True, num_workers = 0)
-
-
+    testloader = torch.utils.data.DataLoader(test_dataset,
+                                             batch_size=test_batch,
+                                             shuffle=True, num_workers=0)
 
     # Show sample of images
     # get some random training images
@@ -64,7 +64,7 @@ def main():
     images, labels = dataiter.next()
 
     # # show images
-    imshow(torchvision.utils.make_grid(torch.cat((images,labels)),nrow = train_batch))
+    imshow(torchvision.utils.make_grid(torch.cat((images, labels)), nrow=train_batch))
 
     # Create network
     net = Net()
@@ -86,8 +86,9 @@ def main():
             # Crop segmentation map
             # labels = labels#[:,:,8:-8,8:-8]
 
-            inputs = inputs.cuda()
-            labels = labels.cuda()
+            if torch.cuda.is_available():
+                inputs = inputs.cuda()
+                labels = labels.cuda()
 
             # zero the parameter gradients
             optimizer.zero_grad()
@@ -114,8 +115,10 @@ def main():
     # Test network and predict
     dataiter = iter(testloader)
     images, labels = dataiter.next()
-    images_cuda = images.cuda()
-    labels_cuda = labels.cuda()
+
+    if torch.cuda.is_available():
+        images_cuda = images.cuda()
+        labels_cuda = labels.cuda()
 
     # print images
     imshow(torchvision.utils.make_grid(torch.cat((images,labels)),nrow = test_batch))
@@ -135,8 +138,10 @@ def main():
     with torch.no_grad():
         for data in testloader:
             images, labels = data
-            images_cuda = images.cuda()
-            labels_cuda = labels.cuda()
+
+            if torch.cuda.is_available():
+                images_cuda = images.cuda()
+                labels_cuda = labels.cuda()
 
             outputs = net(images_cuda)
 

@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"out",
+				"out_chan\tparam"
+			],
+			[
+				"in",
+				"in_chan\tparam"
+			],
+			[
+				"con",
+				"conv_output\tstatement"
+			],
+			[
+				"tcon",
+				"tconv5\tstatement"
+			],
+			[
 				"times",
 				"times_ratios"
 			],
@@ -76,10 +92,6 @@
 				"kernel_size"
 			],
 			[
-				"out",
-				"out_channels"
-			],
-			[
 				"trai",
 				"trainset"
 			],
@@ -130,10 +142,6 @@
 			[
 				"sampl",
 				"samples"
-			],
-			[
-				"con",
-				"conv5"
 			],
 			[
 				"num",
@@ -244,35 +252,18 @@
 	"buffers":
 	[
 		{
-			"file": "imshow.py",
-			"settings":
-			{
-				"buffer_size": 235,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "datasets.py",
 			"settings":
 			{
 				"buffer_size": 1627,
-				"line_ending": "Windows"
+				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "network.py",
+			"file": "imshow.py",
 			"settings":
 			{
-				"buffer_size": 2049,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "train.py",
-			"settings":
-			{
-				"buffer_size": 6052,
-				"encoding": "UTF-8",
+				"buffer_size": 250,
 				"line_ending": "Windows"
 			}
 		}
@@ -288,6 +279,14 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"anacon",
+				"Build With: Anaconda Python Builder"
+			],
 			[
 				"remove",
 				"Package Control: Remove Package"
@@ -313,9 +312,10 @@
 	},
 	"console":
 	{
-		"height": 0.0,
+		"height": 136.0,
 		"history":
 		[
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
 		]
 	},
 	"distraction_free":
@@ -327,8 +327,17 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist"
+	],
 	"file_history":
 	[
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/train.py",
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/unet_mnist.sublime-project",
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/datasets.py",
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/network.py",
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/imshow.py",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Computo_Cientifico/Tarea_1/factorization.py",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Computo_Cientifico/computo_cientifico.sublime-project",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Computo_Cientifico/Tarea_1/compare.py",
@@ -430,7 +439,7 @@
 	],
 	"find":
 	{
-		"height": 29.0
+		"height": 24.0
 	},
 	"find_in_files":
 	{
@@ -445,6 +454,31 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			".conv_block(in_channels=",
+			"conv_block(in_channels=",
+			"in_channels=",
+			" = ",
+			"self.conv_block",
+			"self,",
+			"nv_block(in_channe",
+			"conv_block(in_channels=1,\n                                                out_chann",
+			"conv_block(",
+			"**kwargs",
+			"*args, ",
+			"out_channels=",
+			", ",
+			"onv_block(in",
+			"conv_block(",
+			"*ar",
+			"out_channels=",
+			"in_channels=",
+			"self.tco",
+			"wnsam",
+			"ownsampl",
+			"= self.pool",
+			"f.pool",
+			"lf.pool",
+			"x2 = self.po",
 			"prin",
 			")",
 			"[]",
@@ -526,39 +560,11 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "imshow.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 235,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "datasets.py",
 					"semi_transient": false,
 					"settings":
@@ -584,46 +590,16 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "network.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2049,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "train.py",
+					"buffer": 1,
+					"file": "imshow.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6052,
+						"buffer_size": 250,
 						"regions":
 						{
 						},
@@ -636,9 +612,7 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Python/Python.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -652,7 +626,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 29.0
+		"height": 24.0
 	},
 	"input":
 	{
@@ -681,6 +655,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 108.0
+	},
 	"output.find_results":
 	{
 		"height": 0.0
@@ -689,7 +667,7 @@
 	"project": "unet_mnist.sublime-project",
 	"replace":
 	{
-		"height": 54.0
+		"height": 44.0
 	},
 	"save_all_on_build": true,
 	"select_file":

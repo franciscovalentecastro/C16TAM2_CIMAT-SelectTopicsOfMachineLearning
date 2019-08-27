@@ -17,7 +17,7 @@
 	"settings":
 	[
 		{
-			"python_interpreter": "C:/Users/fcova/Miniconda3/envs/stats/python",
+			"python_interpreter": "~/miniconda3/envs/stats/python",
 			"swallow_startup_errors": true
 		}
 	]
