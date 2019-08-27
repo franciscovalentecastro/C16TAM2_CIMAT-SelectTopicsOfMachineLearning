@@ -1,3 +1,4 @@
+import math
 import torch
 import torch.nn as nn
 
@@ -57,6 +58,9 @@ class UNet(nn.Module):
                                                 padding=1)
         self.tconv5 = nn.ConvTranspose2d(1024, 512, kernel_size=2, stride=2)
 
+        # Intialize weights
+        self.apply(self.initialize_weights)
+
     def conv_block(self, in_chan, out_chan, **kwargs):
         return nn.Sequential(
             nn.Conv2d(in_channels=in_chan, out_channels=out_chan, **kwargs),
@@ -64,6 +68,14 @@ class UNet(nn.Module):
             nn.Conv2d(in_channels=out_chan, out_channels=out_chan, **kwargs),
             nn.ReLU()
         )
+
+    def initialize_weights(self, module):
+        if type(module) == nn.Conv2d or type(module) == nn.ConvTranspose2d:
+            input_dimension = module.in_channels \
+                * module.kernel_size[0] \
+                * module.kernel_size[1]
+            std_dev = math.sqrt(2.0 / float(input_dimension))
+            torch.nn.init.normal_(module.weight, mean=0.0, std=std_dev)
 
     def forward(self, x1):
 

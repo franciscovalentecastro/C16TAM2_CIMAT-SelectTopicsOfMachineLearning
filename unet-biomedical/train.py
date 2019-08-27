@@ -13,12 +13,13 @@ import datasets
 
 def main():
 
-    if len(sys.argv) > 4:
+    if len(sys.argv) > 5:
         # Get console parameters
         train_percentage = float(sys.argv[1])
         train_batch = int(sys.argv[2])
         test_batch = int(sys.argv[3])
         number_of_epochs = int(sys.argv[4])
+        number_of_mini_batches = int(sys.argv[5])
     else:
         print("Not enough parameters")
         return
@@ -65,10 +66,12 @@ def main():
     imshow(torchvision.utils.make_grid(
         torch.cat((images, labels)), nrow=train_batch))
 
+    print('Started Training')
+
     # Create network
     net = UNet()
     net.to(device)
-    print(net)
+    # print(net)
 
     # Define loss function and optimizer
     criterion = nn.L1Loss()
@@ -81,9 +84,6 @@ def main():
         for i, data in enumerate(trainloader, 0):
             # get the inputs; data is a list of [inputs, labels]
             inputs, labels = data
-
-            # Crop segmentation map
-            # labels = labels#[:,:,8:-8,8:-8]
 
             if torch.cuda.is_available():
                 inputs = inputs.cuda()
@@ -101,15 +101,14 @@ def main():
 
             # print statistics
             running_loss += loss.item()
-            if i % 2000 == 1999:    # print every 2000 mini-batches
-                print('[%d, %5d] loss: %.3f' %
+
+            # print every number_of_mini_batches
+            if i % number_of_mini_batches == number_of_mini_batches - 1:
+                print('[%d, %5d] loss: %.8f' %
                       (epoch + 1, i + 1, running_loss / 2000))
                 running_loss = 0.0
 
     print('Finished Training')
-
-
-
 
     # Test network and predict
     dataiter = iter(testloader)
@@ -120,16 +119,15 @@ def main():
         labels_cuda = labels.cuda()
 
     # print images
-    imshow(torchvision.utils.make_grid(torch.cat((images,labels)),nrow = test_batch))
+    imshow(torchvision.utils.make_grid(
+        torch.cat((images, labels)), nrow=test_batch))
 
     outputs = net(images_cuda)
 
-    #images = images#[:,:,8:-8,8:-8]
-    #labels = labels#[:,:,8:-8,8:-8]
     predicted = ((outputs > .5).type(torch.float) - .5) * 2
     predicted_cpu = predicted.cpu()
-    #print(images.size(),labels.size(),predicted_cpu.size())
-    imshow(torchvision.utils.make_grid(torch.cat((images,labels,predicted_cpu)),nrow = test_batch))
+    imshow(torchvision.utils.make_grid(
+        torch.cat((images, labels, predicted_cpu)), nrow=test_batch))
 
     # Calculate network accuracy on Test dataset
     correct = 0
@@ -142,29 +140,31 @@ def main():
                 images_cuda = images.cuda()
                 labels_cuda = labels.cuda()
 
-            outputs = net(images_cuda)
+                outputs = net(images_cuda)
+            else:
+                outputs = net(images)
 
-            #images = images#[:,:,8:-8,8:-8]
-            #labels = labels#[:,:,8:-8,8:-8]
             predicted = ((outputs > .5).type(torch.float) - .5) * 2
             predicted_cpu = predicted.cpu()
-            
+
             # print(images.size(),labels.size(),predicted.size())
-            
             # print(predicted)
             # print(labels)
             # print("total : ",labels.size(0) * labels.size(1) * labels.size(2) * labels.size(3))
             # print("correct : ",(predicted.type(torch.long) == labels_cuda.type(torch.long)).sum().item())
             # print("label lit : ", (labels == 1).sum().item())
             # print("predicted lit : ", (predicted == 1).sum().item())
-
             # imshow(torchvision.utils.make_grid(torch.cat((images,labels,predicted_cpu)),nrow = test_batch))
-            
-            correct += (predicted.type(torch.long) == labels_cuda.type(torch.long)).sum().item()
-            total += labels.size(0) * labels.size(1) * labels.size(2) * labels.size(3)
+
+            correct += (predicted.type(torch.long) ==
+                        labels_cuda.type(torch.long)).sum().item()
+            total += labels.size(0) \
+                * labels.size(1) \
+                * labels.size(2) \
+                * labels.size(3) \
 
     print('Accuracy of the network on the %d test images: %d %%' % (
-        len(test_dataset),100 * correct / total))
+        len(test_dataset), 100 * correct / total))
 
 
 if __name__ == "__main__":

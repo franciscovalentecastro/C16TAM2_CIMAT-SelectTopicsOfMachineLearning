@@ -6,5 +6,7 @@ import numpy as np
 def imshow(img):
     img = img / 2 + 0.5     # from range (0,1) to (-1,1)
     npimg = img.detach().numpy()
-    plt.imshow(np.transpose(npimg, (1, 2, 0)))
+    plt.figure(figsize=(5, 15))
+    plt.imshow(np.transpose(npimg, (1, 2, 0)),
+               interpolation='nearest')
     plt.show()

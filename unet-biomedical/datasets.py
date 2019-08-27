@@ -43,15 +43,18 @@ class MNISTSegmentationDataset(Dataset):
                                         transforms.ToTensor(),
                                         transforms.Normalize((0.5,), (0.5,))])
 
-        trainset = torchvision.datasets.MNIST("", train = True,
-                                                  transform = transform, download = True)
+        trainset = torchvision.datasets.MNIST("", train=True,
+                                              transform=transform,
+                                              download=True)
 
-        testset = torchvision.datasets.MNIST("",  train = False,
-                                                  transform = transform, download = True)
+        testset = torchvision.datasets.MNIST("", train=False,
+                                             transform=transform,
+                                             download=True)
 
         self.mean = mean
         self.sigma = sigma
-        self.samples = self.transform_dataset(trainset) + self.transform_dataset(testset)
+        self.samples = self.transform_dataset(trainset) \
+            + self.transform_dataset(testset)
 
     def __len__(self):
         return len(self.samples)
@@ -59,8 +62,8 @@ class MNISTSegmentationDataset(Dataset):
     def __getitem__(self, idx):
         return self.samples[idx]
 
-    def transform_dataset(self,dataset):
-        output = [] 
+    def transform_dataset(self, dataset):
+        output = []
         for i, data in enumerate(dataset, 0):
             inpt, labl = data
 
@@ -69,12 +72,12 @@ class MNISTSegmentationDataset(Dataset):
 
             tmean = torch.ones(noisy.size()) * self.mean
             tsigma = torch.rand(noisy.size()) * self.sigma
-            
-            noisy += torch.normal(tmean,tsigma)
 
-            ## Binarize image
+            noisy += torch.normal(tmean, tsigma)
+
+            # Binarize image
             inpt = ((inpt > .2).type(torch.float) - .5) * 2
 
-            output.append((noisy,inpt))
+            output.append((noisy, inpt))
 
         return output
