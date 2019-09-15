@@ -4,16 +4,32 @@
 		"selected_items":
 		[
 			[
+				"out",
+				"outputs"
+			],
+			[
+				"nu",
+				"number_of_epochs"
+			],
+			[
+				"app",
+				"append"
+			],
+			[
+				"fig",
+				"figure_number"
+			],
+			[
+				"imag",
+				"image_number"
+			],
+			[
 				"da",
 				"dataset"
 			],
 			[
 				"I",
 				"ISBI2012Dataset\tclass"
-			],
-			[
-				"out",
-				"out_chan\tparam"
 			],
 			[
 				"in",
@@ -236,10 +252,6 @@
 				"number_of_ones"
 			],
 			[
-				"nu",
-				"number_of_ones"
-			],
-			[
 				"generar",
 				"generar_datos_modelo_lineal"
 			],
@@ -259,7 +271,7 @@
 			"file": "imshow.py",
 			"settings":
 			{
-				"buffer_size": 323,
+				"buffer_size": 478,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -268,7 +280,7 @@
 			"file": "datasets.py",
 			"settings":
 			{
-				"buffer_size": 2547,
+				"buffer_size": 3215,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -277,18 +289,18 @@
 			"file": "train.py",
 			"settings":
 			{
-				"buffer_size": 5557,
+				"buffer_size": 5570,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "unet.py",
 			"settings":
 			{
-				"buffer_size": 4435,
+				"buffer_size": 4906,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -353,10 +365,15 @@
 	},
 	"expanded_folders":
 	[
-		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical"
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical"
 	],
 	"file_history":
 	[
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/unet-biomedical.sublime-project",
+		"/D/Users/Francisco/Documents/Programming/AnalisisDeAlgoritmos/Tarea3/mst-prim.py",
+		"/D/Users/Francisco/Documents/Programming/Métodos Numéricos/Tarea 1/chopNDigits.cpp",
+		"/D/Users/Francisco/Documents/Programming/Métodos Numéricos/Tarea 7/SVD.cpp",
+		"/D/Users/Francisco/Documents/Programming/Métodos Numéricos/Tarea 13/finiteDiference.cpp",
 		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/datasets.py",
 		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/data.py",
 		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/unet-biomedical.sublime-project",
@@ -373,7 +390,6 @@
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/unet-mnist/train.py",
 		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/levels/level_scratch/Level_Demo.tscn",
 		"/D/Users/Francisco/Documents/Programming/Métodos Numéricos/Tarea 7/outputA.txt",
-		"/D/Users/Francisco/Documents/Programming/Métodos Numéricos/Tarea 7/SVD.cpp",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/unet-mnist/imshow.py",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/unet-mnist/datasets.py",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/unet-mnist/network.py",
@@ -466,7 +482,7 @@
 	],
 	"find":
 	{
-		"height": 24.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
@@ -481,6 +497,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"outputs[0]",
+			"ISBI2012Dataset",
 			" = ",
 			".conv_block(in_channels=",
 			"conv_block(in_channels=",
@@ -578,6 +596,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"ISBI2012DatasetTrain"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -597,20 +616,21 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 323,
+						"buffer_size": 478,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								308,
-								308
+								115,
+								115
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -626,15 +646,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2547,
+						"buffer_size": 3215,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2547,
-								2547
+								1708,
+								1708
 							]
 						],
 						"settings":
@@ -644,7 +664,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 285.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -656,15 +676,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5557,
+						"buffer_size": 5570,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								532,
-								766
+								3168,
+								3168
 							]
 						],
 						"settings":
@@ -674,7 +694,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 273.0,
+						"translation.y": 2077.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -686,15 +706,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4435,
+						"buffer_size": 4906,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4435,
-								4435
+								4141,
+								4141
 							]
 						],
 						"settings":
@@ -715,7 +735,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 24.0
+		"height": 28.0
 	},
 	"input":
 	{
@@ -756,7 +776,7 @@
 	"project": "unet-biomedical.sublime-project",
 	"replace":
 	{
-		"height": 44.0
+		"height": 52.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -793,7 +813,7 @@
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 99.0,
 	"status_bar_visible": true,
 	"template_settings":

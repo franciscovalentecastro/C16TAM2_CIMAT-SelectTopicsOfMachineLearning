@@ -17,7 +17,7 @@
 	"settings":
 	[
 		{
-			"python_interpreter": "~/miniconda3/envs/stats/python",
+			"python_interpreter": "~/miniconda3/envs/torch/python",
 			"swallow_startup_errors": true
 		}
 	]

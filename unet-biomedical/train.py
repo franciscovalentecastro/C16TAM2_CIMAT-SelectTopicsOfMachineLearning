@@ -1,4 +1,6 @@
 import sys
+import matplotlib.pyplot as plt
+import tifffile as tiff
 
 import torch
 import torch.nn as nn
@@ -35,8 +37,9 @@ def main():
     print("Device : ", device)
 
     # Load dataset
-    full_dataset = datasets.ISBI2012Dataset('./dataset/train-volume.tif',
-                                            './dataset/train-labels.tif')
+    full_dataset = datasets.ISBI2012DatasetTrain('./dataset/train-volume.tif',
+                                                 './dataset/train-labels.tif')
+    submit_dataset = datasets.ISBI2012DatasetTest('./dataset/test-volume.tif')
 
     # Divide into Train and Test
     train_size = int(train_percentage * len(full_dataset))
@@ -60,6 +63,10 @@ def main():
                                              batch_size=test_batch,
                                              shuffle=True, num_workers=0)
 
+    submitloader = torch.utils.data.DataLoader(submit_dataset,
+                                               batch_size=train_batch,
+                                               shuffle=False, num_workers=0)
+
     # Show sample of images
     # get some random training images
     dataiter = iter(trainloader)
@@ -77,6 +84,7 @@ def main():
     # print(net)
 
     # Define loss function and optimizer
+    loss_history = []
     criterion = nn.L1Loss()
     optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
@@ -107,7 +115,9 @@ def main():
             # print every number_of_mini_batches
             if i % number_of_mini_batches == number_of_mini_batches - 1:
                 print('[%d, %5d] loss: %.8f' %
-                      (epoch + 1, i + 1, running_loss / 2000))
+                      (epoch + 1, i + 1,
+                       running_loss / number_of_mini_batches))
+                loss_history.append(running_loss / number_of_mini_batches)
                 running_loss = 0.0
 
     print('Finished Training')
@@ -131,6 +141,12 @@ def main():
     imshow(torchvision.utils.make_grid(
         torch.cat((images, labels, predicted_cpu)), nrow=test_batch))
 
+    # Print loss over time
+    plt.plot(range(1, number_of_epochs + 1), loss_history)
+    plt.xlabel("Epochs")
+    plt.ylabel("Loss")
+    plt.show()
+
     # Calculate network accuracy on Test dataset
     correct = 0
     total = 0
@@ -148,15 +164,6 @@ def main():
 
             predicted = ((outputs > .5).type(torch.float) - .5) * 2
             predicted_cpu = predicted.cpu()
-
-            # print(images.size(),labels.size(),predicted.size())
-            # print(predicted)
-            # print(labels)
-            # print("total : ",labels.size(0) * labels.size(1) * labels.size(2) * labels.size(3))
-            # print("correct : ",(predicted.type(torch.long) == labels_cuda.type(torch.long)).sum().item())
-            # print("label lit : ", (labels == 1).sum().item())
-            # print("predicted lit : ", (predicted == 1).sum().item())
-            # imshow(torchvision.utils.make_grid(torch.cat((images,labels,predicted_cpu)),nrow = test_batch))
 
             correct += (predicted.type(torch.long) ==
                         labels_cuda.type(torch.long)).sum().item()

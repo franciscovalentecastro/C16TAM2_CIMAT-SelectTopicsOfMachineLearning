@@ -7,7 +7,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import Dataset
 
 
-class ISBI2012Dataset(Dataset):
+class ISBI2012DatasetTrain(Dataset):
     def __init__(self, path_img, path_target, transform=None):
         self.train = np.expand_dims(tifffile.TiffFile(path_img).asarray(),
                                     axis=-1)
@@ -33,6 +33,30 @@ class ISBI2012Dataset(Dataset):
             target = self.transforms(target)
 
         return img, target
+
+
+class ISBI2012DatasetTest(Dataset):
+    def __init__(self, path_img, transform=None):
+        self.test = np.expand_dims(tifffile.TiffFile(path_img).asarray(),
+                                   axis=-1)
+
+        if transform is None:
+            self.transforms \
+                = transforms.Compose([transforms.ToTensor(),
+                                      transforms.Normalize((0.5,), (0.5,))])
+        else:
+            self.transforms = transform
+
+    def __len__(self):
+        return len(self.test)
+
+    def __getitem__(self, idx):
+        img = self.test[idx]
+
+        if self.transforms:
+            img = self.transforms(img)
+
+        return img
 
 
 class MNISTSegmentationDataset(Dataset):
