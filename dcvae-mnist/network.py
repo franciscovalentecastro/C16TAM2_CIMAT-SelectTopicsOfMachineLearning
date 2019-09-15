@@ -35,12 +35,7 @@ class DCVAE(nn.Module):
     def encode(self, x):
         h1 = self.conv_block1(x)
         h2 = self.pool1(h1)
-        h3 = self.linear1(h2.view(-1, 8 * 14 * 14))
-
-        # print(x.shape)
-        # print(h1.shape)
-        # print(h2.shape)
-        # print(h3.shape)
+        h3 = F.relu(self.linear1(h2.view(-1, 8 * 14 * 14)))
 
         return self.z_mu(h3), self.z_log_sigma2(h3)
 
@@ -51,10 +46,10 @@ class DCVAE(nn.Module):
         return z_mu + epsilon * z_std
 
     def decode(self, z):
-        h1 = self.linear2(z)
-        h2 = self.linear3(h1)
+        h1 = F.relu(self.linear2(z))
+        h2 = F.relu(self.linear3(h1))
         h3 = self.tconv1(h2.view(-1, 8, 14, 14))
-        h4 = self.conv_block2(h3)
+        h4 = torch.sigmoid(self.conv_block2(h3))
 
         return h4
 
@@ -96,43 +91,29 @@ class VAE(nn.Module):
         )
 
     def encode(self, x):
-        h1 = self.linear1(x)
+        h1 = F.relu(self.linear1(x.view(-1, 784)))
         return self.z_mu(h1), self.z_log_sigma2(h1)
 
     def sample(self, z_mu, z_log_sigma2):
         z_std = torch.exp(0.5 * z_log_sigma2)
         epsilon = torch.randn_like(z_std)
-
         return z_mu + epsilon * z_std
 
     def decode(self, z):
-        h1 = self.linear2(z)
-        h2 = self.linear3(h1)
-        h3 = self.tconv1(h2.view(-1, 8, 14, 14))
-        h4 = self.conv_block2(h3)
-
-        return h4
+        h1 = F.relu(self.linear2(z))
+        h2 = torch.sigmoid(self.linear3(h1))
+        return h2.view(-1, 1, 28, 28)
 
     def forward(self, x):
         z_mu, z_log_sigma2 = self.encode(x)
         z = self.sample(z_mu, z_log_sigma2)
         return self.decode(z), z_mu, z_log_sigma2
 
-    def num_flat_features(self, x):
-        size = x.size()[1:]  # all dimensions except the batch dimension
-        num_features = 1
-        for s in size:
-            num_features *= s
-
-        return num_features
-
-
-
 
 # Reconstruction + KL divergence losses summed over all elements and batch
 def elbo_loss_function(recon_x, x, mu, logvar):
-    BCE = F.binary_cross_entropy(recon_x.view(-1, 1024),
-                                 x.view(-1, 1024),
+    BCE = F.binary_cross_entropy(recon_x.view(-1, 784),
+                                 x.view(-1, 784),
                                  reduction='sum')
 
     # see Appendix B from VAE paper:

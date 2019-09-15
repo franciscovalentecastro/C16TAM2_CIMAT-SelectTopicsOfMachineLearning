@@ -9,7 +9,7 @@ import torchvision
 import torchvision.transforms as transforms
 
 # Import network
-from network import DCVAE, elbo_loss_function
+from network import *
 from imshow import imshow
 
 
@@ -18,16 +18,25 @@ def main():
     torch.set_printoptions(precision=10)
     torch.set_printoptions(edgeitems=5)
 
-    if len(sys.argv) > 3:
+    if len(sys.argv) > 7:
         train_percentage = float(sys.argv[1])
         train_batch = int(sys.argv[2])
         test_batch = int(sys.argv[3])
+        number_of_mini_batches = int(sys.argv[4])
+        number_of_epochs = int(sys.argv[5])
+        use_vae = True if sys.argv[6] == "True" else False
+        use_cpu = True if sys.argv[7] == "True" else False
     else:
         print("Not enough parameters")
         return
 
     # Set up GPU
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    if use_cpu:
+        device = "cpu"
+    else:
+        device = torch.device("cuda:0"
+                              if torch.cuda.is_available()
+                              else "cpu")
 
     # Assuming that we are on a CUDA machine, this should print a CUDA device:
     print(device)
@@ -73,7 +82,8 @@ def main():
     print(' '.join('%d' % labels[j] for j in range(4)))
 
     # Create network
-    net = DCVAE()
+    net = VAE() if use_vae else DCVAE()
+
     net.to(device)
     print(net)
 
@@ -82,16 +92,15 @@ def main():
     # optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
     # Train network
-    for epoch in range(1):  # loop over the dataset multiple times
+
+    # loop over the dataset multiple times
+    for epoch in range(number_of_epochs):
 
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
             # get the inputs; data is a list of [inputs, labels]
             inputs, labels = data
-
-            if torch.cuda.is_available():
-                inputs = inputs.cuda()
-                labels = labels.cuda()
+            inputs.to(device)
 
             # zero the parameter gradients
             optimizer.zero_grad()
@@ -104,9 +113,12 @@ def main():
 
             # print statistics
             running_loss += loss.item()
-            if i % 2000 == 1999:    # print every 2000 mini-batches
+
+            # print every number_of_mini_batches
+            if i % number_of_mini_batches == number_of_mini_batches - 1:
                 print('[%d, %5d] loss: %.3f' %
-                      (epoch + 1, i + 1, running_loss / 2000))
+                      (epoch + 1, i + 1,
+                       running_loss / number_of_mini_batches))
                 running_loss = 0.0
 
     print('Finished Training')
@@ -116,15 +128,15 @@ def main():
     images, labels = dataiter.next()
 
     if torch.cuda.is_available():
-        images = images.cuda()
-        labels = labels.cuda()
+        images = images.to(device)
+        labels = labels.to(device)
 
-        # Test network and predict
+    # Test network and predict
     dataiter = iter(testloader)
     images, labels = dataiter.next()
 
     if torch.cuda.is_available():
-        images_cuda = images.cuda()
+        images_cuda = images.to(device)
         outputs, mu, logvar = net(images_cuda)
     else:
         outputs, mu, logvar = net(images)
