@@ -77,7 +77,9 @@ def train(trainset):
         dataiter = iter(train_loader)
         images, _ = dataiter.next()
 
-        imshow(torchvision.utils.make_grid(images), args)
+        grid = torchvision.utils.make_grid(images)
+        imshow(grid)
+        args.writer.add_image('sample-train', grid)
 
     # Define optimizer
     if args.optimizer == 'adam':
@@ -89,7 +91,7 @@ def train(trainset):
 
     print('Started Training')
     # loop over the dataset multiple times
-    for epoch in range(1, args.epochs + 1):
+    for epoch in range(args.epochs):
 
         train_loss = 0.0
         running_loss = 0.0
@@ -114,7 +116,7 @@ def train(trainset):
 
             # Write statistics
             args.writer.add_scalar('Loss/train', loss.item(),
-                                   batch_idx * epoch)
+                                   batch_idx + len(train_loader) * epoch)
 
             # print every number_of_mini_batches
             if batch_idx % args.log_interval == 0:
@@ -142,9 +144,11 @@ def test(testset):
                                               shuffle=True)
     # Test network
     dataiter = iter(test_loader)
-
     images, labels = dataiter.next()
     images = images.to(args.device)
+
+    # Add net to tensorboard
+    args.writer.add_graph(args.net, images)
 
     # Forward through network
     outputs, mu, logvar = args.net(images)
@@ -152,17 +156,20 @@ def test(testset):
     # Show autoencoder fit and random latent decoded
     if args.plot:
         # print images
-        imshow(torchvision.utils.make_grid(
-               torch.cat((images.cpu(), outputs.cpu())),
-               nrow=args.batch_size), args)
+        grid = torchvision.utils.make_grid(torch.cat((
+            images.cpu(), outputs.cpu())), nrow=args.batch_size)
+        imshow(grid)
+        args.writer.add_image('encoder-fit', grid)
 
         # Sample normal distribution
         sample = torch.randn(32, args.latent_dim).to(args.device)
         decoded_sample = args.net.decode(sample).cpu()
 
         # print images
-        imshow(torchvision.utils.
-               make_grid(decoded_sample, nrow=args.batch_size), args)
+        grid = torchvision.utils.make_grid(decoded_sample,
+                                           nrow=args.batch_size)
+        imshow(grid)
+        args.writer.add_image('latent-random-sample-decoded', grid)
 
     # Plot latent space
     if args.latent_dim == 2 and args.plot:
@@ -189,8 +196,9 @@ def plot_latent_space(dataiter, images, labels):
     decoded_z = args.net.decode(z).cpu()
 
     # print images
-    imshow(torchvision.utils.make_grid(decoded_z,
-                                       nrow=numImgs), args)
+    grid = torchvision.utils.make_grid(decoded_z, nrow=numImgs)
+    imshow(grid)
+    args.writer.add_image('latent-space-grid-decoded', grid)
 
     # Plot encoded test set into latent space
     numBatches = 200
@@ -208,11 +216,16 @@ def plot_latent_space(dataiter, images, labels):
     x = encoded_images_loc[:, 0]
     y = encoded_images_loc[:, 1]
 
+    # Send to tensorboard
+    fig = plt.figure(figsize=(12, 10))
+    ax = fig.add_subplot(1, 1, 1)
+    ax.scatter(x, y, c=labels, cmap='jet')
+    args.writer.add_figure('scatter-plot-of-encoded-test-sample', fig)
+
+    # Plot with matplotlib
     plt.figure(figsize=(12, 10))
     plt.scatter(x, y, c=labels, cmap='jet')
-    plt.colorbar()
-
-    filename = "test_into_latent_space_{}.png".format(numBatches)
+    filename = "imgs/test_into_latent_space_{}.png".format(numBatches)
     plt.savefig(filename)
     plt.show()
 
