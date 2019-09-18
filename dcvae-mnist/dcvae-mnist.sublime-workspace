@@ -4,6 +4,170 @@
 		"selected_items":
 		[
 			[
+				"wrt",
+				"writer"
+			],
+			[
+				"model",
+				"model_state"
+			],
+			[
+				"input",
+				"inputs"
+			],
+			[
+				"g",
+				"global"
+			],
+			[
+				"up",
+				"update_best"
+			],
+			[
+				"ar",
+				"args"
+			],
+			[
+				"gr",
+				"grid1"
+			],
+			[
+				"grid",
+				"grid2"
+			],
+			[
+				"im",
+				"imshow"
+			],
+			[
+				"wri",
+				"write_images_to_tensorboard"
+			],
+			[
+				"global",
+				"global_step"
+			],
+			[
+				"lo",
+				"LOGP"
+			],
+			[
+				"sam",
+				"sample_size"
+			],
+			[
+				"mse",
+				"mse_loss"
+			],
+			[
+				"epo",
+				"epoch"
+			],
+			[
+				"train",
+				"train_loader"
+			],
+			[
+				"IMPOR",
+				"import\tkeyword"
+			],
+			[
+				"num",
+				"numpy"
+			],
+			[
+				"data",
+				"dataiter"
+			],
+			[
+				"plot",
+				"plot_latent_space"
+			],
+			[
+				"enco",
+				"encoded_images"
+			],
+			[
+				"e",
+				"encoded_images"
+			],
+			[
+				"ima",
+				"images\tstatement"
+			],
+			[
+				"nu",
+				"numBatches"
+			],
+			[
+				"test",
+				"testset"
+			],
+			[
+				"a",
+				"append\tfunction"
+			],
+			[
+				"dec",
+				"decoded_z"
+			],
+			[
+				"pa",
+				"padding\tparam"
+			],
+			[
+				"kernel",
+				"kernel_size=2"
+			],
+			[
+				"bis",
+				"bias=False"
+			],
+			[
+				"bias",
+				"bias=False"
+			],
+			[
+				"stride",
+				"stride=2"
+			],
+			[
+				"latent",
+				"latent_dim"
+			],
+			[
+				"la",
+				"latent_dim"
+			],
+			[
+				"batch",
+				"batch_size"
+			],
+			[
+				"bat",
+				"batch_idx\tstatement"
+			],
+			[
+				"log",
+				"log_interval"
+			],
+			[
+				"run",
+				"running_loss"
+			],
+			[
+				"batc",
+				"batch_size"
+			],
+			[
+				"net",
+				"network"
+			],
+			[
+				"for",
+				"format\tfunction"
+			],
+			[
 				"line",
 				"linear1"
 			],
@@ -34,10 +198,6 @@
 			[
 				"out",
 				"outputs"
-			],
-			[
-				"nu",
-				"number_of_epochs"
 			],
 			[
 				"app",
@@ -84,10 +244,6 @@
 				"backward_substitution"
 			],
 			[
-				"for",
-				"forward_substitution"
-			],
-			[
 				"lu",
 				"lup_decomposition"
 			],
@@ -128,10 +284,6 @@
 				"triangular"
 			],
 			[
-				"up",
-				"upper_triangular_matrix"
-			],
-			[
 				"ke",
 				"kernel_size"
 			],
@@ -140,16 +292,8 @@
 				"trainset"
 			],
 			[
-				"train",
-				"train_batch"
-			],
-			[
 				"para",
 				"parameters"
-			],
-			[
-				"la",
-				"labels"
 			],
 			[
 				"lab",
@@ -184,16 +328,8 @@
 				"samples"
 			],
 			[
-				"num",
-				"numpy"
-			],
-			[
 				"R",
 				"Resize"
-			],
-			[
-				"data",
-				"dataset"
 			],
 			[
 				"Pro",
@@ -291,7 +427,7 @@
 			"file": "network.py",
 			"settings":
 			{
-				"buffer_size": 4079,
+				"buffer_size": 3970,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -300,7 +436,16 @@
 			"file": "train.py",
 			"settings":
 			{
-				"buffer_size": 4457,
+				"buffer_size": 12514,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "imshow.py",
+			"settings":
+			{
+				"buffer_size": 381,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -367,13 +512,17 @@
 	},
 	"expanded_folders":
 	[
-		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/dcvae-mnist"
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/dcvae-mnist"
 	],
 	"file_history":
 	[
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/dcvae-mnist/best/best_step=167.pt",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/train.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/vae_conv/mvae_conv.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/vae_conv/mvae_conv_model.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/vae_conv/vae_conv_mnist.py",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/dcvae-mnist/dcvae-mnist.sublime-project",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/unet_mnist.sublime-project",
-		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/train.py",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/conv-mnist/train.py",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/conv-mnist/network.py",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/train.py",
@@ -493,7 +642,7 @@
 	],
 	"find":
 	{
-		"height": 27.0
+		"height": 28.0
 	},
 	"find_in_files":
 	{
@@ -508,6 +657,63 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"model_state",
+			"Loss",
+			"z_log_sigma2",
+			"LOGP",
+			"ax",
+			"plt",
+			"imshow",
+			"imsh",
+			"pic",
+			"args)",
+			"args.writer)",
+			"imshow(",
+			"{}.",
+			"writer",
+			"s",
+			".to(args.device)",
+			"x_test_encoded",
+			"tensor",
+			"np",
+			"-",
+			"recon_x",
+			"logvar",
+			"h5",
+			"h3",
+			"print",
+			"256",
+			"# p",
+			"padding=1",
+			", **",
+			"print",
+			"kernel_size=3",
+			"# ",
+			"print",
+			"# ",
+			"print",
+			"256",
+			"1024",
+			"print",
+			"h",
+			"print",
+			"conv_block(",
+			"conv_block",
+			"stride=2",
+			"lrelu",
+			"ReLU",
+			"writer",
+			"ent_size",
+			"32",
+			"device",
+			"net",
+			"print",
+			"\n    ",
+			"metavar='N'",
+			"test_batch",
+			"train_batch",
+			"batch_size",
+			"number_of_epochs",
 			"16",
 			"4",
 			"##",
@@ -578,31 +784,7 @@
 			"distancia",
 			"Observed",
 			" ] ",
-			" 1.0 - ",
-			"0 ]",
-			" ] ",
-			"[ 1 ]",
-			"= .",
-			"= ",
-			"xrange",
-			"sprite",
-			"collision_shape",
-			"new_position_marker",
-			"marker",
-			" marker",
-			"modu",
-			"offset",
-			"GSM_RATE",
-			"modulate",
-			"modulate+",
-			"owner.get_node(\"WeaponPivot\")",
-			"navigation",
-			"find_node",
-			"font",
-			"DynamicFontData",
-			"18",
-			"ttf",
-			"var"
+			" 1.0 - "
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -622,7 +804,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -631,15 +813,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4079,
+						"buffer_size": 3970,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2451,
-								2451
+								1419,
+								1419
 							]
 						],
 						"settings":
@@ -649,10 +831,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1242.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -661,15 +843,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4457,
+						"buffer_size": 12514,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								940,
-								940
+								4878,
+								4878
 							]
 						],
 						"settings":
@@ -679,7 +861,36 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 199.0,
+						"translation.y": 2088.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "imshow.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 381,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								380,
+								380
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -690,7 +901,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 27.0
+		"height": 28.0
 	},
 	"input":
 	{
@@ -731,7 +942,7 @@
 	"project": "dcvae-mnist.sublime-project",
 	"replace":
 	{
-		"height": 50.0
+		"height": 52.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -769,7 +980,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 190.0,
+	"side_bar_width": 163.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

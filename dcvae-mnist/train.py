@@ -288,16 +288,24 @@ def write_images_to_tensorboard(inputs, outputs, global_step,
         imshow(grid2)
 
 
+def create_run_name():
+    run = '{}={}'.format('nw', args.network)
+    run += '_{}={}'.format('ds', args.dataset)
+    run += '_{}={}'.format('ld', args.latent_dim)
+    run += '_{}={}'.format('op', args.optimizer)
+    run += '_{}={}'.format('ep', args.epochs)
+    run += '_{}={}'.format('bs', args.batch_size)
+    run += '_{}={}'.format('tp', args.train_percentage)
+
+    return run
+
+
 def main():
+    # Save parameters in string to name the execution
+    args.run = create_run_name()
+
     # Tensorboard summary writer
-    args.writer = SummaryWriter()
-    args.run = str(args.writer.log_dir).replace('runs', '')
-
-    # Clean string from special characters
-    args.run = re.sub('[^A-Za-z0-9_-]+', '', args.run)
-
-    # Write parameters
-    args.writer.add_text("Parameters", str(args))
+    args.writer = SummaryWriter('runs/' + args.run)
 
     # Printing parameters
     torch.set_printoptions(precision=10)
