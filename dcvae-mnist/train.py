@@ -155,7 +155,7 @@ def train(trainset):
                                             global_step, step=True)
 
         print('====> Epoch: {} Average loss: {:.4f}'.format(
-              epoch, train_loss / len(train_loader.dataset)))
+              epoch, train_loss / len(train_loader)))
 
     # Add trained model
     args.writer.close()
