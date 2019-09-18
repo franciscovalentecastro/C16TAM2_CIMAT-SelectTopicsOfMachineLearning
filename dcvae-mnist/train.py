@@ -213,7 +213,7 @@ def plot_latent_space(dataiter, images, labels):
     args.writer.add_image('latent-space-grid-decoded', grid)
 
     # Plot encoded test set into latent space
-    numBatches = 200
+    numBatches = 500
     for idx in range(numBatches):
         tImages, tLabels = dataiter.next()
         images = torch.cat((images.cpu(), tImages.cpu()), 0)
