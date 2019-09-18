@@ -114,13 +114,24 @@ class VAE(nn.Module):
 
 
 def elbo_loss_function(decoded_x, x, z_mu, z_log_sigma2):
-    # log P(x|z)
+    # log P(x|z) per element in batch
     LOGP = F.binary_cross_entropy(decoded_x.view(-1, 784),
                                   x.view(-1, 784),
-                                  reduction='sum')
+                                  reduction='none')
+    LOGP = torch.sum(LOGP, dim=1)
 
-    # DKL(Q(z|x)||P(z))
+    # print("LOGP :", LOGP.shape)
+    # print("z_log_sigma2 : ", z_log_sigma2.shape)
+    # print("z_mu : ", z_mu.shape)
+
+    # DKL(Q(z|x)||P(z)) per element in batch
     DKL = 0.5 * torch.sum(z_log_sigma2.exp() +
-                          z_mu.pow(2) - 1.0 - z_log_sigma2)
+                          z_mu.pow(2) -
+                          1.0 -
+                          z_log_sigma2,
+                          dim=1)
 
-    return LOGP + DKL
+    # print("DKL :", DKL.shape)
+
+    # Mean of loss in batch
+    return torch.mean(LOGP + DKL)
