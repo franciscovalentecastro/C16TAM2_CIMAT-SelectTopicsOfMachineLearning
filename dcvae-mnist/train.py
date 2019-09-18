@@ -191,7 +191,7 @@ def test(testset):
 def update_best(inputs, outputs, loss, global_step):
     # Save current state of model
     state = args.net.state_dict()
-    torch.save(state, "best/best_step={}.pt".format(global_step))
+    torch.save(state, "best/best_{}.pt".format(args.run))
 
     # Write tensorboard statistics
     args.writer.add_scalar('Best/loss', loss.item(), global_step)
@@ -291,6 +291,7 @@ def write_images_to_tensorboard(inputs, outputs, global_step,
 def main():
     # Tensorboard summary writer
     args.writer = SummaryWriter()
+    args.run = str(args.writer.log_dir).replace('runs\\', '')
     args.writer.add_text("Parameters", str(args))
 
     # Printing parameters
