@@ -120,10 +120,6 @@ def elbo_loss_function(decoded_x, x, z_mu, z_log_sigma2):
                                   reduction='none')
     LOGP = torch.sum(LOGP, dim=1)
 
-    # print("LOGP :", LOGP.shape)
-    # print("z_log_sigma2 : ", z_log_sigma2.shape)
-    # print("z_mu : ", z_mu.shape)
-
     # DKL(Q(z|x)||P(z)) per element in batch
     DKL = 0.5 * torch.sum(z_log_sigma2.exp() +
                           z_mu.pow(2) -
@@ -131,7 +127,5 @@ def elbo_loss_function(decoded_x, x, z_mu, z_log_sigma2):
                           z_log_sigma2,
                           dim=1)
 
-    # print("DKL :", DKL.shape)
-
-    # Mean of loss in batch
+    # Average loss in batch
     return torch.mean(LOGP + DKL)
