@@ -90,6 +90,9 @@ def train(trainset):
     elif args.optimizer == 'rmsprop':
         optimizer = optim.RMSprop(args.net.parameters(), lr=0.01)
 
+    # Loss function
+    criterion = elbo_loss_function
+
     print('Started Training')
     # loop over the dataset multiple times
     for epoch in range(args.epochs):
@@ -108,7 +111,7 @@ def train(trainset):
 
                 # forward + backward + optimize
                 outputs, mu, logvar = args.net(inputs)
-                loss = elbo_loss_function(outputs, inputs, mu, logvar)
+                loss = criterion(outputs, inputs, mu, logvar)
                 loss.backward()
                 optimizer.step()
 
