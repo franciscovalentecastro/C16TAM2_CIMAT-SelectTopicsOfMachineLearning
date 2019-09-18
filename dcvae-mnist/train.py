@@ -127,8 +127,7 @@ def train(trainset):
             global_step = batch_idx + len(train_loader) * epoch
 
             # Write tensorboard statistics
-            args.writer.add_scalar('Train/loss', loss.item(),
-                                   global_step)
+            args.writer.add_scalar('Train/loss', loss.item(), global_step)
             args.writer.add_scalar('Train/mse', F.mse_loss(outputs, inputs),
                                    global_step)
 
