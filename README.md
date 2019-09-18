@@ -3,8 +3,8 @@
 Implement some neural network architectures in PyTorch for the course "Select Topics Of Machine Learning 2".
 
 Current implemented architectures :
-- unet
-- dcvae
-- vae
+- unet - Biomedical image segmentation
+- dcvae - Generative model
+- vae - Generative model
 
 Visualization using Tensorboard.
