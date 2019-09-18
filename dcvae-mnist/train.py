@@ -93,6 +93,9 @@ def train(trainset):
     # Loss function
     criterion = elbo_loss_function
 
+    # Set best for minimization
+    best = float('inf')
+
     print('Started Training')
     # loop over the dataset multiple times
     for epoch in range(args.epochs):
@@ -127,6 +130,11 @@ def train(trainset):
                                    global_step)
             args.writer.add_scalar('Train/mse', F.mse_loss(outputs, inputs),
                                    global_step)
+
+            # check if current batch had best fitness
+            if loss.item() < best:
+                best = loss.item()
+                update_best(inputs, outputs, loss, global_step)
 
             # print every args.log_interval of batches
             if batch_idx % args.log_interval == 0:
@@ -178,6 +186,21 @@ def test(testset):
     # Plot latent space
     if args.latent_dim == 2 and args.plot:
         plot_latent_space(dataiter, images, labels)
+
+
+def update_best(inputs, outputs, loss, global_step):
+    # Save current state of model
+    state = args.net.state_dict()
+    torch.save(state, "best/best_step={}.pt".format(global_step))
+
+    # Write tensorboard statistics
+    args.writer.add_scalar('Best/loss', loss.item(), global_step)
+    args.writer.add_scalar('Best/mse', F.mse_loss(outputs, inputs),
+                           global_step)
+
+    # Add tensorboard images
+    write_images_to_tensorboard(inputs, outputs, global_step,
+                                step=False, best=True)
 
 
 def plot_latent_space(dataiter, images, labels):
@@ -236,7 +259,8 @@ def plot_latent_space(dataiter, images, labels):
     plt.show()
 
 
-def write_images_to_tensorboard(inputs, outputs, global_step, step=False):
+def write_images_to_tensorboard(inputs, outputs, global_step,
+                                step=False, best=False):
     # Add images to tensorboard
     # Current autoencoder fit
     grid1 = torchvision.utils.make_grid(torch.cat((
@@ -254,6 +278,9 @@ def write_images_to_tensorboard(inputs, outputs, global_step, step=False):
     if step:
         args.writer.add_image('Train/fit', grid1, global_step)
         args.writer.add_image('Train/generated', grid2, global_step)
+    elif best:
+        args.writer.add_image('Best/fit', grid1, global_step)
+        args.writer.add_image('Best/generated', grid2, global_step)
     else:
         args.writer.add_image('encoder-fit', grid1)
         args.writer.add_image('latent-random-sample-decoded', grid2)
@@ -264,6 +291,7 @@ def write_images_to_tensorboard(inputs, outputs, global_step, step=False):
 def main():
     # Tensorboard summary writer
     args.writer = SummaryWriter()
+    args.writer.add_text("Parameters", str(args))
 
     # Printing parameters
     torch.set_printoptions(precision=10)
