@@ -96,10 +96,9 @@ def train(trainset):
     print('Started Training')
     # loop over the dataset multiple times
     for epoch in range(args.epochs):
+        # reset running loss statistics
+        train_loss = mse_loss = running_loss = 0.0
 
-        train_loss = 0.0
-        mse_loss = 0.0
-        running_loss = 0.0
         for batch_idx, data in enumerate(train_loader, 1):
             # get the inputs; data is a list of [inputs, labels]
             inputs, _ = data
@@ -115,18 +114,21 @@ def train(trainset):
                 loss.backward()
                 optimizer.step()
 
-            # print statistics
+            # update running loss statistics
             train_loss += loss.item()
             running_loss += loss.item()
             mse_loss += F.mse_loss(outputs, inputs)
 
-            # Write statistics
-            args.writer.add_scalar('Train/loss', loss.item(),
-                                   batch_idx + len(train_loader) * epoch)
-            args.writer.add_scalar('Train/mse', F.mse_loss(outputs, inputs),
-                                   batch_idx + len(train_loader) * epoch)
+            # Global step
+            global_step = batch_idx + len(train_loader) * epoch
 
-            # print every number_of_mini_batches
+            # Write tensorboard statistics
+            args.writer.add_scalar('Train/loss', loss.item(),
+                                   global_step)
+            args.writer.add_scalar('Train/mse', F.mse_loss(outputs, inputs),
+                                   global_step)
+
+            # print every args.log_interval of batches
             if batch_idx % args.log_interval == 0:
                 print("Train Epoch : {} Batches : {} "
                       "[{}/{} ({:.0f}%)]\tLoss : {:.6f}"
@@ -138,8 +140,11 @@ def train(trainset):
                               running_loss / args.log_interval,
                               mse_loss / args.log_interval))
 
-                mse_loss = 0.0
-                running_loss = 0.0
+                mse_loss = running_loss = 0.0
+
+                # Add images to tensorboard
+                write_images_to_tensorboard(inputs, outputs,
+                                            global_step, step=True)
 
         print('====> Epoch: {} Average loss: {:.4f}'.format(
               epoch, train_loss / len(train_loader.dataset)))
@@ -166,22 +171,9 @@ def test(testset):
 
     # Show autoencoder fit and random latent decoded
     if args.plot:
-        # print images
-        grid = torchvision.utils.make_grid(torch.cat((
-            images.cpu(), outputs.cpu())), nrow=args.batch_size)
-        imshow(grid)
-        args.writer.add_image('encoder-fit', grid)
-
-        # Sample normal distribution
-        sample_size = 4 * args.batch_size
-        sample = torch.randn(sample_size, args.latent_dim).to(args.device)
-        decoded_sample = args.net.decode(sample).cpu()
-
-        # print images
-        grid = torchvision.utils.make_grid(decoded_sample,
-                                           nrow=args.batch_size)
-        imshow(grid)
-        args.writer.add_image('latent-random-sample-decoded', grid)
+        write_images_to_tensorboard(images, outputs,
+                                    global_step=None,
+                                    step=False)
 
     # Plot latent space
     if args.latent_dim == 2 and args.plot:
@@ -242,6 +234,31 @@ def plot_latent_space(dataiter, images, labels):
     filename = "imgs/test_into_latent_space_{}.png".format(numBatches)
     plt.savefig(filename)
     plt.show()
+
+
+def write_images_to_tensorboard(inputs, outputs, global_step, step=False):
+    # Add images to tensorboard
+    # Current autoencoder fit
+    grid1 = torchvision.utils.make_grid(torch.cat((
+        inputs.cpu(), outputs.cpu())), nrow=args.batch_size)
+
+    # Current quality of generated random images
+    sample_size = 4 * args.batch_size
+    sample = torch.randn(sample_size, args.latent_dim).to(args.device)
+    decoded_sample = args.net.decode(sample).cpu()
+
+    # print images
+    grid2 = torchvision.utils.make_grid(decoded_sample,
+                                        nrow=args.batch_size)
+
+    if step:
+        args.writer.add_image('Train/fit', grid1, global_step)
+        args.writer.add_image('Train/generated', grid2, global_step)
+    else:
+        args.writer.add_image('encoder-fit', grid1)
+        args.writer.add_image('latent-random-sample-decoded', grid2)
+        imshow(grid1)
+        imshow(grid2)
 
 
 def main():
