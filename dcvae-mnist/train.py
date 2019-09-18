@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 import torch
 import torch.optim as optim
+import torch.nn.functional as F
 import torch.autograd as autograd
 from torch.utils.tensorboard import SummaryWriter
 
@@ -94,6 +95,7 @@ def train(trainset):
     for epoch in range(args.epochs):
 
         train_loss = 0.0
+        mse_loss = 0.0
         running_loss = 0.0
         for batch_idx, data in enumerate(train_loader, 1):
             # get the inputs; data is a list of [inputs, labels]
@@ -113,21 +115,27 @@ def train(trainset):
             # print statistics
             train_loss += loss.item()
             running_loss += loss.item()
+            mse_loss += F.mse_loss(outputs, inputs)
 
             # Write statistics
             args.writer.add_scalar('Loss/train', loss.item(),
+                                   batch_idx + len(train_loader) * epoch)
+            args.writer.add_scalar('Loss/mse', F.mse_loss(outputs, inputs),
                                    batch_idx + len(train_loader) * epoch)
 
             # print every number_of_mini_batches
             if batch_idx % args.log_interval == 0:
                 print("Train Epoch : {} Batches : {} "
                       "[{}/{} ({:.0f}%)]\tLoss : {:.6f}"
+                      "\tError : {:.6f}"
                       .format(epoch, batch_idx,
                               args.batch_size * batch_idx,
                               len(train_loader.dataset),
                               100. * batch_idx / len(train_loader),
-                              running_loss / args.log_interval))
+                              running_loss / args.log_interval,
+                              mse_loss / args.log_interval))
 
+                mse_loss = 0.0
                 running_loss = 0.0
 
         print('====> Epoch: {} Average loss: {:.4f}'.format(
@@ -219,12 +227,14 @@ def plot_latent_space(dataiter, images, labels):
     # Send to tensorboard
     fig = plt.figure(figsize=(12, 10))
     ax = fig.add_subplot(1, 1, 1)
-    ax.scatter(x, y, c=labels, cmap='jet')
+    sct = ax.scatter(x, y, c=labels, cmap='jet')
+    fig.colorbar(sct)
     args.writer.add_figure('scatter-plot-of-encoded-test-sample', fig)
 
     # Plot with matplotlib
     plt.figure(figsize=(12, 10))
     plt.scatter(x, y, c=labels, cmap='jet')
+    plt.colorbar()
     filename = "imgs/test_into_latent_space_{}.png".format(numBatches)
     plt.savefig(filename)
     plt.show()
