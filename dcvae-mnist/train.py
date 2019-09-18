@@ -121,9 +121,9 @@ def train(trainset):
             mse_loss += F.mse_loss(outputs, inputs)
 
             # Write statistics
-            args.writer.add_scalar('Loss/train', loss.item(),
+            args.writer.add_scalar('Train/loss', loss.item(),
                                    batch_idx + len(train_loader) * epoch)
-            args.writer.add_scalar('Loss/mse', F.mse_loss(outputs, inputs),
+            args.writer.add_scalar('Train/mse', F.mse_loss(outputs, inputs),
                                    batch_idx + len(train_loader) * epoch)
 
             # print every number_of_mini_batches
