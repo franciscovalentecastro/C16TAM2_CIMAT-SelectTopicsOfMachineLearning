@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import re
 import argparse
 import matplotlib.pyplot as plt
 
@@ -291,7 +292,12 @@ def write_images_to_tensorboard(inputs, outputs, global_step,
 def main():
     # Tensorboard summary writer
     args.writer = SummaryWriter()
-    args.run = str(args.writer.log_dir).replace('runs\\', '')
+    args.run = str(args.writer.log_dir).replace('runs', '')
+
+    # Clean string from special characters
+    args.run = re.sub('[^A-Za-z0-9_-]+', '', args.run)
+
+    # Write parameters
     args.writer.add_text("Parameters", str(args))
 
     # Printing parameters
