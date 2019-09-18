@@ -173,7 +173,8 @@ def test(testset):
         args.writer.add_image('encoder-fit', grid)
 
         # Sample normal distribution
-        sample = torch.randn(32, args.latent_dim).to(args.device)
+        sample_size = 4 * args.batch_size
+        sample = torch.randn(sample_size, args.latent_dim).to(args.device)
         decoded_sample = args.net.decode(sample).cpu()
 
         # print images
