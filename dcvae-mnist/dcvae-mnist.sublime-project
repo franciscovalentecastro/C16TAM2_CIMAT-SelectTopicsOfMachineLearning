@@ -17,7 +17,7 @@
 	"settings":
 	[
 		{
-			"python_interpreter": "~/miniconda3/envs/torch/python",
+			"python_interpreter": "C:/Users/fcova/Miniconda3/envs/torch/python",
 			"swallow_startup_errors": true
 		}
 	]
