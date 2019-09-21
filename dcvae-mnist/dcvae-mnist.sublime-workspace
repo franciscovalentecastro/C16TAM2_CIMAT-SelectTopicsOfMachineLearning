@@ -431,42 +431,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "network.py",
-			"settings":
-			{
-				"buffer_size": 3970,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "train.py",
-			"settings":
-			{
-				"buffer_size": 12763,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "dcvae-mnist.sublime-project",
-			"settings":
-			{
-				"buffer_size": 381,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "imshow.py",
-			"settings":
-			{
-				"buffer_size": 381,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -533,6 +497,10 @@
 	],
 	"file_history":
 	[
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/dcvae-mnist/train.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/dcvae-mnist/imshow.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/dcvae-mnist/network.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/dcvae-mnist/dcvae-mnist.sublime-project",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/dcvae-mnist/best/best_step=167.pt",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/train.py",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/vae_conv/mvae_conv.py",
@@ -674,6 +642,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"VAE",
 			"{}={}",
 			"args.run",
 			"']",
@@ -800,8 +769,7 @@
 			"input_signal",
 			"printf(\"%d \",",
 			">>>>",
-			"mod",
-			"]]"
+			"mod"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -821,127 +789,8 @@
 	"groups":
 	[
 		{
-			"selected": 2,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "network.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3970,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1419,
-								1419
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "train.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12763,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5868,
-								5868
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2554.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "dcvae-mnist.sublime-project",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 381,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								371,
-								371
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "imshow.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 381,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								380,
-								380
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				}
 			]
 		}
 	],
