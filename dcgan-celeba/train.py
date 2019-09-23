@@ -35,8 +35,8 @@ parser.add_argument('--device', '--d',
                     default='cpu', choices=['cpu', 'cuda'],
                     help='pick device to run the training (defalut: "cpu")')
 parser.add_argument('--network', '--n',
-                    default='dcvae', choices=['dcvae', 'vae'],
-                    help='pick a specific network to train (default: dcvae)')
+                    default='dcgan', choices=['dcgan', 'gan'],
+                    help='pick a specific network to train (default: dcgan)')
 parser.add_argument('--latent_dim', '--ld',
                     type=int, default=2, metavar='N',
                     help='dimension of the latent space (default: 30)')
@@ -44,8 +44,9 @@ parser.add_argument('--optimizer', '--o',
                     default='adam', choices=['adam', 'sgd', 'rmsprop'],
                     help='pick a specific optimizer (default: "adam")')
 parser.add_argument('--dataset', '--data',
-                    default='mnist', choices=['mnist', 'fashion-mnist'],
-                    help='pick a specific dataset (default: "mnist")')
+                    default='celeba',
+                    choices=['celeba', 'mnist', 'fashion-mnist'],
+                    help='pick a specific dataset (default: "celeba")')
 parser.add_argument('--plot', '--p',
                     action='store_true',
                     help='plot dataset sample')
@@ -70,7 +71,10 @@ def train(trainset):
     # Create dataset loader
     train_loader = torch.utils.data.DataLoader(train_dataset,
                                                batch_size=args.batch_size,
-                                               shuffle=True)
+                                               shuffle=True,
+                                               drop_last=True)
+    args.dataset_size = len(train_loader.dataset)
+    args.dataloader_size = len(train_loader)
 
     # Show sample of images
     if args.plot:
@@ -84,81 +88,151 @@ def train(trainset):
 
     # Define optimizer
     if args.optimizer == 'adam':
-        optimizer = optim.Adam(args.net.parameters(), lr=1e-3)
+        optimizerD = optim.Adam(args.discriminator.parameters(), lr=1e-3)
+        optimizerG = optim.Adam(args.generator.parameters(), lr=1e-3)
     elif args.optimizer == 'sgd':
-        optimizer = optim.SGD(args.net.parameters(), lr=0.01, momentum=0.9)
-    elif args.optimizer == 'rmsprop':
-        optimizer = optim.RMSprop(args.net.parameters(), lr=0.01)
-
-    # Loss function
-    criterion = elbo_loss_function
+        optimizerD = optim.SGD(args.discriminator.parameters(),
+                               lr=0.01, momentum=0.9)
+        optimizerG = optim.SGD(args.generator.parameters(),
+                               lr=0.01, momentum=0.9)
 
     # Set best for minimization
-    best = float('inf')
+    args.bestD = float('inf')
+    args.bestG = float('inf')
 
     print('Started Training')
     # loop over the dataset multiple times
     for epoch in range(args.epochs):
+
         # reset running loss statistics
-        train_loss = mse_loss = running_loss = 0.0
+        args.train_lossD = args.running_lossD = 0.0
+        args.train_lossG = args.running_lossG = 0.0
 
         for batch_idx, data in enumerate(train_loader, 1):
-            # get the inputs; data is a list of [inputs, labels]
+
+            # Get data
             inputs, _ = data
             inputs = inputs.to(args.device)
 
-            with autograd.detect_anomaly():
-                # zero the parameter gradients
-                optimizer.zero_grad()
-
-                # forward + backward + optimize
-                outputs, mu, logvar = args.net(inputs)
-                loss = criterion(outputs, inputs, mu, logvar)
-                loss.backward()
-                optimizer.step()
+            # Update discriminator
+            outputsR, outputsF, lossD = train_update_net('discriminator',
+                                                         inputs, optimizerD)
 
             # update running loss statistics
-            train_loss += loss.item()
-            running_loss += loss.item()
-            mse_loss += F.mse_loss(outputs, inputs)
+            args.train_lossD += lossD
+            args.running_lossD += lossD
+
+            # Update Generator
+            outputsG, lossG = train_update_net('generator',
+                                               [], optimizerG)
 
             # Global step
             global_step = batch_idx + len(train_loader) * epoch
 
-            # Write tensorboard statistics
-            args.writer.add_scalar('Train/loss', loss.item(), global_step)
-            args.writer.add_scalar('Train/mse', F.mse_loss(outputs, inputs),
-                                   global_step)
+            # update running loss statistics
+            args.train_lossG += lossG
+            args.running_lossG += lossG
 
-            # check if current batch had best fitness
-            if loss.item() < best:
-                best = loss.item()
-                update_best(inputs, outputs, loss, global_step)
+            # Write tensorboard statistics
+            args.writer.add_scalar('Train/lossD', lossD, global_step)
+            args.writer.add_scalar('Train/lossG', lossG, global_step)
 
             # print every args.log_interval of batches
             if batch_idx % args.log_interval == 0:
-                print("Train Epoch : {} Batches : {} "
-                      "[{}/{} ({:.0f}%)]\tLoss : {:.6f}"
-                      "\tError : {:.6f}"
+                print('Train Epoch : {} Batches : {} [{}/{} ({:.0f}%)]'
+                      '\tLossD : {:.6f} \tLossG : {:.6f}'
                       .format(epoch, batch_idx,
                               args.batch_size * batch_idx,
-                              len(train_loader.dataset),
-                              100. * batch_idx / len(train_loader),
-                              running_loss / args.log_interval,
-                              mse_loss / args.log_interval))
+                              args.dataset_size,
+                              100. * batch_idx / args.dataloader_size,
+                              args.running_lossD / args.log_interval,
+                              args.running_lossG / args.log_interval))
 
-                mse_loss = running_loss = 0.0
+                args.running_lossG = args.running_lossD = 0.0
 
                 # Add images to tensorboard
-                write_images_to_tensorboard(inputs, outputs,
-                                            global_step, step=True)
+                write_images_to_tensorboard(global_step, step=True)
 
-        print('====> Epoch: {} Average loss: {:.4f}'.format(
-              epoch, train_loss / len(train_loader)))
+            # check if current batch had best fitness
+            # if lossD < bestD:
+            #     bestD = lossD
+            # update_best(inputs, outputs, lossD, global_step)
+
+        print('====> Epoch: {} '
+              'Average lossD: {:.4f} '
+              'Average lossG: {:.4f}'
+              .format(epoch,
+                      args.train_lossD / len(train_loader),
+                      args.train_lossG / len(train_loader)))
 
     # Add trained model
-    args.writer.close()
     print('Finished Training')
+
+
+def train_update_net(network, inputs, optimizer):
+
+    if network == 'discriminator':
+
+        # Calculate gradients and update
+        with autograd.detect_anomaly():
+            # zero the parameter gradients
+            optimizer.zero_grad()
+
+            # Update discriminator with real data
+            labels_real = torch.ones(args.batch_size).to(args.device)
+
+            # forward + backward real
+            outputs_real = args.discriminator(inputs)
+            loss_real = F.binary_cross_entropy(outputs_real, labels_real)
+            loss_real.backward()
+
+            # Update discriminator with fake data
+            labels_fake = torch.zeros(args.batch_size).to(args.device)
+
+            # Get noise sample from latent space
+            latent = torch.randn((args.batch_size, args.latent_dim)) \
+                .to(args.device)
+
+            # Generate fake data from generator
+            fake = args.generator(latent)
+
+            # forward + backward fake
+            outputs_fake = args.discriminator(fake)
+            loss_fake = F.binary_cross_entropy(outputs_fake, labels_fake)
+            loss_fake.backward()
+
+            # Calculate loss + backward
+            loss = loss_real + loss_fake
+
+            # update weights
+            optimizer.step()
+
+        return outputs_real, outputs_fake, loss.item()
+
+    elif network == 'generator':
+
+        # Calculate gradients and update
+        with autograd.detect_anomaly():
+            # zero the parameter gradients
+            optimizer.zero_grad()
+
+            # Update discriminator with fake data
+            labels_mistake = torch.ones(args.batch_size).to(args.device)
+
+            # Get noise sample from latent space
+            latent = torch.randn((args.batch_size, args.latent_dim)) \
+                .to(args.device)
+
+            # Generate fake data from generator
+            fake = args.generator(latent)
+
+            # forward + backward + step
+            outputs = args.discriminator(fake)
+            loss = F.binary_cross_entropy(outputs, labels_mistake)
+            loss.backward()
+            optimizer.step()
+
+        return outputs, loss.item()
 
 
 def test(testset):
@@ -258,33 +332,23 @@ def plot_latent_space(dataiter, images, labels):
     plt.show()
 
 
-def write_images_to_tensorboard(inputs, outputs, global_step,
-                                step=False, best=False):
-    # Add images to tensorboard
-    # Current autoencoder fit
-    grid1 = torchvision.utils.make_grid(torch.cat((
-        inputs.cpu(), outputs.cpu())), nrow=args.batch_size)
-
+def write_images_to_tensorboard(global_step, step=False, best=False):
     # Current quality of generated random images
     sample_size = 4 * args.batch_size
     sample = torch.randn(sample_size, args.latent_dim).to(args.device)
-    decoded_sample = args.net.decode(sample).cpu()
+    generated_sample = args.generator(sample).cpu()
 
     # print images
-    grid2 = torchvision.utils.make_grid(decoded_sample,
-                                        nrow=args.batch_size)
+    grid = torchvision.utils.make_grid(generated_sample,
+                                       nrow=args.batch_size)
 
     if step:
-        args.writer.add_image('Train/fit', grid1, global_step)
-        args.writer.add_image('Train/generated', grid2, global_step)
+        args.writer.add_image('Train/generated', grid, global_step)
     elif best:
-        args.writer.add_image('Best/fit', grid1, global_step)
-        args.writer.add_image('Best/generated', grid2, global_step)
+        args.writer.add_image('Best/generated', grid, global_step)
     else:
-        args.writer.add_image('encoder-fit', grid1)
-        args.writer.add_image('latent-random-sample-decoded', grid2)
-        imshow(grid1)
-        imshow(grid2)
+        args.writer.add_image('latent-random-sample-decoded', grid)
+        imshow(grid)
 
 
 def create_run_name():
@@ -316,22 +380,31 @@ def main():
                                    if torch.cuda.is_available()
                                    else 'cpu')
 
+    # Number of steps to train discriminator
+    args.discriminator_train_steps = 1
+
     # Assuming that we are on a CUDA machine, this should print a CUDA device:
     print(args.device)
 
-    # Create network
-    if args.network == 'dcvae':
-        net = DCVAE(args.latent_dim)
-    elif args.network == 'vae':
-        net = VAE(args.latent_dim)
-
-    args.net = net.to(args.device)
-    print(args.net)
-
     # Load dataset
-    transform = transforms.Compose([transforms.ToTensor()])
+    if args.dataset == 'celeba':
+        args.image_size = 64
+        transform = transforms.Compose([
+            transforms.Resize(args.image_size),
+            transforms.CenterCrop(args.image_size),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+        ])
+        trainset = torchvision.datasets.ImageFolder(root='CelebA/',
+                                                    transform=transform)
+    elif args.dataset == 'mnist':
+        args.image_size = 32
+        transform = transforms.Compose([
+            transforms.Resize(args.image_size),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+        ])
 
-    if args.dataset == 'mnist':
         trainset = torchvision.datasets.MNIST("", train=True,
                                               transform=transform,
                                               download=True)
@@ -339,17 +412,43 @@ def main():
                                              transform=transform,
                                              download=True)
     elif args.dataset == 'fashion-mnist':
+        args.image_size = 32
+        transform = transforms.Compose([
+            transforms.Resize(args.image_size),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+        ])
         trainset = torchvision.datasets.FashionMNIST("", train=True,
                                                      transform=transform,
                                                      download=True)
         testset = torchvision.datasets.FashionMNIST("", train=False,
                                                     transform=transform,
                                                     download=True)
+
+    # Determine image shape
+    tImage, _ = trainset[0]
+    args.image_shape = tImage.shape
+
+    # Create network
+    if args.network == 'dcgan':
+        discriminator = ConvolutionalDiscriminator(args.image_shape)
+        generator = ConvolutionalGenerator(args.latent_dim, args.image_shape)
+    elif args.network == 'gan':
+        discriminator = Discriminator(args.image_shape)
+        generator = Generator(args.latent_dim, args.image_shape)
+
+    # Send networks to device
+    args.discriminator = discriminator.to(args.device)
+    args.generator = generator.to(args.device)
+
+    print(args.discriminator)
+    print(args.generator)
+
     # Train network
     train(trainset)
 
     # Test the trained model
-    test(testset)
+    # test(testset)
 
     # Close tensorboard writer
     args.writer.close()
