@@ -22,8 +22,8 @@ parser.add_argument('--train-percentage', '--t',
                     type=float, default=.2, metavar='N',
                     help='porcentage of the training set to use (default: .2)')
 parser.add_argument('--batch-size', '--b',
-                    type=int, default=4, metavar='N',
-                    help='input batch size for training (default: 4)')
+                    type=int, default=16, metavar='N',
+                    help='input batch size for training (default: 16)')
 parser.add_argument('--log-interval', '--li',
                     type=int, default=100, metavar='N',
                     help='how many batches to wait' +
@@ -334,13 +334,12 @@ def plot_latent_space(dataiter, images, labels):
 
 def write_images_to_tensorboard(global_step, step=False, best=False):
     # Current quality of generated random images
-    sample_size = 4 * args.batch_size
+    sample_size = 16
     sample = torch.randn(sample_size, args.latent_dim).to(args.device)
     generated_sample = args.generator(sample).cpu()
 
     # print images
-    grid = torchvision.utils.make_grid(generated_sample,
-                                       nrow=args.batch_size)
+    grid = torchvision.utils.make_grid(generated_sample, nrow=4)
 
     if step:
         args.writer.add_image('Train/generated', grid, global_step)

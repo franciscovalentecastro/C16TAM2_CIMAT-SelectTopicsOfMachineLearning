@@ -55,6 +55,7 @@ class ConvolutionalGenerator(nn.Module):
         return nn.Sequential(
             nn.ConvTranspose2d(in_channels=in_chan, out_channels=out_chan,
                                kernel_size=4, stride=2, padding=1, **kwargs),
+            nn.BatchNorm2d(out_chan),
             nn.LeakyReLU(),
             nn.Conv2d(in_channels=out_chan, out_channels=out_chan,
                       kernel_size=3, stride=1, padding=1, **kwargs),
@@ -63,8 +64,8 @@ class ConvolutionalGenerator(nn.Module):
         )
 
     def generate(self, x):
-        h1 = F.leaky_relu(self.up_linear1(x))
-        h2 = F.leaky_relu(self.up_linear2(h1))
+        h1 = F.relu(self.up_linear1(x))
+        h2 = F.relu(self.up_linear2(h1))
         h2 = h2.view(-1, 64, self.h // 4, self.w // 4)  # Unflatten
         h3 = self.up_conv_block1(h2)
         h4 = self.up_conv_block2(h3)
@@ -90,6 +91,7 @@ class ConvolutionalDiscriminator(nn.Module):
         return nn.Sequential(
             nn.Conv2d(in_channels=in_chan, out_channels=out_chan,
                       kernel_size=3, stride=2, padding=1, **kwargs),
+            nn.BatchNorm2d(out_chan),
             nn.LeakyReLU(),
             nn.Conv2d(in_channels=out_chan, out_channels=out_chan,
                       kernel_size=3, stride=1, padding=1, **kwargs),
@@ -101,7 +103,7 @@ class ConvolutionalDiscriminator(nn.Module):
         h1 = self.down_conv_block1(x)
         h2 = self.down_conv_block2(h1)
         h2 = h2.view(-1, 64 * self.h // 4 * self.w // 4)  # Flatten
-        h3 = F.leaky_relu(self.down_linear1(h2))
+        h3 = F.relu(self.down_linear1(h2))
         h4 = torch.sigmoid(self.down_linear2(h3))
         return h4.view(-1)
 
