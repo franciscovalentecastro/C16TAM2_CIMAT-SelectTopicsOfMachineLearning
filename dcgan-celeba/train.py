@@ -35,7 +35,7 @@ parser.add_argument('--device', '--d',
                     default='cpu', choices=['cpu', 'cuda'],
                     help='pick device to run the training (defalut: "cpu")')
 parser.add_argument('--network', '--n',
-                    default='dcgan', choices=['dcgan', 'gan'],
+                    default='dcgan', choices=['dcgan', 'gan', 'mixed'],
                     help='pick a specific network to train (default: dcgan)')
 parser.add_argument('--latent_dim', '--ld',
                     type=int, default=2, metavar='N',
@@ -427,11 +427,14 @@ def main():
 
     # Create network
     if args.network == 'dcgan':
-        discriminator = Discriminator(args.image_shape)
+        discriminator = ConvolutionalDiscriminator(args.image_shape)
         generator = ConvolutionalGenerator(args.latent_dim, args.image_shape)
     elif args.network == 'gan':
         discriminator = Discriminator(args.image_shape)
         generator = Generator(args.latent_dim, args.image_shape)
+    elif args.network == 'mixed':
+        discriminator = Discriminator(args.image_shape)
+        generator = ConvolutionalGenerator(args.latent_dim, args.image_shape)
 
     # Send networks to device
     args.discriminator = discriminator.to(args.device)
