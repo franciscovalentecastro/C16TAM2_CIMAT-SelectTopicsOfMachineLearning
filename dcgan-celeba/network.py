@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+import numpy as np
 
 class Generator(nn.Module):
 
@@ -51,6 +52,9 @@ class ConvolutionalGenerator(nn.Module):
         self.up_conv_block1 = self.up_conv_block(128, 64, 'relu')
         self.up_conv_block2 = self.up_conv_block(64, self.c, 'sigmoid')
 
+        # Intialize weights
+        self.apply(self.initialize_weights)
+
     def up_conv_block(self, in_chan, out_chan, activation='relu', **kwargs):
         return nn.Sequential(
             nn.ConvTranspose2d(in_channels=in_chan, out_channels=out_chan,
@@ -70,6 +74,14 @@ class ConvolutionalGenerator(nn.Module):
     def forward(self, x):
         return self.generate(x)
 
+    def initialize_weights(self, module):
+        if type(module) == nn.Conv2d or type(module) == nn.ConvTranspose2d:
+            input_dimension = module.in_channels \
+                * module.kernel_size[0] \
+                * module.kernel_size[1]
+            std_dev = np.sqrt(2.0 / float(input_dimension))
+            torch.nn.init.normal_(module.weight, mean=0.0, std=std_dev)
+
 
 class ConvolutionalDiscriminator(nn.Module):
 
@@ -83,7 +95,10 @@ class ConvolutionalDiscriminator(nn.Module):
         self.down_linear1 = nn.Linear(128 * self.h // 4 * self.w // 4, 512)
         self.down_linear2 = nn.Linear(512, 1)
 
-    def down_conv_block(self, in_chan, out_chan, activation='relu', **kwargs):
+        # Intialize weights
+        self.apply(self.initialize_weights)
+
+    def down_conv_block(self, in_chan, out_chan, **kwargs):
         return nn.Sequential(
             nn.Conv2d(in_channels=in_chan, out_channels=out_chan,
                       kernel_size=3, stride=2, padding=1, **kwargs),
@@ -101,3 +116,11 @@ class ConvolutionalDiscriminator(nn.Module):
 
     def forward(self, x):
         return self.discriminate(x)
+
+    def initialize_weights(self, module):
+        if type(module) == nn.Conv2d or type(module) == nn.ConvTranspose2d:
+            input_dimension = module.in_channels \
+                * module.kernel_size[0] \
+                * module.kernel_size[1]
+            std_dev = np.sqrt(2.0 / float(input_dimension))
+            torch.nn.init.normal_(module.weight, mean=0.0, std=std_dev)

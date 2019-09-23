@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import shutil
 import argparse
 import matplotlib.pyplot as plt
 
@@ -88,8 +89,10 @@ def train(trainset):
 
     # Define optimizer
     if args.optimizer == 'adam':
-        optimizerD = optim.Adam(args.discriminator.parameters(), lr=1e-3)
-        optimizerG = optim.Adam(args.generator.parameters(), lr=1e-3)
+        optimizerD = optim.Adam(args.discriminator.parameters(),
+                                lr=1e-3, betas=(0.5, 0.999))
+        optimizerG = optim.Adam(args.generator.parameters(),
+                                lr=1e-3, betas=(0.5, 0.999))
     elif args.optimizer == 'sgd':
         optimizerD = optim.SGD(args.discriminator.parameters(),
                                lr=0.01, momentum=0.9)
@@ -140,7 +143,7 @@ def train(trainset):
             # print every args.log_interval of batches
             if batch_idx % args.log_interval == 0:
                 print('Train Epoch : {} Batches : {} [{}/{} ({:.0f}%)]'
-                      '\tLossD : {:.6f} \tLossG : {:.6f}'
+                      '\tLossD : {:.8f} \tLossG : {:.8f}'
                       .format(epoch, batch_idx,
                               args.batch_size * batch_idx,
                               args.dataset_size,
@@ -186,6 +189,12 @@ def train_update_net(network, inputs, optimizer):
             loss_real = F.binary_cross_entropy(outputs_real, labels_real)
             loss_real.backward()
 
+            # update weights
+            optimizer.step()
+
+            # zero the parameter gradients
+            optimizer.zero_grad()
+
             # Update discriminator with fake data
             labels_fake = torch.zeros(args.batch_size).to(args.device)
 
@@ -201,11 +210,11 @@ def train_update_net(network, inputs, optimizer):
             loss_fake = F.binary_cross_entropy(outputs_fake, labels_fake)
             loss_fake.backward()
 
-            # Calculate loss + backward
-            loss = loss_real + loss_fake
-
             # update weights
             optimizer.step()
+
+            # Calculate loss
+            loss = loss_real + loss_fake
 
         return outputs_real, outputs_fake, loss.item()
 
@@ -365,6 +374,9 @@ def create_run_name():
 def main():
     # Save parameters in string to name the execution
     args.run = create_run_name()
+
+    # Remove previous run folder
+    shutil.rmtree('runs/' + args.run, ignore_errors=True)
 
     # Tensorboard summary writer
     args.writer = SummaryWriter('runs/' + args.run)
