@@ -56,10 +56,6 @@ class ConvolutionalGenerator(nn.Module):
             nn.ConvTranspose2d(in_channels=in_chan, out_channels=out_chan,
                                kernel_size=4, stride=2, padding=1, **kwargs),
             nn.BatchNorm2d(out_chan),
-            nn.LeakyReLU(),
-            nn.Conv2d(in_channels=out_chan, out_channels=out_chan,
-                      kernel_size=3, stride=1, padding=1, **kwargs),
-            nn.BatchNorm2d(out_chan),
             nn.LeakyReLU() if activation == 'relu' else nn.Sigmoid()
         )
 
@@ -91,10 +87,6 @@ class ConvolutionalDiscriminator(nn.Module):
         return nn.Sequential(
             nn.Conv2d(in_channels=in_chan, out_channels=out_chan,
                       kernel_size=3, stride=2, padding=1, **kwargs),
-            nn.BatchNorm2d(out_chan),
-            nn.LeakyReLU(),
-            nn.Conv2d(in_channels=out_chan, out_channels=out_chan,
-                      kernel_size=3, stride=1, padding=1, **kwargs),
             nn.BatchNorm2d(out_chan),
             nn.LeakyReLU()
         )

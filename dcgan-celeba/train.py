@@ -427,7 +427,7 @@ def main():
 
     # Create network
     if args.network == 'dcgan':
-        discriminator = ConvolutionalDiscriminator(args.image_shape)
+        discriminator = Discriminator(args.image_shape)
         generator = ConvolutionalGenerator(args.latent_dim, args.image_shape)
     elif args.network == 'gan':
         discriminator = Discriminator(args.image_shape)
