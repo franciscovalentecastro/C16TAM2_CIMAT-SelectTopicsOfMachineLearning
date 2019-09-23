@@ -18,3 +18,4 @@ dcgan-celeba/runs/nw=dcgan_ds=mnist_ld=10_op=adam_ep=2_bs=4_tp=1.0/events.out.tf
 dcgan-celeba/runs/nw=gan_ds=celeba_ld=10_op=adam_ep=15_bs=4_tp=1.0/events.out.tfevents.1569214587.DESKTOP-F1EHI3N.8488.0
 dcgan-celeba/runs/nw=gan_ds=fashion-mnist_ld=10_op=adam_ep=2_bs=4_tp=1.0/events.out.tfevents.1569215147.DESKTOP-F1EHI3N.5944.0
 dcgan-celeba/runs/nw=gan_ds=mnist_ld=10_op=adam_ep=15_bs=4_tp=1.0/events.out.tfevents.1569213789.DESKTOP-F1EHI3N.5308.0
+*.0

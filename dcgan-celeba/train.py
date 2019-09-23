@@ -402,7 +402,7 @@ def main():
         transform = transforms.Compose([
             transforms.Resize(args.image_size),
             transforms.ToTensor(),
-            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+            transforms.Normalize((0.5,), (0.5,))
         ])
 
         trainset = torchvision.datasets.MNIST("", train=True,
@@ -416,7 +416,7 @@ def main():
         transform = transforms.Compose([
             transforms.Resize(args.image_size),
             transforms.ToTensor(),
-            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+            transforms.Normalize((0.5,), (0.5,))
         ])
         trainset = torchvision.datasets.FashionMNIST("", train=True,
                                                      transform=transform,
