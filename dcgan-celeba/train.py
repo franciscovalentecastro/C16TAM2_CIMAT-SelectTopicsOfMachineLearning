@@ -42,7 +42,7 @@ parser.add_argument('--latent_dim', '--ld',
                     type=int, default=2, metavar='N',
                     help='dimension of the latent space (default: 30)')
 parser.add_argument('--optimizer', '--o',
-                    default='adam', choices=['adam', 'sgd', 'rmsprop'],
+                    default='adam', choices=['adam', 'sgd'],
                     help='pick a specific optimizer (default: "adam")')
 parser.add_argument('--dataset', '--data',
                     default='celeba',
@@ -92,8 +92,10 @@ def train(trainset):
 
     # Define optimizer
     if args.optimizer == 'adam':
-        args.optimizerD = optim.Adam(args.discriminator.parameters(), lr=1e-3)
-        args.optimizerG = optim.Adam(args.generator.parameters(), lr=1e-3)
+        args.optimizerD = optim.Adam(args.discriminator.parameters(),
+                                     lr=.0001, betas=(.5, .99))
+        args.optimizerG = optim.Adam(args.generator.parameters(),
+                                     lr=.0001, betas=(.5, .99))
     elif args.optimizer == 'sgd':
         args.optimizerD = optim.SGD(args.discriminator.parameters(),
                                     lr=0.01, momentum=0.9)
@@ -278,7 +280,7 @@ def restore_checkpoint():
 
     # Load provided checkpoint
     checkpoint = torch.load(args.checkpoint)
-    print('Restored weights from checkpoint {}.'.format(args.checkpoint))
+    print('Restored weights from {}.'.format(args.checkpoint))
 
     # Restore past checkpoint
     args.generator.load_state_dict(checkpoint['generator_state_dict'])
