@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import shutil
 import argparse
-import matplotlib.pyplot as plt
+from datetime import datetime
 
 import torch
 import torch.optim as optim
@@ -15,7 +15,7 @@ import torchvision.transforms as transforms
 
 # Import network
 from network import *
-from imshow import imshow
+from imshow import *
 
 # Parser arguments
 parser = argparse.ArgumentParser(description='PyTorch DCGAN with CelebA')
@@ -48,6 +48,9 @@ parser.add_argument('--dataset', '--data',
                     default='celeba',
                     choices=['celeba', 'mnist', 'fashion-mnist'],
                     help='pick a specific dataset (default: "celeba")')
+parser.add_argument('--checkpoint', '--check',
+                    default='none',
+                    help='path to checkpoint to be restored')
 parser.add_argument('--plot', '--p',
                     action='store_true',
                     help='plot dataset sample')
@@ -89,13 +92,16 @@ def train(trainset):
 
     # Define optimizer
     if args.optimizer == 'adam':
-        optimizerD = optim.Adam(args.discriminator.parameters(), lr=1e-3)
-        optimizerG = optim.Adam(args.generator.parameters(), lr=1e-3)
+        args.optimizerD = optim.Adam(args.discriminator.parameters(), lr=1e-3)
+        args.optimizerG = optim.Adam(args.generator.parameters(), lr=1e-3)
     elif args.optimizer == 'sgd':
-        optimizerD = optim.SGD(args.discriminator.parameters(),
-                               lr=0.01, momentum=0.9)
-        optimizerG = optim.SGD(args.generator.parameters(),
-                               lr=0.01, momentum=0.9)
+        args.optimizerD = optim.SGD(args.discriminator.parameters(),
+                                    lr=0.01, momentum=0.9)
+        args.optimizerG = optim.SGD(args.generator.parameters(),
+                                    lr=0.01, momentum=0.9)
+
+    # Restore past checkpoint
+    restore_checkpoint()
 
     # Set best for minimization
     args.bestD = float('inf')
@@ -116,16 +122,16 @@ def train(trainset):
             inputs = inputs.to(args.device)
 
             # Update discriminator
-            outputsR, outputsF, lossD = train_update_net('discriminator',
-                                                         inputs, optimizerD)
+            outputsR, outputsF, lossD = \
+                train_update_net('discriminator', inputs, args.optimizerD)
 
             # update running loss statistics
             args.train_lossD += lossD
             args.running_lossD += lossD
 
             # Update Generator
-            outputsG, lossG = train_update_net('generator',
-                                               [], optimizerG)
+            outputsG, lossG =  \
+                train_update_net('generator', [], args.optimizerG)
 
             # Global step
             global_step = batch_idx + len(train_loader) * epoch
@@ -138,7 +144,7 @@ def train(trainset):
             args.writer.add_scalar('Train/lossD', lossD, global_step)
             args.writer.add_scalar('Train/lossG', lossG, global_step)
 
-            # print every args.log_interval of batches
+            # print every args.log_interval of batc|hes
             if batch_idx % args.log_interval == 0:
                 print('Train Epoch : {} Batches : {} [{}/{} ({:.0f}%)]'
                       '\tLossD : {:.8f} \tLossG : {:.8f}'
@@ -154,10 +160,8 @@ def train(trainset):
                 # Add images to tensorboard
                 write_images_to_tensorboard(global_step, step=True)
 
-            # check if current batch had best fitness
-            # if lossD < bestD:
-            #     bestD = lossD
-            # update_best(inputs, outputs, lossD, global_step)
+                # Process current checkpoint
+                process_checkpoint(lossD, lossG, global_step)
 
         print('====> Epoch: {} '
               'Average lossD: {:.4f} '
@@ -265,78 +269,52 @@ def test(testset):
 
     # Plot latent space
     if args.latent_dim == 2 and args.plot:
-        plot_latent_space(dataiter, images, labels)
+        plot_latent_space(dataiter, images, labels, args)
 
 
-def update_best(inputs, outputs, loss, global_step):
-    # Save current state of model
-    state = args.net.state_dict()
-    torch.save(state, "best/best_{}.pt".format(args.run))
+def restore_checkpoint():
+    if args.checkpoint == 'none':
+        return
 
-    # Write tensorboard statistics
-    args.writer.add_scalar('Best/loss', loss.item(), global_step)
-    args.writer.add_scalar('Best/mse', F.mse_loss(outputs, inputs),
-                           global_step)
+    # Load provided checkpoint
+    checkpoint = torch.load(args.checkpoint)
+    print('Restored weights from checkpoint {}.'.format(args.checkpoint))
 
-    # Add tensorboard images
-    write_images_to_tensorboard(inputs, outputs, global_step,
-                                step=False, best=True)
+    # Restore past checkpoint
+    args.generator.load_state_dict(checkpoint['generator_state_dict'])
+    args.discriminator.load_state_dict(checkpoint['discriminator_state_dict'])
+    args.optimizerG.load_state_dict(checkpoint['optimizerG_state_dict'])
+    args.optimizerD.load_state_dict(checkpoint['optimizerD_state_dict'])
 
 
-def plot_latent_space(dataiter, images, labels):
-    # Plot mesh grid from latent space
-    numImgs = 30
-    lo, hi = -3., 3.
+def process_checkpoint(lossD, lossG, global_step):
 
-    # Define mesh grid ticks
-    z1 = torch.linspace(lo, hi, numImgs)
-    z2 = torch.linspace(lo, hi, numImgs)
+    # check if current batch had best fitness
+    if lossG < args.bestG:
+        args.bestG = lossG
 
-    # Create mesh as pair of elements
-    z = []
-    for idx in range(numImgs):
-        for jdx in range(numImgs):
-            z.append([z1[idx], z2[jdx]])
-    z = torch.tensor(z).to(args.device)
+        # Save best checkpoint
+        torch.save({
+            'generator_state_dict': args.generator.state_dict(),
+            'discriminator_state_dict': args.discriminator.state_dict(),
+            'optimizerG_state_dict': args.optimizerG.state_dict(),
+            'optimizerD_state_dict': args.optimizerD.state_dict(),
+        }, "checkpoint/best_{}.pt".format(args.run))
 
-    # Decode elements from latent space
-    decoded_z = args.net.decode(z).cpu()
+        # Write tensorboard statistics
+        args.writer.add_scalar('Best/lossD', lossD, global_step)
+        args.writer.add_scalar('Best/lossG', lossG, global_step)
 
-    # print images
-    grid = torchvision.utils.make_grid(decoded_z, nrow=numImgs)
-    imshow(grid)
-    args.writer.add_image('latent-space-grid-decoded', grid)
+        # Save best generation image
+        write_images_to_tensorboard(global_step, best=True)
 
-    # Plot encoded test set into latent space
-    numBatches = 500
-    for idx in range(numBatches):
-        tImages, tLabels = dataiter.next()
-        images = torch.cat((images.cpu(), tImages.cpu()), 0)
-        labels = torch.cat((labels.cpu(), tLabels.cpu()), 0)
-
-    # encode into latent space
-    images = images.cpu()
-    encoded_images_loc, _ = args.net.cpu().encode(images)
-    encoded_images_loc = encoded_images_loc.cpu().detach().numpy()
-
-    # Scatter plot of latent space
-    x = encoded_images_loc[:, 0]
-    y = encoded_images_loc[:, 1]
-
-    # Send to tensorboard
-    fig = plt.figure(figsize=(12, 10))
-    ax = fig.add_subplot(1, 1, 1)
-    sct = ax.scatter(x, y, c=labels, cmap='jet')
-    fig.colorbar(sct)
-    args.writer.add_figure('scatter-plot-of-encoded-test-sample', fig)
-
-    # Plot with matplotlib
-    plt.figure(figsize=(12, 10))
-    plt.scatter(x, y, c=labels, cmap='jet')
-    plt.colorbar()
-    filename = "imgs/test_into_latent_space_{}.png".format(numBatches)
-    plt.savefig(filename)
-    plt.show()
+    # Save current checkpoint
+    torch.save({
+        'generator_state_dict': args.generator.state_dict(),
+        'discriminator_state_dict': args.discriminator.state_dict(),
+        'optimizerG_state_dict': args.optimizerG.state_dict(),
+        'optimizerD_state_dict': args.optimizerD.state_dict(),
+    }, "checkpoint/last_{}.pt".format(args.run))
 
 
 def write_images_to_tensorboard(global_step, step=False, best=False):
@@ -365,6 +343,7 @@ def create_run_name():
     run += '_{}={}'.format('ep', args.epochs)
     run += '_{}={}'.format('bs', args.batch_size)
     run += '_{}={}'.format('tp', args.train_percentage)
+    run += '_{}'.format(datetime.now().strftime("%m:%d:%Y:%H:%M:%S"))
 
     return run
 
@@ -415,9 +394,7 @@ def main():
         trainset = torchvision.datasets.MNIST("", train=True,
                                               transform=transform,
                                               download=True)
-        testset = torchvision.datasets.MNIST("", train=False,
-                                             transform=transform,
-                                             download=True)
+
     elif args.dataset == 'fashion-mnist':
         args.image_size = 32
         transform = transforms.Compose([
@@ -427,9 +404,6 @@ def main():
         trainset = torchvision.datasets.FashionMNIST("", train=True,
                                                      transform=transform,
                                                      download=True)
-        testset = torchvision.datasets.FashionMNIST("", train=False,
-                                                    transform=transform,
-                                                    download=True)
 
     # Determine image shape
     tImage, _ = trainset[0]
