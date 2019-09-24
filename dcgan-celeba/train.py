@@ -86,16 +86,16 @@ def train(trainset):
         dataiter = iter(train_loader)
         images, _ = dataiter.next()
 
-        grid = torchvision.utils.make_grid(images)
+        grid = torchvision.utils.make_grid(.5 * (images + 1.0))
         imshow(grid)
         args.writer.add_image('sample-train', grid)
 
     # Define optimizer
     if args.optimizer == 'adam':
         args.optimizerD = optim.Adam(args.discriminator.parameters(),
-                                     lr=.0001, betas=(.5, .99))
+                                     lr=.0001, betas=(.5, .999))
         args.optimizerG = optim.Adam(args.generator.parameters(),
-                                     lr=.0001, betas=(.5, .99))
+                                     lr=.0001, betas=(.5, .999))
     elif args.optimizer == 'sgd':
         args.optimizerD = optim.SGD(args.discriminator.parameters(),
                                     lr=0.01, momentum=0.9)
@@ -323,7 +323,7 @@ def write_images_to_tensorboard(global_step, step=False, best=False):
     # Current quality of generated random images
     sample_size = 16
     sample = torch.randn(sample_size, args.latent_dim).to(args.device)
-    generated_sample = args.generator(sample).cpu()
+    generated_sample = .5 * (args.generator(sample).cpu() + 1.0)
 
     # print images
     grid = torchvision.utils.make_grid(generated_sample, nrow=4)
@@ -421,6 +421,9 @@ def main():
     elif args.network == 'gan':
         discriminator = Discriminator(args.image_shape)
         generator = Generator(args.latent_dim, args.image_shape)
+    elif args.network == 'mixed_conv_disc':
+        discriminator = Discriminator(args.image_shape)
+        generator = ConvolutionalGenerator(args.latent_dim, args.image_shape)
     elif args.network == 'mixed':
         discriminator = Discriminator(args.image_shape)
         generator = ConvolutionalGenerator(args.latent_dim, args.image_shape)
