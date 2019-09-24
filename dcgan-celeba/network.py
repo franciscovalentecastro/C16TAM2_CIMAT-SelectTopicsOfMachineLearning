@@ -53,7 +53,7 @@ class ConvolutionalGenerator(nn.Module):
         self.up_conv_block2 = self.up_conv_block(64, self.c, 'sigmoid')
 
         # Intialize weights
-        self.apply(self.initialize_weights)
+        # self.apply(self.initialize_weights)
 
     def up_conv_block(self, in_chan, out_chan, activation='relu', **kwargs):
         return nn.Sequential(
@@ -95,7 +95,7 @@ class ConvolutionalDiscriminator(nn.Module):
         self.down_linear2 = nn.Linear(512, 1)
 
         # Intialize weights
-        self.apply(self.initialize_weights)
+        # self.apply(self.initialize_weights)
 
     def down_conv_block(self, in_chan, out_chan, **kwargs):
         return nn.Sequential(
