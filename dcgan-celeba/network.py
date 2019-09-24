@@ -14,7 +14,7 @@ class Generator(nn.Module):
 
     def generate(self, x):
         h1 = F.relu(self.up_linear1(x))
-        h2 = torch.sigmoid(self.up_linear2(h1))
+        h2 = torch.tanh(self.up_linear2(h1))
         return h2.view(-1, self.c, self.h, self.w)
 
     def forward(self, x):
@@ -50,7 +50,7 @@ class ConvolutionalGenerator(nn.Module):
         self.up_linear2 = nn.Linear(512, 128 * self.h // 4 * self.w // 4)
 
         self.up_conv_block1 = self.up_conv_block(128, 64, 'relu')
-        self.up_conv_block2 = self.up_conv_block(64, self.c, 'sigmoid')
+        self.up_conv_block2 = self.up_conv_block(64, self.c, 'tanh')
 
         # Intialize weights
         # self.apply(self.initialize_weights)
@@ -60,7 +60,7 @@ class ConvolutionalGenerator(nn.Module):
             nn.ConvTranspose2d(in_channels=in_chan, out_channels=out_chan,
                                kernel_size=4, stride=2, padding=1, **kwargs),
             nn.BatchNorm2d(out_chan),
-            nn.LeakyReLU() if activation == 'relu' else nn.Sigmoid()
+            nn.LeakyReLU() if activation == 'relu' else nn.Tanh()
         )
 
     def generate(self, x):
