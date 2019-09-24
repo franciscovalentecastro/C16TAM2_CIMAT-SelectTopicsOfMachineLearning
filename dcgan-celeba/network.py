@@ -47,10 +47,11 @@ class ConvolutionalGenerator(nn.Module):
 
         # Generator
         self.up_linear1 = nn.Linear(latent_dim, 512)
-        self.up_linear2 = nn.Linear(512, 128 * self.h // 4 * self.w // 4)
+        self.up_linear2 = nn.Linear(512, 128 * self.h // 8 * self.w // 8)
 
         self.up_conv_block1 = self.up_conv_block(128, 64, 'relu')
-        self.up_conv_block2 = self.up_conv_block(64, self.c, 'tanh')
+        self.up_conv_block2 = self.up_conv_block(64, 32, 'relu')
+        self.up_conv_block3 = self.up_conv_block(32, self.c, 'tanh')
 
         # Intialize weights
         # self.apply(self.initialize_weights)
@@ -66,10 +67,11 @@ class ConvolutionalGenerator(nn.Module):
     def generate(self, x):
         h1 = F.relu(self.up_linear1(x))
         h2 = F.relu(self.up_linear2(h1))
-        h2 = h2.view(-1, 128, self.h // 4, self.w // 4)  # Unflatten
+        h2 = h2.view(-1, 128, self.h // 8, self.w // 8)  # Unflatten
         h3 = self.up_conv_block1(h2)
         h4 = self.up_conv_block2(h3)
-        return h4
+        h5 = self.up_conv_block3(h4)
+        return h5
 
     def forward(self, x):
         return self.generate(x)
