@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-import numpy as np
 
 class Generator(nn.Module):
 
@@ -46,6 +45,7 @@ class ConvolutionalGenerator(nn.Module):
         super(ConvolutionalGenerator, self).__init__()
         self.c, self.h, self.w = image_shape
 
+        # Generator
         self.up_linear1 = nn.Linear(latent_dim, 512)
         self.up_linear2 = nn.Linear(512, 128 * self.h // 4 * self.w // 4)
 
@@ -75,12 +75,10 @@ class ConvolutionalGenerator(nn.Module):
         return self.generate(x)
 
     def initialize_weights(self, module):
-        if type(module) == nn.Conv2d or type(module) == nn.ConvTranspose2d:
-            input_dimension = module.in_channels \
-                * module.kernel_size[0] \
-                * module.kernel_size[1]
-            std_dev = np.sqrt(2.0 / float(input_dimension))
-            torch.nn.init.normal_(module.weight, mean=0.0, std=std_dev)
+        if type(module) == nn.Conv2d or \
+           type(module) == nn.ConvTranspose2d or \
+           type(module) == nn.Linear:
+            torch.nn.init.normal_(module.weight, mean=0.0, std=.5)
 
 
 class ConvolutionalDiscriminator(nn.Module):
@@ -89,6 +87,7 @@ class ConvolutionalDiscriminator(nn.Module):
         super(ConvolutionalDiscriminator, self).__init__()
         self.c, self.h, self.w = image_shape
 
+        # Discriminator
         self.down_conv_block1 = self.down_conv_block(self.c, 64)
         self.down_conv_block2 = self.down_conv_block(64, 128)
 
@@ -118,9 +117,7 @@ class ConvolutionalDiscriminator(nn.Module):
         return self.discriminate(x)
 
     def initialize_weights(self, module):
-        if type(module) == nn.Conv2d or type(module) == nn.ConvTranspose2d:
-            input_dimension = module.in_channels \
-                * module.kernel_size[0] \
-                * module.kernel_size[1]
-            std_dev = np.sqrt(2.0 / float(input_dimension))
-            torch.nn.init.normal_(module.weight, mean=0.0, std=std_dev)
+        if type(module) == nn.Conv2d or \
+           type(module) == nn.ConvTranspose2d or \
+           type(module) == nn.Linear:
+            torch.nn.init.normal_(module.weight, mean=0.0, std=.5)

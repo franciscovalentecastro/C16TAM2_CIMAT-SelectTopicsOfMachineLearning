@@ -1,1 +1,975 @@
-{}
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"d",
+				"discriminator"
+			],
+			[
+				"train",
+				"trainset"
+			],
+			[
+				"ima",
+				"image_size"
+			],
+			[
+				"image",
+				"image_shape"
+			],
+			[
+				"outpu",
+				"outputs_real"
+			],
+			[
+				"bina",
+				"binary_cross_entropy_batch_loss"
+			],
+			[
+				"a",
+				"accuracyD"
+			],
+			[
+				"acc",
+				"accuracyG"
+			],
+			[
+				"ac",
+				"accuracyG"
+			],
+			[
+				"loss",
+				"loss_real"
+			],
+			[
+				"label",
+				"labels_real"
+			],
+			[
+				"ru",
+				"running_lossD"
+			],
+			[
+				"dataloa",
+				"dataloader_size"
+			],
+			[
+				"data",
+				"dataset"
+			],
+			[
+				"ger",
+				"generator"
+			],
+			[
+				"ge",
+				"generator"
+			],
+			[
+				"optimi",
+				"optimizerD"
+			],
+			[
+				"Gener",
+				"Generator"
+			],
+			[
+				"Dis",
+				"Discriminator"
+			],
+			[
+				"la",
+				"latent_dim\tparam"
+			],
+			[
+				"dis",
+				"discriminator"
+			],
+			[
+				"re",
+				"ReLU"
+			],
+			[
+				"op",
+				"optimizer"
+			],
+			[
+				"epoc",
+				"epochs"
+			],
+			[
+				"wrt",
+				"writer"
+			],
+			[
+				"model",
+				"model_state"
+			],
+			[
+				"input",
+				"inputs"
+			],
+			[
+				"g",
+				"global"
+			],
+			[
+				"up",
+				"update_best"
+			],
+			[
+				"ar",
+				"args"
+			],
+			[
+				"gr",
+				"grid1"
+			],
+			[
+				"grid",
+				"grid2"
+			],
+			[
+				"im",
+				"imshow"
+			],
+			[
+				"wri",
+				"write_images_to_tensorboard"
+			],
+			[
+				"global",
+				"global_step"
+			],
+			[
+				"lo",
+				"LOGP"
+			],
+			[
+				"sam",
+				"sample_size"
+			],
+			[
+				"mse",
+				"mse_loss"
+			],
+			[
+				"epo",
+				"epoch"
+			],
+			[
+				"IMPOR",
+				"import\tkeyword"
+			],
+			[
+				"num",
+				"numpy"
+			],
+			[
+				"plot",
+				"plot_latent_space"
+			],
+			[
+				"enco",
+				"encoded_images"
+			],
+			[
+				"e",
+				"encoded_images"
+			],
+			[
+				"nu",
+				"numBatches"
+			],
+			[
+				"test",
+				"testset"
+			],
+			[
+				"dec",
+				"decoded_z"
+			],
+			[
+				"pa",
+				"padding\tparam"
+			],
+			[
+				"kernel",
+				"kernel_size=2"
+			],
+			[
+				"bis",
+				"bias=False"
+			],
+			[
+				"bias",
+				"bias=False"
+			],
+			[
+				"stride",
+				"stride=2"
+			],
+			[
+				"latent",
+				"latent_dim"
+			],
+			[
+				"batch",
+				"batch_size"
+			],
+			[
+				"bat",
+				"batch_idx\tstatement"
+			],
+			[
+				"log",
+				"log_interval"
+			],
+			[
+				"run",
+				"running_loss"
+			],
+			[
+				"batc",
+				"batch_size"
+			],
+			[
+				"net",
+				"network"
+			],
+			[
+				"for",
+				"format\tfunction"
+			],
+			[
+				"line",
+				"linear1"
+			],
+			[
+				"D",
+				"DCVAE"
+			],
+			[
+				"el",
+				"elbo_loss_function"
+			],
+			[
+				"z_m",
+				"z_log_sigma2"
+			],
+			[
+				"con",
+				"conv_block2"
+			],
+			[
+				"l",
+				"z_log_sigma2"
+			],
+			[
+				"lin",
+				"linear2"
+			],
+			[
+				"out",
+				"outputs"
+			],
+			[
+				"app",
+				"append"
+			],
+			[
+				"fig",
+				"figure_number"
+			],
+			[
+				"imag",
+				"image_number"
+			],
+			[
+				"da",
+				"dataset"
+			],
+			[
+				"I",
+				"ISBI2012Dataset\tclass"
+			],
+			[
+				"in",
+				"in_chan\tparam"
+			],
+			[
+				"tcon",
+				"tconv5\tstatement"
+			],
+			[
+				"times",
+				"times_ratios"
+			],
+			[
+				"time",
+				"times_cholesky"
+			],
+			[
+				"all",
+				"allclose"
+			],
+			[
+				"back",
+				"backward_substitution"
+			],
+			[
+				"lu",
+				"lup_decomposition"
+			],
+			[
+				"tra",
+				"transpose\tfunction"
+			],
+			[
+				"as",
+				"astype"
+			],
+			[
+				"idx",
+				"idx_max"
+			],
+			[
+				"arg",
+				"argmax\tfunction"
+			],
+			[
+				"id",
+				"identity\tfunction"
+			],
+			[
+				"ba",
+				"backward_substitution"
+			],
+			[
+				"mati",
+				"matrix_shape"
+			],
+			[
+				"matrix",
+				"matrix_shape"
+			],
+			[
+				"tri",
+				"triangular"
+			],
+			[
+				"ke",
+				"kernel_size"
+			],
+			[
+				"trai",
+				"trainset"
+			],
+			[
+				"para",
+				"parameters"
+			],
+			[
+				"lab",
+				"labels"
+			],
+			[
+				"pred",
+				"predicted"
+			],
+			[
+				"datae",
+				"dataset"
+			],
+			[
+				"tes",
+				"testset"
+			],
+			[
+				"si",
+				"size"
+			],
+			[
+				"tor",
+				"torch\tmodule"
+			],
+			[
+				"sampl",
+				"samples"
+			],
+			[
+				"R",
+				"Resize"
+			],
+			[
+				"Pro",
+				"Probabilidades"
+			],
+			[
+				"VA",
+				"Variables"
+			],
+			[
+				"key",
+				"key2"
+			],
+			[
+				"di",
+				"divergencia"
+			],
+			[
+				"var",
+				"variable"
+			],
+			[
+				"varia",
+				"variable"
+			],
+			[
+				"va",
+				"variable"
+			],
+			[
+				"V",
+				"Value"
+			],
+			[
+				"M",
+				"ML_P"
+			],
+			[
+				"cl",
+				"calcular_probabilidades_modelo_lineal"
+			],
+			[
+				"vari",
+				"variable_1"
+			],
+			[
+				"MP",
+				"ML_P"
+			],
+			[
+				"est",
+				"estimar_modelo_independiente"
+			],
+			[
+				"pro",
+				"probabilidad_conjunta_modelo_lineal"
+			],
+			[
+				"Pr",
+				"Probability"
+			],
+			[
+				"Proba",
+				"probability"
+			],
+			[
+				"o",
+				"observation"
+			],
+			[
+				"varibl",
+				"variable"
+			],
+			[
+				"number",
+				"number_of_ones"
+			],
+			[
+				"generar",
+				"generar_datos_modelo_lineal"
+			],
+			[
+				"max",
+				"MAX"
+			],
+			[
+				"rip",
+				"ripserOut"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "network.py",
+			"settings":
+			{
+				"buffer_size": 4311,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "train.py",
+			"settings":
+			{
+				"buffer_size": 16450,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "imshow.py",
+			"settings":
+			{
+				"buffer_size": 381,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"anacon",
+				"Build With: Anaconda Python Builder"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"control in",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 136.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/dcgan-celeba"
+	],
+	"file_history":
+	[
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/train.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/unet.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/train.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/network.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/dcvae-mnist/train.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/dcvae-mnist/network.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/dcvae-mnist/best/best_step=167.pt",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/vae_conv/mvae_conv.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/vae_conv/mvae_conv_model.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/vae_conv/vae_conv_mnist.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/dcvae-mnist/dcvae-mnist.sublime-project",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/unet_mnist.sublime-project",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/conv-mnist/train.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/conv-mnist/network.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/unet-mnist/network.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/unet-mnist/train.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/dcvae-mnist/datasets.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/datasets.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/imshow.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/unet-biomedical.sublime-project",
+		"/D/Users/Francisco/Documents/Programming/AnalisisDeAlgoritmos/Tarea3/mst-prim.py",
+		"/D/Users/Francisco/Documents/Programming/Métodos Numéricos/Tarea 1/chopNDigits.cpp",
+		"/D/Users/Francisco/Documents/Programming/Métodos Numéricos/Tarea 7/SVD.cpp",
+		"/D/Users/Francisco/Documents/Programming/Métodos Numéricos/Tarea 13/finiteDiference.cpp",
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/datasets.py",
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/data.py",
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/unet-biomedical.sublime-project",
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/unet_mnist.sublime-project",
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/datasets.py",
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/imshow.py",
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/train.py",
+		"/home/d709/Documents/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/network.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Computo_Cientifico/Tarea_1/factorization.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Computo_Cientifico/computo_cientifico.sublime-project",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Computo_Cientifico/Tarea_1/compare.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Computo_Cientifico/Tarea_1/substitution.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Computo_Cientifico/Tarea_1/solve_system.py",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/levels/level_scratch/Level_Demo.tscn",
+		"/D/Users/Francisco/Documents/Programming/Métodos Numéricos/Tarea 7/outputA.txt",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/unet-mnist/imshow.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/unet-mnist/datasets.py",
+		"/D/Users/Francisco/Downloads/torchTest.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/conv-mnist/imshow.py",
+		"/D/Users/Francisco/Downloads/main.c",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/controllers/ai_controller/states/combat/attackobject.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/controllers/user_controller/UserController.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/characters/enemy/Enemy.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/characters/player/Player.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/characters/friend/Friend.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/controllers/ai_controller/states/defend/defendfriend.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/controllers/ai_controller_explosive/Chase_Explosive.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/controllers/ai_controller_explosive/Explode_Explosive.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/controllers/ai_controller_ranged/Aim_Ranged.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/controllers/ai_controller_ranged/Idle_Ranged.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/controllers/ai_controller_ranged/RunFromIT_Ranged.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/controllers/ai_controller_ranged/LookForAngle_Ranged.gd",
+		"/D/Users/Francisco/Downloads/description.txt",
+		"/D/Users/Francisco/Downloads/hp.txt",
+		"/F/data/chocolate/chocolate-doom.cfg",
+		"/F/data/chocolate/strife.cfg",
+		"/F/data/chocolate/default.cfg",
+		"/D/Users/Francisco/Documents/Programming/Propedeutico_Maestria/Modelos_Graficos/modelos_graficos.py",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/resources/tile_sets/outdoor/outdoor.tres",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/interface/menu/Menu.tscn",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/levels/prototype_demo/Interaction.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/resources/tile_sets/outdoor/interaction.tres",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/characters/enemy/RangeQLO/Aim_RangeQLO.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/characters/enemy/RangeQLO/Idle_RangeQLO.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/characters/enemy/RangeQLO/RangeQLO.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/levels/horde_demo/Horde_Demo.tscn",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/levels/prototype_demo/Prototype_Demo.tscn",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/pawn/Pawn.tscn",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/pawn/states/action/throw.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/pawn/Pawn.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/characters/friend/Friend.tscn",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/characters/friend/big_friend/BigFriend.tscn",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/characters/enemy/Enemy.tscn",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/characters/enemy/minion/Minion.tscn",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/characters/player/Player.tscn",
+		"/C/Users/fcova/AppData/Local/Temp/scp56635/home/pi/Downloads/kalibrate-rtl/src/circular_buffer.cc",
+		"/C/Users/fcova/AppData/Local/Temp/scp53858/home/pi/Downloads/kalibrate-rtl/src/fcch_detector.cc",
+		"/C/Users/fcova/AppData/Local/Temp/scp40860/home/pi/Downloads/kalibrate-rtl/src/c0_detect.cc",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/pawn/states/action/attack.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/controllers/ai_controller/states/combat/combat.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/autoload/global_constants.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/default_env.tres",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/debug/StatesStackDiplayer.tscn",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/pawn/pawn_state_machine.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/pawn/states/action/stagger.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/pawn/throw_spawn.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/levels/Prototype_Demo.gd",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/resources/tile_sets/outdoor.tres",
+		"/D/Users/Francisco/Documents/Programming/Misc/c_to_assembly/c_to_assembly.cpp",
+		"/D/Users/Francisco/Documents/Programming/Misc/c_to_assembly/c_to_assembly.s",
+		"/D/Users/Francisco/Documents/Programming/Misc/gsm/kalibrate_output.txt",
+		"/D/Users/Francisco/Documents/Paper Work/General/RFC.txt",
+		"/D/Users/Francisco/Documents/Programming/Misc/net_stop_audiosrv.txt",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/ActionRPG-Ideas.txt",
+		"/D/Users/Francisco/Documents/Programming/Misc/gsm/gsm.py",
+		"/D/Users/Francisco/Documents/Programming/Misc/ackerman_function/ackerman.s",
+		"/D/Users/Francisco/Documents/Programming/Misc/ackerman.cpp",
+		"/F/boot/grub/grub.cfg",
+		"/D/Users/Francisco/Documents/GitHub/Action-RPG-Godot/art/tilesets/outdoor.tres",
+		"/D/Users/Francisco/Documents/GitHub/Godot-engine-tutorial-demos/2018/03-16-camera-2d-rig/end/characters/player.gd",
+		"/D/Users/Francisco/Documents/Materias/Matematicas/Probabilidad I/Proyecto Final/markov-generator.py",
+		"/D/Users/Francisco/Documents/Materias/Matematicas/Probabilidad I/Proyecto Final/genetic_algorithm.py",
+		"/D/Users/Francisco/Documents/Programming/Learning/testTensorflow.py",
+		"/D/Users/Francisco/Documents/Programming/Learning/tensorflowVersion.py",
+		"/D/Users/Francisco/Documents/Programming/Learning/Keras/kerasTutorial.py",
+		"/D/Users/Francisco/Documents/Programming/Learning/Keras/fashionMNIST.py",
+		"/C/Users/fcova/.keras/datasets/spa-eng/spa.txt",
+		"/D/Users/Francisco/Documents/GitHub/Godot-engine-tutorial-demos/2018/04-24-finite-state-machine/player/states/motion/motion.gd",
+		"/D/Users/Francisco/Documents/Programming/Learning/Keras/fashinMINST.py",
+		"/C/Users/fcova/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/francisco/Documents/keras/kerasTutorial.py",
+		"/C/Users/fcova/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/francisco/Documents/gymO.py",
+		"/D/Users/Francisco/Downloads/toro_bandas.R",
+		"/D/Users/Francisco/Downloads/GIL.R",
+		"/C/Users/fcova/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/francisco/.kaggle/kaggle.json",
+		"/D/Users/Francisco/Documents/GitHub/RipserOnR/Ripser.R",
+		"/D/Users/Francisco/Documents/GitHub/RipserOnR/Makefile",
+		"/C/Users/fcova/AppData/Local/Temp/RtmpGQYYmT/filebe475d91848",
+		"/D/Users/Francisco/Documents/GitHub/RipserOnR/ripser.cpp",
+		"/C/Users/fcova/AppData/Local/Temp/Rtmp48403q/file13b05bcf4752",
+		"/D/Users/Francisco/Documents/GitHub/RipserOnR/output.txt",
+		"/D/Users/Francisco/Documents/GitHub/RipserOnR/README.md"
+	],
+	"find":
+	{
+		"height": 28.0
+	},
+	"find_in_files":
+	{
+		"height": 104.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"randn",
+			"sqrt",
+			"initialize",
+			"32",
+			"64",
+			"leaky_relu",
+			"16",
+			"32",
+			"16",
+			"32",
+			"64",
+			"32",
+			"64",
+			"0.5, 0.5)",
+			"0.5, 0.5",
+			"ransforms.ToTensor(),",
+			"ReLU",
+			"8",
+			"1024",
+			"128",
+			"trainset[0]",
+			"args.image_shape",
+			".to(args.device)",
+			"binary_cross_entropy_batch_loss",
+			"real",
+			" = 0.",
+			" = ",
+			"grid2",
+			"print(",
+			"D",
+			".item()",
+			"real",
+			"Adam(args.net.parameters(), lr=1e-3)",
+			"images",
+			"random",
+			")",
+			"self.up",
+			"down",
+			"f.li",
+			"linear",
+			"lf.con",
+			"lf.conv_b",
+			"image_size",
+			"VAE",
+			"vae",
+			"VAE",
+			"vae"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"BC"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "network.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4311,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3052,
+								3052
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1223.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "train.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16450,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13241,
+								13241
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 6847.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "imshow.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 381,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								200,
+								200
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "dcgan-celeba.sublime-project",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 163.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -89,10 +89,8 @@ def train(trainset):
 
     # Define optimizer
     if args.optimizer == 'adam':
-        optimizerD = optim.Adam(args.discriminator.parameters(),
-                                lr=1e-3, betas=(0.5, 0.999))
-        optimizerG = optim.Adam(args.generator.parameters(),
-                                lr=1e-3, betas=(0.5, 0.999))
+        optimizerD = optim.Adam(args.discriminator.parameters(), lr=1e-3)
+        optimizerG = optim.Adam(args.generator.parameters(), lr=1e-3)
     elif args.optimizer == 'sgd':
         optimizerD = optim.SGD(args.discriminator.parameters(),
                                lr=0.01, momentum=0.9)
