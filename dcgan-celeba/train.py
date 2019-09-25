@@ -94,9 +94,6 @@ def train(trainset):
         imshow(grid)
         args.writer.add_image('sample-train', grid)
 
-    # Add net to tensorboard
-    args.writer.add_graph(args.discriminator, images)
-
     # Define optimizer
     if args.optimizer == 'adam':
         args.optimizerD = optim.Adam(args.discriminator.parameters(),
