@@ -78,7 +78,7 @@ class ConvolutionalGenerator(nn.Module):
         if type(module) == nn.Conv2d or \
            type(module) == nn.ConvTranspose2d or \
            type(module) == nn.Linear:
-            torch.nn.init.normal_(module.weight, mean=0.0, std=.5)
+            torch.nn.init.normal_(module.weight, mean=0.0, std=.02)
 
 
 class ConvolutionalDiscriminator(nn.Module):
@@ -120,4 +120,4 @@ class ConvolutionalDiscriminator(nn.Module):
         if type(module) == nn.Conv2d or \
            type(module) == nn.ConvTranspose2d or \
            type(module) == nn.Linear:
-            torch.nn.init.normal_(module.weight, mean=0.0, std=.5)
+            torch.nn.init.normal_(module.weight, mean=0.0, std=.02)

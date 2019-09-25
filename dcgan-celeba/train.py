@@ -187,12 +187,6 @@ def train_update_net(network, inputs, optimizer):
             loss_real = F.binary_cross_entropy(outputs_real, labels_real)
             loss_real.backward()
 
-            # update weights
-            optimizer.step()
-
-            # zero the parameter gradients
-            optimizer.zero_grad()
-
             # Update discriminator with fake data
             labels_fake = torch.zeros(args.batch_size).to(args.device)
 
@@ -275,8 +269,6 @@ def update_best(inputs, outputs, loss, global_step):
 
     # Write tensorboard statistics
     args.writer.add_scalar('Best/loss', loss.item(), global_step)
-    args.writer.add_scalar('Best/mse', F.mse_loss(outputs, inputs),
-                           global_step)
 
     # Add tensorboard images
     write_images_to_tensorboard(inputs, outputs, global_step,
