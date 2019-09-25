@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import shutil
 import argparse
 from datetime import datetime
 
@@ -18,7 +17,7 @@ from network import *
 from imshow import *
 
 # Parser arguments
-parser = argparse.ArgumentParser(description='PyTorch DCGAN with CelebA')
+parser = argparse.ArgumentParser(description='Train PyTorch DCGAN with CelebA')
 parser.add_argument('--train-percentage', '--t',
                     type=float, default=.2, metavar='N',
                     help='porcentage of the training set to use (default: .2)')
@@ -246,32 +245,6 @@ def train_update_net(network, inputs, optimizer):
         return outputs, loss.item()
 
 
-def test(testset):
-    test_loader = torch.utils.data.DataLoader(testset,
-                                              batch_size=args.batch_size,
-                                              shuffle=True)
-    # Test network
-    dataiter = iter(test_loader)
-    images, labels = dataiter.next()
-    images = images.to(args.device)
-
-    # Add net to tensorboard
-    args.writer.add_graph(args.net, images)
-
-    # Forward through network
-    outputs, mu, logvar = args.net(images)
-
-    # Show autoencoder fit and random latent decoded
-    if args.plot:
-        write_images_to_tensorboard(images, outputs,
-                                    global_step=None,
-                                    step=False)
-
-    # Plot latent space
-    if args.latent_dim == 2 and args.plot:
-        plot_latent_space(dataiter, images, labels, args)
-
-
 def restore_checkpoint():
     if args.checkpoint == 'none':
         return
@@ -354,9 +327,6 @@ def main():
     # Save parameters in string to name the execution
     args.run = create_run_name()
 
-    # Remove previous run folder
-    shutil.rmtree('runs/' + args.run, ignore_errors=True)
-
     # Tensorboard summary writer
     args.writer = SummaryWriter('runs/' + args.run)
 
@@ -369,9 +339,6 @@ def main():
         args.device = torch.device('cuda:0'
                                    if torch.cuda.is_available()
                                    else 'cpu')
-
-    # Number of steps to train discriminator
-    args.discriminator_train_steps = 1
 
     # Assuming that we are on a CUDA machine, this should print a CUDA device:
     print(args.device)
@@ -435,9 +402,6 @@ def main():
 
     # Train network
     train(trainset)
-
-    # Test the trained model
-    # test(testset)
 
     # Close tensorboard writer
     args.writer.close()
