@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import argparse
+import math
 from datetime import datetime
 
 import torch
-import torch.optim as optim
-from torch.utils.tensorboard import SummaryWriter
 
 import torchvision
 import torchvision.transforms as transforms
@@ -38,6 +37,9 @@ parser.add_argument('--dataset', '--data',
                     default='celeba',
                     choices=['celeba', 'mnist', 'fashion-mnist'],
                     help='pick a specific dataset (default: "celeba")')
+parser.add_argument('--sample-size', '--s',
+                    type=int, default=16, metavar='N',
+                    help='sample size for generating images (default: 16)')
 parser.add_argument('--plot', '--p',
                     action='store_true',
                     help='plot dataset sample')
@@ -54,36 +56,34 @@ def test(testset):
                                               batch_size=args.batch_size,
                                               shuffle=True)
 
+    # get some random testing images
+    dataiter = iter(test_loader)
+
     # Show sample of images
     if args.plot:
-        # get some random training images
-        dataiter = iter(train_loader)
         images, _ = dataiter.next()
 
         # Image range from (-1,1) to (0,1)
         grid = torchvision.utils.make_grid(0.5 * (images + 1.0))
         imshow(grid)
-        args.writer.add_image('sample-test', grid)
 
     # Restore past checkpoint
     restore_checkpoint()
 
     # Test network
-    dataiter = iter(test_loader)
     images, labels = dataiter.next()
     images = images.to(args.device)
 
-    # Add net to tensorboard
-    args.writer.add_graph(args.net, images)
-
-    # Forward through network
-    outputs, mu, logvar = args.net(images)
-
     # Show autoencoder fit and random latent decoded
     if args.plot:
-        write_images_to_tensorboard(images, outputs,
-                                    global_step=None,
-                                    step=False)
+        # Current quality of generated random images
+        sample = torch.randn(args.sample_size, args.latent_dim).to(args.device)
+
+        # Image range from (-1,1) to (0,1)
+        generated_sample = 0.5 * (args.generator(sample).cpu() + 1.0)
+        grid = torchvision.utils.make_grid(
+            generated_sample, nrow=int(math.sqrt(args.sample_size)))
+        imshow(grid)
 
     # Plot latent space
     if args.latent_dim == 2 and args.plot:
@@ -98,11 +98,13 @@ def restore_checkpoint():
     checkpoint = torch.load(args.checkpoint)
     print('Restored weights from {}.'.format(args.checkpoint))
 
-    # Restore past checkpoint
+    # Restore past checkpoint for inference
     args.generator.load_state_dict(checkpoint['generator_state_dict'])
     args.discriminator.load_state_dict(checkpoint['discriminator_state_dict'])
-    args.optimizerG.load_state_dict(checkpoint['optimizerG_state_dict'])
-    args.optimizerD.load_state_dict(checkpoint['optimizerD_state_dict'])
+
+    # To do inference
+    args.generator.eval()
+    args.discriminator.eval()
 
 
 def process_checkpoint(lossG, global_step):
@@ -169,12 +171,6 @@ def create_run_name():
 
 
 def main():
-    # Save parameters in string to name the execution
-    args.run = create_run_name()
-
-    # Tensorboard summary writer
-    args.writer = SummaryWriter('runs/' + args.run)
-
     # Printing parameters
     torch.set_printoptions(precision=10)
     torch.set_printoptions(edgeitems=5)
@@ -247,9 +243,6 @@ def main():
 
     # Test the trained model
     test(testset)
-
-    # Close tensorboard writer
-    args.writer.close()
 
 
 if __name__ == "__main__":

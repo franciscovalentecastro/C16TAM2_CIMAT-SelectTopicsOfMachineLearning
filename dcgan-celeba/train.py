@@ -83,16 +83,19 @@ def train(trainset):
     args.dataset_size = len(train_loader.dataset)
     args.dataloader_size = len(train_loader)
 
+    # get some random training images
+    dataiter = iter(train_loader)
+    images, _ = dataiter.next()
+
     # Show sample of images
     if args.plot:
-        # get some random training images
-        dataiter = iter(train_loader)
-        images, _ = dataiter.next()
-
         # Image range from (-1,1) to (0,1)
         grid = torchvision.utils.make_grid(0.5 * (images + 1.0))
         imshow(grid)
         args.writer.add_image('sample-train', grid)
+
+    # Add net to tensorboard
+    args.writer.add_graph(args.discriminator, images)
 
     # Define optimizer
     if args.optimizer == 'adam':
@@ -259,6 +262,10 @@ def restore_checkpoint():
     args.optimizerG.load_state_dict(checkpoint['optimizerG_state_dict'])
     args.optimizerD.load_state_dict(checkpoint['optimizerD_state_dict'])
 
+    # To continue training
+    args.generator.train()
+    args.discriminator.train()
+
 
 def process_checkpoint(lossG, global_step):
 
@@ -314,6 +321,7 @@ def create_run_name():
     run = '{}={}'.format('nw', args.network)
     run += '_{}={}'.format('ds', args.dataset)
     run += '_{}={}'.format('ld', args.latent_dim)
+    run += '_{}={}'.format('fl', args.filters)
     run += '_{}={}'.format('op', args.optimizer)
     run += '_{}={}'.format('ep', args.epochs)
     run += '_{}={}'.format('bs', args.batch_size)

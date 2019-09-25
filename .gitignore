@@ -22,3 +22,8 @@ dcgan-celeba/runs/nw=gan_ds=mnist_ld=10_op=adam_ep=15_bs=4_tp=1.0/events.out.tfe
 *.sublime-workspace
 dcgan-celeba/dcgan-celeba.sublime-workspace
 *.sublime-workspace
+*.pt
+*.2
+*.1
+*.sublime-workspace
+dcgan-celeba/dcgan-celeba.sublime-workspace
