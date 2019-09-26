@@ -5,7 +5,7 @@ import math
 from datetime import datetime
 
 import torch
-
+from torchsummary import summary
 import torchvision
 import torchvision.transforms as transforms
 
@@ -15,7 +15,8 @@ from imshow import *
 
 # Parser arguments
 parser = argparse.ArgumentParser(description='Test PyTorch DCGAN with CelebA')
-parser.add_argument('checkpoint',
+parser.add_argument('--checkpoint', '--check',
+                    default='none',
                     help='path to checkpoint to be restored for inference')
 parser.add_argument('--batch-size', '--b',
                     type=int, default=16, metavar='N',
@@ -40,6 +41,12 @@ parser.add_argument('--dataset', '--data',
 parser.add_argument('--sample-size', '--s',
                     type=int, default=16, metavar='N',
                     help='sample size for generating images (default: 16)')
+parser.add_argument('--summary', '--sm',
+                    action='store_true',
+                    help='show summary of model')
+parser.add_argument('--no-summary', '--nsm',
+                    dest='summary', action='store_false',
+                    help='do not summary of model')
 parser.add_argument('--plot', '--p',
                     action='store_true',
                     help='plot dataset sample')
@@ -94,17 +101,18 @@ def restore_checkpoint():
     if args.checkpoint == 'none':
         return
 
-    # Load provided checkpoint
-    checkpoint = torch.load(args.checkpoint)
-    print('Restored weights from {}.'.format(args.checkpoint))
+    with torch.no_grad():
+        # Load provided checkpoint
+        checkpoint = torch.load(args.checkpoint)
+        print('Restored weights from {}.'.format(args.checkpoint))
 
-    # Restore past checkpoint for inference
-    args.generator.load_state_dict(checkpoint['generator_state_dict'])
-    args.discriminator.load_state_dict(checkpoint['discriminator_state_dict'])
+        # Restore past checkpoint for inference
+        args.generator.load_state_dict(checkpoint['generator_state_dict'])
+        args.discriminator.load_state_dict(checkpoint['discriminator_state_dict'])
 
-    # To do inference
-    args.generator.eval()
-    args.discriminator.eval()
+        # To do inference
+        args.generator.eval()
+        args.discriminator.eval()
 
 
 def process_checkpoint(lossG, global_step):
@@ -238,11 +246,19 @@ def main():
     args.discriminator = discriminator.to(args.device)
     args.generator = generator.to(args.device)
 
-    print(args.discriminator)
-    print(args.generator)
+    # Show summary of model
+    if args.summary:
+        print("Discriminator")
+        summary(args.discriminator, input_size=args.image_shape)
+        print()
 
-    # Test the trained model
-    test(testset)
+        print("Generator")
+        summary(args.generator, input_size=(args.latent_dim,))
+        print()
+
+    # Test the trained model if provided
+    if args.checkpoint != 'none':
+        test(testset)
 
 
 if __name__ == "__main__":
