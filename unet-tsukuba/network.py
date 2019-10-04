@@ -71,7 +71,6 @@ class UNet(nn.Module):
     def conv_block(self, in_chan, out_chan, **kwargs):
         return nn.Sequential(
             nn.Conv2d(in_channels=in_chan, out_channels=out_chan, **kwargs),
-            nn.BatchNorm2d(out_chan),
             nn.LeakyReLU(),
             nn.Conv2d(in_channels=out_chan, out_channels=out_chan, **kwargs),
             nn.BatchNorm2d(out_chan),
