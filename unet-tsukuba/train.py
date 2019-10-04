@@ -37,7 +37,7 @@ parser.add_argument('--device', '--d',
                     help='pick device to run the training (defalut: "cpu")')
 parser.add_argument('--network', '--n',
                     default='unet',
-                    choices=['unet'],
+                    choices=['unet', 'unet-disp'],
                     help='pick a specific network to train (default: unet)')
 parser.add_argument('--image-shape', '--imshape',
                     type=int, nargs='+',
@@ -61,9 +61,9 @@ parser.add_argument('--checkpoint', '--check',
 parser.add_argument('--plot', '--p',
                     action='store_true',
                     help='plot dataset sample')
-parser.add_argument('--no-plot', '--np',
-                    dest='plot', action='store_false',
-                    help='do not plot dataset sample')
+parser.add_argument('--summary', '--sm',
+                    action='store_true',
+                    help='show summary of model')
 args = parser.parse_args()
 print(args)
 
@@ -222,7 +222,8 @@ def process_checkpoint(loss, targets, outputs, global_step):
         args.writer.add_scalar('Best/loss', loss, global_step)
 
         # Save best generation image
-        write_images_to_tensorboard(targets, outputs, global_step, best=True)
+        write_images_to_tensorboard(targets, outputs, global_step,
+                                    best=True)
 
     # Save current checkpoint
     torch.save({
@@ -265,6 +266,9 @@ def main():
     # Save parameters in string to name the execution
     args.run = create_run_name()
 
+    # print run name
+    print('execution name : {}'.format(args.run))
+
     # Tensorboard summary writer
     args.writer = SummaryWriter('runs/' + args.run)
 
@@ -279,7 +283,8 @@ def main():
                                    else 'cpu')
 
     # Assuming that we are on a CUDA machine, this should print a CUDA device:
-    print(args.device)
+    # Dataset information
+    print('device : {}'.format(args.device))
 
     # Set dataset transform
     transform = transforms.Compose([
@@ -296,11 +301,15 @@ def main():
     if args.network == 'unet':
         # Add 6 color channels (left + right)
         net = UNet([6] + args.image_shape, args.filters)
+    elif args.network == 'unet-disp':
+        # Add 6 color channels (left + right)
+        net = UNet_Disparity([6] + args.image_shape, args.filters)
 
     # Send networks to device
     args.net = net.to(args.device)
 
-    print(args.net)
+    if args.summary:
+        print(args.net)
 
     # Train network
     train(trainset)

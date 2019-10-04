@@ -13,54 +13,35 @@ class UNet(nn.Module):
         f = self.f = filters
 
         # Level 1
-        self.left_conv_block1 = self.conv_block(self.c, f,
-                                                kernel_size=3,
-                                                padding=1)
+        self.left_conv_block1 = self.conv_block(self.c, f)
         self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.right_conv_block1 = self.conv_block(f * 2, f,
-                                                 kernel_size=3,
-                                                 padding=1)
-        self.conv_output = nn.Conv2d(in_channels=f, out_channels=1,
-                                     kernel_size=1, padding=0)
+        self.right_conv_block1 = self.conv_block(f * 2, f)
+        self.conv_output = nn.Conv2d(f, 1, kernel_size=1, padding=0)
 
         # Level 2
-        self.left_conv_block2 = self.conv_block(f, f * 2,
-                                                kernel_size=3,
-                                                padding=1)
+        self.left_conv_block2 = self.conv_block(f, f * 2)
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.right_conv_block2 = self.conv_block(f * 4, f * 2,
-                                                 kernel_size=3,
-                                                 padding=1)
+        self.right_conv_block2 = self.conv_block(f * 4, f * 2)
         self.tconv2 = nn.ConvTranspose2d(f * 2, f, kernel_size=2, stride=2)
 
         # Level 3
-        self.left_conv_block3 = self.conv_block(f * 2, f * 4,
-                                                kernel_size=3,
-                                                padding=1)
+        self.left_conv_block3 = self.conv_block(f * 2, f * 4)
         self.pool3 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.right_conv_block3 = self.conv_block(f * 8, f * 4,
-                                                 kernel_size=3,
-                                                 padding=1)
+        self.right_conv_block3 = self.conv_block(f * 8, f * 4)
         self.tconv3 = nn.ConvTranspose2d(f * 4, f * 2, kernel_size=2, stride=2)
 
         # Level 4
-        self.left_conv_block4 = self.conv_block(f * 4, f * 8,
-                                                kernel_size=3,
-                                                padding=1)
+        self.left_conv_block4 = self.conv_block(f * 4, f * 8)
         self.pool4 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.right_conv_block4 = self.conv_block(f * 16, f * 8,
-                                                 kernel_size=3,
-                                                 padding=1)
+        self.right_conv_block4 = self.conv_block(f * 16, f * 8)
         self.tconv4 = nn.ConvTranspose2d(f * 8, f * 4, kernel_size=2, stride=2)
 
         # Level 5 (BottleNeck)
-        self.left_conv_block5 = self.conv_block(f * 8, f * 16,
-                                                kernel_size=3,
-                                                padding=1)
+        self.left_conv_block5 = self.conv_block(f * 8, f * 16)
         self.tconv5 = nn.ConvTranspose2d(f * 16, f * 8,
                                          kernel_size=2,
                                          stride=2)
@@ -70,9 +51,11 @@ class UNet(nn.Module):
 
     def conv_block(self, in_chan, out_chan, **kwargs):
         return nn.Sequential(
-            nn.Conv2d(in_channels=in_chan, out_channels=out_chan, **kwargs),
+            nn.Conv2d(in_channels=in_chan, out_channels=out_chan,
+                      kernel_size=3, padding=1),
             nn.LeakyReLU(),
-            nn.Conv2d(in_channels=out_chan, out_channels=out_chan, **kwargs),
+            nn.Conv2d(in_channels=out_chan, out_channels=out_chan,
+                      kernel_size=3, padding=1),
             nn.BatchNorm2d(out_chan),
             nn.LeakyReLU()
         )
@@ -135,163 +118,71 @@ class UNet(nn.Module):
         x9 = self.right_conv_block1(x9)
         x_out = torch.tanh(self.conv_output(x9))
 
-        # print(x.size())
-        # print(x1.size())
-        # print(x2.size())
-        # print(x3.size())
-        # print(x4.size())
-        # print(x5.size())
-        # print(x6.size())
-        # print(x7.size())
-        # print(x8.size())
-        # print(x9.size())
-
         return x_out
 
-    def num_flat_features(self, x):
-        size = x.size()[1:]  # all dimensions except the batch dimension
-        num_features = 1
-        for s in size:
-            num_features *= s
-        return num_features
 
+class UNet_Disparity(nn.Module):
 
-class Generator(nn.Module):
-
-    def __init__(self, latent_dim, image_shape):
-        super(Generator, self).__init__()
+    def __init__(self, image_shape, filters=8):
+        super(UNet_Disparity, self).__init__()
         self.c, self.h, self.w = image_shape
+        self.f = filters
 
-        self.up_linear1 = nn.Linear(latent_dim, 1024)
-        self.up_linear2 = nn.Linear(1024, self.c * self.h * self.w)
+        # Left image conv block
+        self.left = self.conv_block(self.c // 2, self.c // 2)
 
-    def generate(self, x):
-        h1 = F.leaky_relu(self.up_linear1(x))
-        h2 = torch.tanh(self.up_linear2(h1))
-        return h2.view(-1, self.c, self.h, self.w)
+        # Right image conv block
+        self.right = self.conv_block(self.c // 2, self.c // 2)
 
-    def forward(self, x):
-        return self.generate(x)
-
-
-class Discriminator(nn.Module):
-
-    def __init__(self, image_shape):
-        super(Discriminator, self).__init__()
-        self.c, self.h, self.w = image_shape
-
-        self.down_linear1 = nn.Linear(self.c * self.h * self.w, 1024)
-        self.down_linear2 = nn.Linear(1024, 1)
-
-    def discriminate(self, x):
-        x = x.view(-1, self.c * self.h * self.w)
-        h1 = F.leaky_relu(self.down_linear1(x))
-        h2 = torch.sigmoid(self.down_linear2(h1))
-        return h2.view(-1)
-
-    def forward(self, x):
-        return self.discriminate(x)
-
-
-class ConvolutionalGenerator(nn.Module):
-
-    def __init__(self, latent_dim, image_shape, filters):
-        super(ConvolutionalGenerator, self).__init__()
-        ld = self.ld = latent_dim
-        f = self.f = filters
-        self.c, self.h, self.w = image_shape
-
-        # Generator
-        self.up_conv_block1 = \
-            self.up_conv_block(ld, f * 8, 1, 0, 'relu', False)
-        self.up_conv_block2 = \
-            self.up_conv_block(f * 8, f * 4, 2, 1, 'relu', True)
-        self.up_conv_block3 = \
-            self.up_conv_block(f * 4, f * 2, 2, 1, 'relu', True)
-        self.up_conv_block4 = \
-            self.up_conv_block(f * 2, f, 2, 1, 'relu', True)
-        self.up_conv_block5 = \
-            self.up_conv_block(f, self.c, 2, 1, 'tanh', False)
+        # Unet to estimate disparity map
+        self.unet = UNet(image_shape, filters)
 
         # Intialize weights
         self.apply(self.initialize_weights)
 
-    def up_conv_block(self, in_chan, out_chan, stride=2, padding=1,
-                      activation='relu', batch_norm=True, **kwargs):
-        return nn.Sequential(
-            nn.ConvTranspose2d(in_channels=in_chan, out_channels=out_chan,
-                               kernel_size=4, stride=stride, padding=padding,
-                               **kwargs),
-            nn.BatchNorm2d(out_chan) if batch_norm else nn.Identity(),
-            nn.ReLU() if activation == 'relu' else nn.Tanh()
-        )
-
-    def generate(self, x):
-        x = x.view(-1, self.ld, 1, 1)
-        h1 = self.up_conv_block1(x)
-        h2 = self.up_conv_block2(h1)
-        h3 = self.up_conv_block3(h2)
-        h4 = self.up_conv_block4(h3)
-        h5 = self.up_conv_block5(h4)
-        return h5
-
-    def forward(self, x):
-        return self.generate(x)
-
-    def initialize_weights(self, module):
-        if type(module) == nn.Conv2d or \
-           type(module) == nn.ConvTranspose2d or \
-           type(module) == nn.Linear:
-            torch.nn.init.normal_(module.weight, mean=0.0, std=.02)
-            torch.nn.init.zeros_(module.bias)
-
-
-class ConvolutionalDiscriminator(nn.Module):
-
-    def __init__(self, image_shape, filters):
-        super(ConvolutionalDiscriminator, self).__init__()
-        self.c, self.h, self.w = image_shape
-        f = self.f = filters
-
-        # Discriminator
-        self.down_conv_block1 = \
-            self.down_conv_block(self.c, f, 2, 1, 'relu', False)
-        self.down_conv_block2 = \
-            self.down_conv_block(f, f * 2, 2, 1, 'relu', True)
-        self.down_conv_block3 = \
-            self.down_conv_block(f * 2, f * 4, 2, 1, 'relu', True)
-        self.down_conv_block4 = \
-            self.down_conv_block(f * 4, f * 8, 2, 1, 'relu', True)
-        self.down_conv_block5 = \
-            self.down_conv_block(f * 8, 1, 1, 0, 'sigmoid', False)
-
-        # Intialize weights
-        self.apply(self.initialize_weights)
-
-    def down_conv_block(self, in_chan, out_chan, stride=2, padding=1,
-                        activation='relu', batch_norm=True, **kwargs):
+    def conv_block(self, in_chan, out_chan, **kwargs):
         return nn.Sequential(
             nn.Conv2d(in_channels=in_chan, out_channels=out_chan,
-                      kernel_size=4, stride=stride, padding=padding,
-                      **kwargs),
-            nn.BatchNorm2d(out_chan) if batch_norm else nn.Identity(),
-            nn.LeakyReLU(0.2) if activation == 'relu' else nn.Sigmoid()
+                      kernel_size=3, padding=1),
+            nn.LeakyReLU(),
+            nn.Conv2d(in_channels=out_chan, out_channels=out_chan,
+                      kernel_size=3, padding=1),
+            nn.BatchNorm2d(out_chan),
+            nn.LeakyReLU()
         )
 
-    def discriminate(self, x):
-        h1 = self.down_conv_block1(x)
-        h2 = self.down_conv_block2(h1)
-        h3 = self.down_conv_block3(h2)
-        h4 = self.down_conv_block4(h3)
-        h5 = self.down_conv_block5(h4)
-        return h5.view(-1)
+    def initialize_weights(self, module):
+        if type(module) == nn.Conv2d or type(module) == nn.ConvTranspose2d:
+            input_dimension = module.in_channels \
+                * module.kernel_size[0] \
+                * module.kernel_size[1]
+            std_dev = math.sqrt(2.0 / float(input_dimension))
+            torch.nn.init.normal_(module.weight, mean=0.0, std=std_dev)
 
     def forward(self, x):
-        return self.discriminate(x)
 
-    def initialize_weights(self, module):
-        if type(module) == nn.Conv2d or \
-           type(module) == nn.ConvTranspose2d or \
-           type(module) == nn.Linear:
-            torch.nn.init.normal_(module.weight, mean=0.0, std=.02)
-            torch.nn.init.zeros_(module.bias)
+        # print(x.shape)
+
+        # Separate into left and right
+        left, right = torch.split(x, 3, dim=1)
+
+        # print(left.shape)
+        # print(right.shape)
+
+        # Pass through convolutional layers
+        left = self.left(left)
+        right = self.left(right)
+
+        # print(left.shape)
+        # print(right.shape)
+
+        # Pass left and right through UNet
+        x1 = torch.cat((left, right), dim=1)
+
+        # print(x1.shape)
+
+        # Pass through Unet
+        x_out = self.unet(x1)
+        # print(x_out.shape)
+
+        return x_out

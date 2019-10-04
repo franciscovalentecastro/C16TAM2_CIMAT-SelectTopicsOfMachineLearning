@@ -1,9 +1,8 @@
 import torch
 import torchvision
 
-import matplotlib.pyplot as plt
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 image_counter = 0
 
@@ -16,6 +15,7 @@ def imshow(img):
     npimg = img.detach().numpy()
     plt.figure(figsize=(12, 10))
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
+    plt.axis('off')
     filename = "imgs/savefig_{}.png".format(image_counter)
     plt.savefig(filename)
     plt.show()
