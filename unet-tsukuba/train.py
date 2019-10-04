@@ -242,9 +242,9 @@ def write_images_to_tensorboard(targets, outputs, global_step,
     if step:
         args.writer.add_image('Train/fit', grid, global_step)
     elif best:
-        args.writer.add_image('Best/generated', grid, global_step)
+        args.writer.add_image('Best/fit', grid, global_step)
     else:
-        args.writer.add_image('latent-random-sample-decoded', grid)
+        args.writer.add_image('fit', grid)
         imshow(grid)
 
 
