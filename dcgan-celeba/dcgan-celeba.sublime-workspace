@@ -4,16 +4,72 @@
 		"selected_items":
 		[
 			[
+				"sma",
+				"sample_size"
+			],
+			[
+				"gener",
+				"generator"
+			],
+			[
+				"ste",
+				"steps_before_best"
+			],
+			[
+				"F",
+				"False"
+			],
+			[
+				"bat",
+				"batch_norm"
+			],
+			[
+				"fil",
+				"filters\tparam"
+			],
+			[
+				"mod",
+				"module\tparam"
+			],
+			[
+				"ima",
+				"image_shape"
+			],
+			[
+				"c",
+				"channels"
+			],
+			[
+				"lat",
+				"latent_dim\tparam"
+			],
+			[
+				"input",
+				"input"
+			],
+			[
+				"labels",
+				"labels_fake"
+			],
+			[
+				"out",
+				"outputs_fake"
+			],
+			[
+				"mixed",
+				"mixed_2"
+			],
+			[
+				"gene",
+				"generator"
+			],
+			[
 				"d",
 				"discriminator"
 			],
 			[
 				"train",
 				"trainset"
-			],
-			[
-				"ima",
-				"image_size"
 			],
 			[
 				"image",
@@ -106,10 +162,6 @@
 			[
 				"model",
 				"model_state"
-			],
-			[
-				"input",
-				"inputs"
 			],
 			[
 				"g",
@@ -220,10 +272,6 @@
 				"batch_size"
 			],
 			[
-				"bat",
-				"batch_idx\tstatement"
-			],
-			[
 				"log",
 				"log_interval"
 			],
@@ -270,10 +318,6 @@
 			[
 				"lin",
 				"linear2"
-			],
-			[
-				"out",
-				"outputs"
 			],
 			[
 				"app",
@@ -470,26 +514,6 @@
 			[
 				"o",
 				"observation"
-			],
-			[
-				"varibl",
-				"variable"
-			],
-			[
-				"number",
-				"number_of_ones"
-			],
-			[
-				"generar",
-				"generar_datos_modelo_lineal"
-			],
-			[
-				"max",
-				"MAX"
-			],
-			[
-				"rip",
-				"ripserOut"
 			]
 		]
 	},
@@ -499,17 +523,8 @@
 			"file": "network.py",
 			"settings":
 			{
-				"buffer_size": 4052,
+				"buffer_size": 5013,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/Users/Francisco/Documents/Programming/Ayudantia_Computacion_Grafica/Ayudantia_1/OpenGL-Windows-MinGW/Opengl-GLEW-GLUT_Triangle/main.cpp",
-			"settings":
-			{
-				"buffer_size": 4951,
-				"encoding": "UTF-8 with BOM",
 				"line_ending": "Windows"
 			}
 		},
@@ -517,7 +532,16 @@
 			"file": "train.py",
 			"settings":
 			{
-				"buffer_size": 16101,
+				"buffer_size": 15070,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "test.py",
+			"settings":
+			{
+				"buffer_size": 9517,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -526,7 +550,7 @@
 			"file": "imshow.py",
 			"settings":
 			{
-				"buffer_size": 381,
+				"buffer_size": 2131,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -597,6 +621,12 @@
 	],
 	"file_history":
 	[
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/.gitignore",
+		"/C/Users/fcova/AppData/Local/Temp/Temp1_Tarea_2_Aprendizaje-dcgan-celeba-Francisco_Valente_Castro.zip/dcgan-celeba _Francisco_Valente_Castro/test.py",
+		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/dcgan-celeba/dcgan-celeba.sublime-project",
+		"/D/Users/Francisco/Documents/Programming/Ayudantia_Computacion_Grafica/Ayudantia_1/OpenGL-Windows-MinGW/Opengl-GLEW-GLUT_Triangle/main.cpp",
+		"/D/Users/Francisco/Documents/Programming/Ayudantia_Computacion_Grafica/Ayudantia_1/OpenGL-Windows-VisualStudio/Opengl-GLEW-GLFW/main.cpp",
+		"/D/Users/Francisco/Documents/Programming/Ayudantia_Computacion_Grafica/Ayudantia_1/OpenGL-Linux/Opengl-GLEW-GLFW_Triangle/vertexShader.vs",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/train.py",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-biomedical/unet.py",
 		"/D/Users/Francisco/Documents/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/unet-mnist/train.py",
@@ -718,14 +748,11 @@
 		"/D/Users/Francisco/Documents/GitHub/RipserOnR/Ripser.R",
 		"/D/Users/Francisco/Documents/GitHub/RipserOnR/Makefile",
 		"/C/Users/fcova/AppData/Local/Temp/RtmpGQYYmT/filebe475d91848",
-		"/D/Users/Francisco/Documents/GitHub/RipserOnR/ripser.cpp",
-		"/C/Users/fcova/AppData/Local/Temp/Rtmp48403q/file13b05bcf4752",
-		"/D/Users/Francisco/Documents/GitHub/RipserOnR/output.txt",
-		"/D/Users/Francisco/Documents/GitHub/RipserOnR/README.md"
+		"/D/Users/Francisco/Documents/GitHub/RipserOnR/ripser.cpp"
 	],
 	"find":
 	{
-		"height": 28.0
+		"height": 29.0
 	},
 	"find_in_files":
 	{
@@ -740,6 +767,58 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"checkpoin",
+			"plot",
+			"add_graph",
+			"trainset",
+			"print",
+			"1, ",
+			"= self.down_conv_block(",
+			"1, ",
+			"False",
+			"print",
+			"self.up_conv_block(",
+			"self.",
+			", '",
+			", Fa",
+			"print",
+			", Fa",
+			", F",
+			", f",
+			", F",
+			", '",
+			"print",
+			"True",
+			"self.f",
+			"False",
+			")",
+			"False",
+			"self.f",
+			"print",
+			"down_conv_b",
+			"zero_",
+			")",
+			", 'relu'",
+			"block1",
+			"16",
+			"relu",
+			"512",
+			"# print",
+			"F",
+			":",
+			"print",
+			"x = ",
+			"x,sha",
+			"x = ",
+			" # prin",
+			"# print(input.shape)",
+			"print",
+			"latent_dim",
+			"100",
+			"32",
+			"discriminator",
+			"*",
+			"2",
 			"td=.5",
 			"Intialize",
 			"lr=0.0",
@@ -810,7 +889,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -819,19 +898,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4052,
+						"buffer_size": 5013,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2609,
-								2609
-							],
-							[
-								4050,
-								4050
+								994,
+								994
 							]
 						],
 						"settings":
@@ -841,7 +916,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1889.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -849,47 +924,19 @@
 				},
 				{
 					"buffer": 1,
-					"file": "/D/Users/Francisco/Documents/Programming/Ayudantia_Computacion_Grafica/Ayudantia_1/OpenGL-Windows-MinGW/Opengl-GLEW-GLUT_Triangle/main.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4951,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "train.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 16101,
+						"buffer_size": 15070,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7492,
-								7492
+								1436,
+								1436
 							]
 						],
 						"settings":
@@ -899,10 +946,40 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6154.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "test.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9517,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7693,
+								7693
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3887.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -911,7 +988,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 381,
+						"buffer_size": 2131,
 						"regions":
 						{
 						},
@@ -924,7 +1001,9 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.sublime-syntax"
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -938,7 +1017,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 28.0
+		"height": 29.0
 	},
 	"input":
 	{
@@ -975,7 +1054,7 @@
 	"project": "dcgan-celeba.sublime-project",
 	"replace":
 	{
-		"height": 52.0
+		"height": 54.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -989,12 +1068,16 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"",
+				"D:\\Users\\Francisco\\Documents\\Materias\\Computacion\\Computo_Cientifico\\computo_cientifico.sublime-project"
+			]
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"select_symbol":
 	{
@@ -1012,8 +1095,8 @@
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": true,
-	"side_bar_width": 163.0,
+	"side_bar_visible": false,
+	"side_bar_width": 50.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
