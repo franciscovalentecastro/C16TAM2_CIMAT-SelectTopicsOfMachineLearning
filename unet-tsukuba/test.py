@@ -73,7 +73,7 @@ def test(testset):
     # get some random training images
     dataiter = iter(test_loader)
 
-    # Get fifth batch
+    # Get fifth batch for testing and comparing
     for i in range(5):
         left, right, disp = dataiter.next()
 
