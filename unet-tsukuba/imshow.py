@@ -17,7 +17,7 @@ def imshow(img):
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
     plt.axis('off')
     filename = "imgs/savefig_{}.png".format(image_counter)
-    plt.savefig(filename)
+    plt.savefig(filename, bbox_inches='tight', pad_inches=0)
     plt.show()
 
 

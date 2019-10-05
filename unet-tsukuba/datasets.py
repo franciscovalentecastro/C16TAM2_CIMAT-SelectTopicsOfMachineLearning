@@ -4,15 +4,20 @@ from torch.utils.data import Dataset
 
 
 class Tsukuba(Dataset):
-    def __init__(self, transform=transforms.ToTensor()):
+    def __init__(self, transform=transforms.ToTensor(), train=True):
+        if train:
+            path = './tsukuba/train/'
+        else:
+            path = './tsukuba/test/'
+
         self.right = torchvision.datasets.ImageFolder(
-            root='./tsukuba/train/right', transform=transform)
+            root=path + 'right', transform=transform)
 
         self.left = torchvision.datasets.ImageFolder(
-            root='./tsukuba/train/left', transform=transform)
+            root=path + 'left', transform=transform)
 
         self.disp = torchvision.datasets.ImageFolder(
-            root='./tsukuba/train/disp',
+            root=path + 'disp',
             transform=transforms.Compose([transforms.Grayscale(),
                                           transform]))
 

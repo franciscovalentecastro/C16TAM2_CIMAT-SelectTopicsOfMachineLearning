@@ -12,9 +12,12 @@ import torchvision.transforms as transforms
 # Import network
 from network import *
 from imshow import *
+from datasets import *
+
 
 # Parser arguments
-parser = argparse.ArgumentParser(description='Test PyTorch DCGAN with CelebA')
+parser = argparse.ArgumentParser(description='Test PyTorch UNet with '
+                                             'Tsukuba Disparity Maps')
 parser.add_argument('--checkpoint', '--check',
                     default='none',
                     help='path to checkpoint to be restored for inference')
@@ -22,160 +25,156 @@ parser.add_argument('--batch-size', '--b',
                     type=int, default=16, metavar='N',
                     help='input batch size for testing (default: 16)')
 parser.add_argument('--device', '--d',
-                    default='cpu', choices=['cpu', 'cuda'],
+                    default='cuda', choices=['cpu', 'cuda'],
                     help='pick device to run the training (defalut: "cpu")')
 parser.add_argument('--network', '--n',
-                    default='dcgan',
-                    choices=['dcgan', 'gan', 'mixed'],
-                    help='pick a specific network to train (default: dcgan)')
-parser.add_argument('--latent_dim', '--ld',
-                    type=int, default=2, metavar='N',
-                    help='dimension of the latent space (default: 30)')
+                    default='unet',
+                    choices=['unet', 'dunet'],
+                    help='pick a specific network to train (default: dunet)')
+parser.add_argument('--image-shape', '--imshape',
+                    type=int, nargs='+',
+                    default=[64, 64],
+                    metavar='height width',
+                    help='rectanlge size to crop input images '
+                         '(default: 64 64)')
 parser.add_argument('--filters', '--f',
                     type=int, default=16, metavar='N',
                     help='multiple of number of filters to use (default: 16)')
 parser.add_argument('--dataset', '--data',
-                    default='celeba',
-                    choices=['celeba', 'mnist', 'fashion-mnist'],
-                    help='pick a specific dataset (default: "celeba")')
+                    default='tsukuba',
+                    choices=['tsukuba'],
+                    help='pick a specific dataset (default: "tsukuba")')
+parser.add_argument('--normalize', '--norm',
+                    action='store_true',
+                    help='normalize images and use tanh')
 parser.add_argument('--sample-size', '--s',
                     type=int, default=16, metavar='N',
                     help='sample size for generating images (default: 16)')
 parser.add_argument('--summary', '--sm',
                     action='store_true',
                     help='show summary of model')
-parser.add_argument('--no-summary', '--nsm',
-                    dest='summary', action='store_false',
-                    help='do not summary of model')
 parser.add_argument('--plot', '--p',
                     action='store_true',
                     help='plot dataset sample')
-parser.add_argument('--no-plot', '--np',
-                    dest='plot', action='store_false',
-                    help='do not plot dataset sample')
 args = parser.parse_args()
 print(args)
 
 
 def test(testset):
     # Create dataset loader
-    test_loader = torch.utils.data.DataLoader(testset,
-                                              batch_size=args.batch_size,
-                                              shuffle=True)
+    test_loader = torch.utils.data.DataLoader(
+        testset,
+        batch_size=args.batch_size,
+        shuffle=False)
 
-    # get some random testing images
+    args.dataset_size = len(test_loader.dataset)
+    args.dataloader_size = len(test_loader)
+
+    # get some random training images
     dataiter = iter(test_loader)
+
+    # Get fifth batch
+    for i in range(5):
+        left, right, disp = dataiter.next()
+
+    disp = torch.cat((disp,) * 3, dim=1)
+
+    # Image range from (-1,1) to (0,1)
+    grid = torchvision.utils.make_grid(
+        torch.cat((left, right, disp)),
+        nrow=args.batch_size)
+
+    # If images were normalized
+    if args.normalize:
+        grid = 0.5 * (grid + 1.0)
 
     # Show sample of images
     if args.plot:
-        images, _ = dataiter.next()
-
-        # Image range from (-1,1) to (0,1)
-        grid = torchvision.utils.make_grid(0.5 * (images + 1.0))
         imshow(grid)
 
     # Restore past checkpoint
     restore_checkpoint()
 
-    # Test network
-    images, labels = dataiter.next()
-    images = images.to(args.device)
+    # Concatenate left and right
+    inpt = torch.cat((left, right), dim=1)
 
-    # Show autoencoder fit and random latent decoded
+    # Send to device
+    inpt = inpt.to(args.device)
+    disp = disp.to(args.device)
+
+    # Forward through network
+    with torch.no_grad():
+        outpt = args.net(inpt)
+
+    outpt = torch.cat((outpt,) * 3, dim=1)
+
+    # Create grid
+    grid = torchvision.utils.make_grid(
+        torch.cat((left.cpu(), right.cpu(), disp.cpu(), outpt.cpu())),
+        nrow=4)
+
+    # If images were normalized
+    if args.normalize:
+        grid = 0.5 * (grid + 1.0)
+
+    # Show sample of images
     if args.plot:
-        # Current quality of generated random images
-        sample = torch.randn(args.sample_size, args.latent_dim).to(args.device)
-
-        # Image range from (-1,1) to (0,1)
-        generated_sample = 0.5 * (args.generator(sample).cpu() + 1.0)
-        grid = torchvision.utils.make_grid(
-            generated_sample, nrow=int(math.sqrt(args.sample_size)))
         imshow(grid)
 
-    # Plot latent space
-    if args.latent_dim == 2 and args.plot:
-        plot_latent_space(dataiter, images, labels, args)
+    # Set acurracy function
+    criterion = torch.nn.MSELoss()
+
+    # Test accuracy
+    args.test_acc = 0.0
+
+    # Test network accuracy
+    for batch_idx, data in enumerate(test_loader, 1):
+
+        # Get disparity data
+        tLeft, tRight, targets = data
+
+        # Concatenate left and right
+        inputs = torch.cat((tLeft, tRight), dim=1)
+
+        # Send to device
+        inputs = inputs.to(args.device)
+        targets = targets.to(args.device)
+
+        # Forward through network
+        with torch.no_grad():
+            outputs = args.net(inputs)
+
+        # Calculate loss
+        loss = criterion(outputs, targets)
+
+        # Sum global test accuracy
+        args.test_acc += loss.item()
+
+        print('Batch : {} [{}/{} ({:.0f}%)]'
+              '\tLoss : {:.8f}'
+              .format(batch_idx,
+                      args.batch_size * batch_idx,
+                      args.dataset_size,
+                      100. * batch_idx / args.dataloader_size,
+                      loss.item()))
+
+    print('====> Average Accuracy: {:.4f}'.format(
+        args.test_acc / len(test_loader)))
 
 
 def restore_checkpoint():
     if args.checkpoint == 'none':
         return
 
-    with torch.no_grad():
-        # Load provided checkpoint
-        checkpoint = torch.load(args.checkpoint)
-        print('Restored weights from {}.'.format(args.checkpoint))
+    # Load provided checkpoint
+    checkpoint = torch.load(args.checkpoint)
+    print('Restored weights from {}.'.format(args.checkpoint))
 
-        # Restore past checkpoint for inference
-        args.generator.load_state_dict(checkpoint['generator_state_dict'])
-        args.discriminator.load_state_dict(checkpoint['discriminator_state_dict'])
+    # Restore past checkpoint
+    args.net.load_state_dict(checkpoint['state_dict'])
 
-        # To do inference
-        args.generator.eval()
-        args.discriminator.eval()
-
-
-def process_checkpoint(lossG, global_step):
-
-    # check if current batch had best generating fitness
-    steps_before_best = 2000
-    if lossG < args.bestG and global_step > steps_before_best:
-        args.bestG = lossG
-
-        # Save best checkpoint
-        torch.save({
-            'generator_state_dict': args.generator.state_dict(),
-            'discriminator_state_dict': args.discriminator.state_dict(),
-            'optimizerG_state_dict': args.optimizerG.state_dict(),
-            'optimizerD_state_dict': args.optimizerD.state_dict(),
-        }, "checkpoint/best_{}.pt".format(args.run))
-
-        # Write tensorboard statistics
-        args.writer.add_scalar('Best/lossG', lossG, global_step)
-
-        # Save best generation image
-        write_images_to_tensorboard(global_step, best=True)
-
-    # Save current checkpoint
-    torch.save({
-        'generator_state_dict': args.generator.state_dict(),
-        'discriminator_state_dict': args.discriminator.state_dict(),
-        'optimizerG_state_dict': args.optimizerG.state_dict(),
-        'optimizerD_state_dict': args.optimizerD.state_dict(),
-    }, "checkpoint/last_{}.pt".format(args.run))
-
-
-def write_images_to_tensorboard(global_step, step=False, best=False):
-    # Current quality of generated random images
-    sample_size = 16
-    sample = torch.randn(sample_size, args.latent_dim).to(args.device)
-
-    # Image range from (-1,1) to (0,1)
-    generated_sample = 0.5 * (args.generator(sample).cpu() + 1.0)
-
-    # print images
-    grid = torchvision.utils.make_grid(generated_sample, nrow=4)
-
-    if step:
-        args.writer.add_image('Train/generated', grid, global_step)
-    elif best:
-        args.writer.add_image('Best/generated', grid, global_step)
-    else:
-        args.writer.add_image('latent-random-sample-decoded', grid)
-        imshow(grid)
-
-
-def create_run_name():
-    run = '{}={}'.format('nw', args.network)
-    run += '_{}={}'.format('ds', args.dataset)
-    run += '_{}={}'.format('ld', args.latent_dim)
-    run += '_{}={}'.format('op', args.optimizer)
-    run += '_{}={}'.format('ep', args.epochs)
-    run += '_{}={}'.format('bs', args.batch_size)
-    run += '_{}={}'.format('tp', args.train_percentage)
-    run += '_{}'.format(datetime.now().strftime("%m-%d-%Y-%H-%M-%S"))
-
-    return run
+    # To do inference
+    args.net.eval()
 
 
 def main():
@@ -190,70 +189,43 @@ def main():
                                    else 'cpu')
 
     # Assuming that we are on a CUDA machine, this should print a CUDA device:
-    print(args.device)
-
-    # Set image size
-    args.image_size = 64
+    print('device : {}'.format(args.device))
 
     # Set dataset transform
     transform = transforms.Compose([
-        transforms.Resize(args.image_size),
+        transforms.Resize(args.image_shape),
         transforms.ToTensor(),
-        transforms.Normalize((0.5,), (0.5,)),
+        transforms.Normalize((0.5,), (0.5,))
+        if args.normalize
+        else nn.Identity()
     ])
 
     # Load dataset
-    if args.dataset == 'celeba':
-        transform = transforms.Compose([
-            transforms.Resize(args.image_size),
-            transforms.CenterCrop(args.image_size),
-            transforms.ToTensor(),
-            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-        ])
-        testset = torchvision.datasets.ImageFolder(root='CelebA/',
-                                                   transform=transform)
-    elif args.dataset == 'mnist':
-        testset = torchvision.datasets.MNIST("", train=False,
-                                             transform=transform,
-                                             download=True)
+    if args.dataset == 'tsukuba':
+        testset = Tsukuba(transform, train=False)
 
-    elif args.dataset == 'fashion-mnist':
-        testset = torchvision.datasets.FashionMNIST("", train=False,
-                                                    transform=transform,
-                                                    download=True)
-
-    # Determine image shape
-    tImage, _ = testset[0]
-    args.image_shape = tImage.shape
+    # If images were normalized
+    if args.normalize:
+        args.activation = 'tanh'
+    else:
+        args.activation = 'sigmoid'
 
     # Create network
-    if args.network == 'dcgan':
-        discriminator = ConvolutionalDiscriminator(args.image_shape,
-                                                   args.filters)
-        generator = ConvolutionalGenerator(args.latent_dim,
-                                           args.image_shape,
-                                           args.filters)
-    elif args.network == 'gan':
-        discriminator = Discriminator(args.image_shape)
-        generator = Generator(args.latent_dim, args.image_shape)
-    elif args.network == 'mixed':
-        discriminator = Discriminator(args.image_shape)
-        generator = ConvolutionalGenerator(args.latent_dim,
-                                           args.image_shape,
-                                           args.filters)
+    if args.network == 'unet':
+        # Add 6 color channels (left + right)
+        net = UNet([6] + args.image_shape,
+                   args.filters, args.activation)
+    elif args.network == 'dunet':
+        # Add 6 color channels (left + right)
+        net = UNet_Disparity([6] + args.image_shape,
+                             args.filters, args.activation)
 
     # Send networks to device
-    args.discriminator = discriminator.to(args.device)
-    args.generator = generator.to(args.device)
+    args.net = net.to(args.device)
 
-    # Show summary of model
     if args.summary:
-        print("Discriminator")
-        summary(args.discriminator, input_size=args.image_shape)
-        print()
-
-        print("Generator")
-        summary(args.generator, input_size=(args.latent_dim,))
+        print("Network")
+        summary(args.net, input_size=tuple([6] + args.image_shape))
         print()
 
     # Test the trained model if provided

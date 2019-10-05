@@ -307,7 +307,7 @@ def main():
 
     # Load dataset
     if args.dataset == 'tsukuba':
-        trainset = Tsukuba(transform)
+        trainset = Tsukuba(transform, train=True)
 
     # If images were normalized
     if args.normalize:
