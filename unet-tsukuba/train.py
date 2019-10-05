@@ -266,7 +266,7 @@ def create_run_name():
     run += '_{}={}'.format('ep', args.epochs)
     run += '_{}={}'.format('bs', args.batch_size)
     run += '_{}={}'.format('tp', args.train_percentage)
-    run += '_{}={}'.format('norm', 'true' if args.normalize else 'false')
+    run += '_{}={}'.format('nrm', 't' if args.normalize else 'f')
     run += '_{}'.format(datetime.now().strftime("%m-%d-%Y-%H-%M-%S"))
 
     return run
