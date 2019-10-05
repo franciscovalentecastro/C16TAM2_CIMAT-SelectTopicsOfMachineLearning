@@ -55,6 +55,9 @@ parser.add_argument('--dataset', '--data',
                     default='tsukuba',
                     choices=['tsukuba'],
                     help='pick a specific dataset (default: "tsukuba")')
+parser.add_argument('--normalize', '--norm',
+                    action='store_true',
+                    help='normalize images and use tanh')
 parser.add_argument('--checkpoint', '--check',
                     default='none',
                     help='path to checkpoint to be restored')
@@ -96,7 +99,10 @@ def train(trainset):
     grid = torchvision.utils.make_grid(
         torch.cat((left, right, disp)),
         nrow=args.batch_size)
-    grid = 0.5 * (grid + 1.0)
+
+    # If images were normalized
+    if args.normalize:
+        grid = 0.5 * (grid + 1.0)
 
     # Write sample to tensorboard
     args.writer.add_image('sample-train', grid)
@@ -113,7 +119,7 @@ def train(trainset):
                                    lr=0.01, momentum=0.9)
 
     # Set loss function
-    criterion = torch.nn.L1Loss()
+    criterion = torch.nn.MSELoss()
 
     # Restore past checkpoint
     restore_checkpoint()
@@ -238,7 +244,10 @@ def write_images_to_tensorboard(targets, outputs, global_step,
     # Current network fit
     grid = torchvision.utils.make_grid(torch.cat((
         outputs.cpu(), targets.cpu())), nrow=args.batch_size)
-    grid = 0.5 * (grid + 1.0)
+
+    # If images were normalized
+    if args.normalize:
+        grid = 0.5 * (grid + 1.0)
 
     if step:
         args.writer.add_image('Train/fit', grid, global_step)
@@ -290,20 +299,30 @@ def main():
     transform = transforms.Compose([
         transforms.Resize(args.image_shape),
         transforms.ToTensor(),
-        transforms.Normalize((0.5,), (0.5,)),
+        transforms.Normalize((0.5,), (0.5,))
+        if args.normalize
+        else nn.Identity()
     ])
 
     # Load dataset
     if args.dataset == 'tsukuba':
         trainset = Tsukuba(transform)
 
+    # If images were normalized
+    if args.normalize:
+        args.activation = 'tanh'
+    else:
+        args.activation = 'sigmoid'
+
     # Create network
     if args.network == 'unet':
         # Add 6 color channels (left + right)
-        net = UNet([6] + args.image_shape, args.filters)
+        net = UNet([6] + args.image_shape,
+                   args.filters, args.activation)
     elif args.network == 'unet-disp':
         # Add 6 color channels (left + right)
-        net = UNet_Disparity([6] + args.image_shape, args.filters)
+        net = UNet_Disparity([6] + args.image_shape,
+                             args.filters, args.activation)
 
     # Send networks to device
     args.net = net.to(args.device)

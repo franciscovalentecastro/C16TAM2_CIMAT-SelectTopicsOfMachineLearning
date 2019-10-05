@@ -2,15 +2,15 @@ import math
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 
 class UNet(nn.Module):
 
-    def __init__(self, image_shape, filters=8):
+    def __init__(self, image_shape, filters=8, activation='sigmoid'):
         super(UNet, self).__init__()
         self.c, self.h, self.w = image_shape
         f = self.f = filters
+        self.activation = activation
 
         # Level 1
         self.left_conv_block1 = self.conv_block(self.c, f)
@@ -116,14 +116,18 @@ class UNet(nn.Module):
         # Level 1
         x9 = torch.cat((x9, x1), 1)
         x9 = self.right_conv_block1(x9)
-        x_out = torch.tanh(self.conv_output(x9))
+
+        if self.activation == 'sigmoid':
+            x_out = torch.sigmoid(self.conv_output(x9))
+        elif self.activation == 'tanh':
+            x_out = torch.tanh(self.conv_output(x9))
 
         return x_out
 
 
 class UNet_Disparity(nn.Module):
 
-    def __init__(self, image_shape, filters=8):
+    def __init__(self, image_shape, filters=8, activation='sigmoid'):
         super(UNet_Disparity, self).__init__()
         self.c, self.h, self.w = image_shape
         self.f = filters
@@ -135,7 +139,7 @@ class UNet_Disparity(nn.Module):
         self.right = self.conv_block(self.c // 2, self.c // 2)
 
         # Unet to estimate disparity map
-        self.unet = UNet(image_shape, filters)
+        self.unet = UNet(image_shape, filters, activation)
 
         # Intialize weights
         self.apply(self.initialize_weights)
@@ -160,29 +164,16 @@ class UNet_Disparity(nn.Module):
             torch.nn.init.normal_(module.weight, mean=0.0, std=std_dev)
 
     def forward(self, x):
-
-        # print(x.shape)
-
         # Separate into left and right
         left, right = torch.split(x, 3, dim=1)
-
-        # print(left.shape)
-        # print(right.shape)
 
         # Pass through convolutional layers
         left = self.left(left)
         right = self.left(right)
 
-        # print(left.shape)
-        # print(right.shape)
-
         # Pass left and right through UNet
         x1 = torch.cat((left, right), dim=1)
 
-        # print(x1.shape)
-
         # Pass through Unet
         x_out = self.unet(x1)
-        # print(x_out.shape)
-
         return x_out
