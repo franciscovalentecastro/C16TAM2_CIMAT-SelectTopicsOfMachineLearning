@@ -37,7 +37,7 @@ parser.add_argument('--device', '--d',
                     help='pick device to run the training (defalut: "cpu")')
 parser.add_argument('--network', '--n',
                     default='unet',
-                    choices=['unet', 'unet-disp'],
+                    choices=['unet', 'dunet'],
                     help='pick a specific network to train (default: unet)')
 parser.add_argument('--image-shape', '--imshape',
                     type=int, nargs='+',
@@ -266,7 +266,7 @@ def create_run_name():
     run += '_{}={}'.format('ep', args.epochs)
     run += '_{}={}'.format('bs', args.batch_size)
     run += '_{}={}'.format('tp', args.train_percentage)
-    run += '_{}={}'.format('nrm', 't' if args.normalize else 'f')
+    run += '_{}={}'.format('nm', 't' if args.normalize else 'f')
     run += '_{}'.format(datetime.now().strftime("%m-%d-%Y-%H-%M-%S"))
 
     return run
@@ -320,7 +320,7 @@ def main():
         # Add 6 color channels (left + right)
         net = UNet([6] + args.image_shape,
                    args.filters, args.activation)
-    elif args.network == 'unet-disp':
+    elif args.network == 'dunet':
         # Add 6 color channels (left + right)
         net = UNet_Disparity([6] + args.image_shape,
                              args.filters, args.activation)
