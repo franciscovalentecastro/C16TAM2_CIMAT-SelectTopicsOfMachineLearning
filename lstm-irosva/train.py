@@ -45,6 +45,9 @@ parser.add_argument('--hidden', '--h',
 parser.add_argument('--layers', '--ly',
                     type=int, default=2, metavar='N',
                     help='dimension of embedding (default: 2)')
+parser.add_argument('--dropout', '--drop',
+                    type=float, default=.2, metavar='N',
+                    help='dropout percentage between lstm layers (default: .2)')
 parser.add_argument('--vocabulary', '--v',
                     type=int, default=5000, metavar='N',
                     help='size of vocabulary (default: 5000)')
@@ -66,6 +69,46 @@ parser.add_argument('--summary', '--sm',
                     help='show summary of model')
 args = parser.parse_args()
 print(args)
+
+
+def predict(outputs, targets):
+    targets = targets.type(torch.long)
+    predicted = (outputs > .5).type(torch.long)
+    correct = (predicted == targets).sum().item()
+    args.train_acc += correct / args.batch_size
+
+    return (predicted, correct)
+
+
+def batch_status(batch_idx, epoch, train_loader, loss, outputs, targets):
+    # Global step
+    global_step = batch_idx + len(train_loader) * epoch
+
+    # update running loss statistics
+    args.running_loss += loss.item()
+    args.train_loss += loss.item()
+
+    # predict
+    (predicted, correct) = predict(outputs, targets)
+
+    # Write tensorboard statistics
+    args.writer.add_scalar('Train/loss', loss.item(), global_step)
+
+    # print every args.log_interval of batches
+    if global_step % args.log_interval == 0:
+        print('Train Epoch : {} Batches : {} [{}/{} ({:.0f}%)]'
+              '\tLoss : {:.8f} Acc : {:.2f}%'
+              .format(epoch, batch_idx,
+                      args.batch_size * batch_idx,
+                      args.dataset_size,
+                      100. * batch_idx / args.dataloader_size,
+                      args.running_loss / args.log_interval,
+                      100. * correct / args.batch_size))
+
+        args.running_loss = 0.0
+
+        # Process current checkpoint
+        process_checkpoint(loss.item(), targets, outputs, global_step)
 
 
 def train(trainset):
@@ -133,38 +176,9 @@ def train(trainset):
                 loss = criterion(outputs, targets)
                 loss.backward()
                 args.optimizer.step()
-
-            # predict
-            targets = targets.type(torch.long)
-            predicted = (outputs > .5).type(torch.long)
-            correct = (predicted == targets).sum().item()
-            args.train_acc += correct / args.batch_size
-
-            # update running loss statistics
-            args.running_loss += loss.item()
-            args.train_loss += loss.item()
-
-            # Global step
-            global_step = batch_idx + len(train_loader) * epoch
-
-            # Write tensorboard statistics
-            args.writer.add_scalar('Train/loss', loss.item(), global_step)
-
-            # print every args.log_interval of batc|hes
-            if global_step % args.log_interval == 0:
-                print('Train Epoch : {} Batches : {} [{}/{} ({:.0f}%)]'
-                      '\tLoss : {:.8f} Acc : {:.2f}%'
-                      .format(epoch, batch_idx,
-                              args.batch_size * batch_idx,
-                              args.dataset_size,
-                              100. * batch_idx / args.dataloader_size,
-                              args.running_loss / args.log_interval,
-                              100. * correct / args.batch_size))
-
-                args.running_loss = 0.0
-
-                # Process current checkpoint
-                process_checkpoint(loss.item(), targets, outputs, global_step)
+            
+            # Log batch status
+            batch_status(batch_idx, epoch, train_loader, loss, outputs, targets)
 
         print('====> Epoch: {} Average loss: {:.4f} Average acc {:.4f}%'
               .format(epoch,
@@ -319,7 +333,8 @@ def main():
                                     args.embedding,
                                     args.hidden,
                                     len(args.TEXT.vocab),
-                                    args.layers)
+                                    args.layers,
+                                    args.dropout)
 
     # Send networks to device
     args.net = net.to(args.device)

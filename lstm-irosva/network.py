@@ -7,7 +7,7 @@ from torch.autograd import Variable
 class LSTM_Irony_Classifier(nn.Module):
 
     def __init__(self, batch_size, embedding_size, hidden_size,
-                 vocab_size, layers):
+                 vocab_size, layers, dropout):
         super(LSTM_Irony_Classifier, self).__init__()
         self.hidden_size = hidden_size
         self.embedding_size = embedding_size
@@ -15,28 +15,25 @@ class LSTM_Irony_Classifier(nn.Module):
         self.batch_size = batch_size
 
         self.embedding = nn.Embedding(vocab_size, embedding_size)
-        self.lstm = nn.LSTM(embedding_size, hidden_size, layers)
+        self.lstm = nn.LSTM(embedding_size, hidden_size, layers, dropout=dropout)
         self.linear = nn.Linear(hidden_size * layers, 1)
 
     def forward(self, x):
-        # print(x.shape)
-        # print(torch.transpose(x, 0, 1).shape)
+        
+        # Embedding
         x = torch.transpose(x, 0, 1)
         emb = self.embedding(x)
-        # print(emb.shape)
         emb = emb.permute(1, 0, 2)
-        # print(emb.shape)
+
+        # RNN
         output, (hidden_n, cell_n) = self.lstm(emb)
-        # print(output.shape)
-        # print(hidden_n.shape)
         hidden_n = torch.transpose(hidden_n, 0, 1)
-        # print(hidden_n.shape)
         hidden_n = hidden_n.reshape(-1, self.hidden_size * self.layers)
-        # print(hidden_n.shape)
-        # print(hidden_n[-1].shape)
-        y = self.linear(hidden_n)
-        # print(y.shape)
-        return torch.sigmoid(y.view(-1))
+        
+        # Binary classifier
+        y = torch.sigmoid(self.linear(hidden_n).view(-1))
+        
+        return y
 
 
 class LSTMClassifier(nn.Module):
