@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import argparse
 from datetime import datetime
@@ -6,25 +5,23 @@ from datetime import datetime
 import torch
 import torch.optim as optim
 import torch.autograd as autograd
-from torch.utils.tensorboard import SummaryWriter
 
-import torchvision
-import torchvision.transforms as transforms
+from torchtext.data import *
+from torch.utils.tensorboard import SummaryWriter
 
 # Import network
 from network import *
-from imshow import *
-from datasets import *
+from utils import *
 
 # Parser arguments
-parser = argparse.ArgumentParser(description='Train PyTorch UNet with '
-                                             'Tsukuba Disparity Maps')
+parser = argparse.ArgumentParser(description='Train PyTorch LSTM '
+                                             'Irony Classifier')
 parser.add_argument('--train-percentage', '--t',
                     type=float, default=.2, metavar='N',
                     help='porcentage of the training set to use (default: .2)')
 parser.add_argument('--batch-size', '--b',
-                    type=int, default=16, metavar='N',
-                    help='input batch size for training (default: 16)')
+                    type=int, default=8, metavar='N',
+                    help='input batch size for training (default: 8)')
 parser.add_argument('--log-interval', '--li',
                     type=int, default=100, metavar='N',
                     help='how many batches to wait' +
@@ -36,28 +33,28 @@ parser.add_argument('--device', '--d',
                     default='cpu', choices=['cpu', 'cuda'],
                     help='pick device to run the training (defalut: "cpu")')
 parser.add_argument('--network', '--n',
-                    default='unet',
-                    choices=['unet', 'dunet'],
-                    help='pick a specific network to train (default: unet)')
-parser.add_argument('--image-shape', '--imshape',
-                    type=int, nargs='+',
-                    default=[64, 64],
-                    metavar='height width',
-                    help='rectanlge size to crop input images '
-                         '(default: 64 64)')
-parser.add_argument('--filters', '--f',
-                    type=int, default=16, metavar='N',
-                    help='multiple of number of filters to use (default: 16)')
+                    default='lstm',
+                    choices=['lstm'],
+                    help='pick a specific network to train (default: lstm)')
+parser.add_argument('--embedding', '--emb',
+                    type=int, default=10, metavar='N',
+                    help='dimension of embedding (default: 10)')
+parser.add_argument('--hidden', '--h',
+                    type=int, default=10, metavar='N',
+                    help='dimension of hidden state (default: 10)')
+parser.add_argument('--layers', '--ly',
+                    type=int, default=2, metavar='N',
+                    help='dimension of embedding (default: 2)')
+parser.add_argument('--vocabulary', '--v',
+                    type=int, default=1000, metavar='N',
+                    help='size of vocabulary (default: 1000)')
 parser.add_argument('--optimizer', '--o',
-                    default='sgd', choices=['adam', 'sgd'],
-                    help='pick a specific optimizer (default: "adam")')
+                    default='adam', choices=['adam', 'sgd'],
+                    help='pick a specific optimizer (default: "sgd")')
 parser.add_argument('--dataset', '--data',
-                    default='tsukuba',
-                    choices=['tsukuba'],
-                    help='pick a specific dataset (default: "tsukuba")')
-parser.add_argument('--normalize', '--norm',
-                    action='store_true',
-                    help='normalize images and use tanh')
+                    default='irosva-mx',
+                    choices=['irosva-mx', 'irosva-es', 'irosva-cu'],
+                    help='pick a specific dataset (default: "irosva-mx")')
 parser.add_argument('--checkpoint', '--check',
                     default='none',
                     help='path to checkpoint to be restored')
@@ -72,54 +69,32 @@ print(args)
 
 
 def train(trainset):
-
-    # Split datasetO
-    train_size = int(args.train_percentage * len(trainset))
-    test_size = len(trainset) - train_size
-    train_dataset, test_dataset \
-        = torch.utils.data.random_split(trainset, [train_size, test_size])
-
-    # Dataset information
-    print('train dataset : {} elements'.format(len(train_dataset)))
-
     # Create dataset loader
-    train_loader = torch.utils.data.DataLoader(train_dataset,
-                                               batch_size=args.batch_size,
-                                               shuffle=True,
-                                               drop_last=True)
+    train_loader = BucketIterator(trainset,
+                                  batch_size=args.batch_size,
+                                  device=args.device,
+                                  sort_key=lambda x: len(x.message),
+                                  sort_within_batch=False,
+                                  repeat=False)
     args.dataset_size = len(train_loader.dataset)
     args.dataloader_size = len(train_loader)
 
-    # get some random training images
-    dataiter = iter(train_loader)
-    left, right, disp = dataiter.next()
-    disp = torch.cat((disp,) * 3, dim=1)
+    # get some random training elements
+    dataiter = train_loader.__iter__()
 
-    # Image range from (-1,1) to (0,1)
-    grid = torchvision.utils.make_grid(
-        torch.cat((left, right, disp)),
-        nrow=args.batch_size)
-
-    # If images were normalized
-    if args.normalize:
-        grid = 0.5 * (grid + 1.0)
-
-    # Write sample to tensorboard
-    args.writer.add_image('sample-train', grid)
-
-    # Show sample of images
+    # Show sample of messages
     if args.plot:
-        imshow(grid)
+        batch = next(dataiter)
+        print_batch(batch)
 
     # Define optimizer
     if args.optimizer == 'adam':
-        args.optimizer = optim.Adam(args.net.parameters(), lr=.0001)
+        args.optimizer = optim.Adam(args.net.parameters(), lr=.01)
     elif args.optimizer == 'sgd':
-        args.optimizer = optim.SGD(args.net.parameters(),
-                                   lr=0.01, momentum=0.9)
+        args.optimizer = optim.SGD(args.net.parameters(), lr=.01)
 
     # Set loss function
-    criterion = torch.nn.MSELoss()
+    criterion = torch.nn.BCELoss()
 
     # Restore past checkpoint
     restore_checkpoint()
@@ -131,16 +106,18 @@ def train(trainset):
     # loop over the dataset multiple times
     for epoch in range(args.epochs):
 
+        # New epoch
+        train_loader.init_epoch()
+        dataiter = train_loader.__iter__()
+
         # reset running loss statistics
-        args.train_loss = args.running_loss = 0.0
+        args.train_loss = args.train_acc = args.running_loss = 0.0
 
-        for batch_idx, data in enumerate(train_loader, 1):
+        for batch_idx, batch in enumerate(dataiter, 1):
 
-            # Get disparity data
-            tLeft, tRight, targets = data
-
-            # Concatenate left and right
-            inputs = torch.cat((tLeft, tRight), dim=1)
+            # Get text data
+            inputs = batch.__dict__['message']
+            targets = batch.__dict__['is_ironic'].float()
 
             # Send to device
             inputs = inputs.to(args.device)
@@ -157,42 +134,89 @@ def train(trainset):
                 loss.backward()
                 args.optimizer.step()
 
-            # Global step
-            global_step = batch_idx + len(train_loader) * epoch
+            # predict
+            targets = targets.type(torch.long)
+            predicted = (outputs > .5).type(torch.long)
+            correct = (predicted == targets).sum().item()
+            args.train_acc += correct / args.batch_size
 
             # update running loss statistics
             args.running_loss += loss.item()
             args.train_loss += loss.item()
 
+            # Global step
+            global_step = batch_idx + len(train_loader) * epoch
+
             # Write tensorboard statistics
             args.writer.add_scalar('Train/loss', loss.item(), global_step)
 
             # print every args.log_interval of batc|hes
-            if batch_idx % args.log_interval == 0:
+            if global_step % args.log_interval == 0:
                 print('Train Epoch : {} Batches : {} [{}/{} ({:.0f}%)]'
-                      '\tLoss : {:.8f}'
+                      '\tLoss : {:.8f} Acc : {:.2f}%'
                       .format(epoch, batch_idx,
                               args.batch_size * batch_idx,
                               args.dataset_size,
                               100. * batch_idx / args.dataloader_size,
-                              args.running_loss / args.log_interval))
+                              args.running_loss / args.log_interval,
+                              100. * correct / args.batch_size))
 
                 args.running_loss = 0.0
-
-                # Add images to tensorboard
-                write_images_to_tensorboard(targets,
-                                            outputs,
-                                            global_step,
-                                            step=True)
 
                 # Process current checkpoint
                 process_checkpoint(loss.item(), targets, outputs, global_step)
 
-        print('====> Epoch: {} Average loss: {:.4f}'
-              .format(epoch, args.train_loss / len(train_loader)))
+        print('====> Epoch: {} Average loss: {:.4f} Average acc {:.4f}%'
+              .format(epoch,
+                      args.train_loss / len(train_loader),
+                      100. * args.train_acc / len(train_loader)))
 
     # Add trained model
     print('Finished Training')
+
+
+def validate(validateset):
+    # Create dataset loader
+    valid_loader = BucketIterator(validateset,
+                                  batch_size=args.batch_size,
+                                  device=args.device,
+                                  sort_key=lambda x: len(x.message),
+                                  sort_within_batch=False,
+                                  repeat=False)
+
+    # iterator
+    dataiter = valid_loader.__iter__()
+
+    print('Started Validation')
+    correct = total = 0
+    for batch_idx, batch in enumerate(dataiter, 1):
+
+        # Get text data
+        inputs = batch.__dict__['message']
+        targets = batch.__dict__['is_ironic'].float()
+
+        # Send to device
+        inputs = inputs.to(args.device)
+
+        # forward + predict
+        outputs = args.net(inputs)
+        predicted = (outputs > .5)
+
+        # Sum of predicted
+        predicted_cpu = predicted.cpu()
+        targets = targets.cpu()
+        correct += (predicted_cpu.type(torch.long) ==
+                    targets.type(torch.long)).sum().item()
+        total += len(targets)
+
+        if batch_idx == 1:
+            print_batch(batch, targets, predicted_cpu, args)
+
+    print('Accuracy of the network on the %d validation messages: %d %%' % (
+        len(validateset), 100 * correct / total))
+
+    # Add trained model
+    print('Finished Validation')
 
 
 def restore_checkpoint():
@@ -227,64 +251,31 @@ def process_checkpoint(loss, targets, outputs, global_step):
         # Write tensorboard statistics
         args.writer.add_scalar('Best/loss', loss, global_step)
 
-        # Save best generation image
-        write_images_to_tensorboard(targets, outputs, global_step,
-                                    best=True)
-
     # Save current checkpoint
     torch.save({
-        'state_dict': args.net.state_dict(),
+        'net_state_dict': args.net.state_dict(),
         'optimizer_state_dict': args.optimizer.state_dict(),
     }, "checkpoint/last_{}.pt".format(args.run))
-
-
-def write_images_to_tensorboard(targets, outputs, global_step,
-                                step=False, best=False):
-    # Add images to tensorboard
-    # Current network fit
-    grid = torchvision.utils.make_grid(torch.cat((
-        outputs.cpu(), targets.cpu())), nrow=args.batch_size)
-
-    # If images were normalized
-    if args.normalize:
-        grid = 0.5 * (grid + 1.0)
-
-    if step:
-        args.writer.add_image('Train/fit', grid, global_step)
-    elif best:
-        args.writer.add_image('Best/fit', grid, global_step)
-    else:
-        args.writer.add_image('fit', grid)
-        imshow(grid)
 
 
 def create_run_name():
     run = '{}={}'.format('nw', args.network)
     run += '_{}={}'.format('ds', args.dataset)
-    run += '_{}={}'.format('fl', args.filters)
     run += '_{}={}'.format('op', args.optimizer)
     run += '_{}={}'.format('ep', args.epochs)
     run += '_{}={}'.format('bs', args.batch_size)
     run += '_{}={}'.format('tp', args.train_percentage)
-    run += '_{}={}'.format('nm', 't' if args.normalize else 'f')
     run += '_{}'.format(datetime.now().strftime("%m-%d-%Y-%H-%M-%S"))
 
     return run
 
 
 def main():
-    # Save parameters in string to name the execution
-    args.run = create_run_name()
-
-    # print run name
-    print('execution name : {}'.format(args.run))
-
-    # Tensorboard summary writer
-    args.writer = SummaryWriter('runs/' + args.run)
-
     # Printing parameters
     torch.set_printoptions(precision=10)
     torch.set_printoptions(edgeitems=5)
+
+    print(torch.cuda.is_available())
 
     # Set up GPU
     if args.device != 'cpu':
@@ -296,34 +287,39 @@ def main():
     # Dataset information
     print('device : {}'.format(args.device))
 
-    # Set dataset transform
-    transform = transforms.Compose([
-        transforms.Resize(args.image_shape),
-        transforms.ToTensor(),
-        transforms.Normalize((0.5,), (0.5,))
-        if args.normalize
-        else nn.Identity()
-    ])
+    # Save parameters in string to name the execution
+    args.run = create_run_name()
+
+    # print run name
+    print('execution name : {}'.format(args.run))
+
+    # Tensorboard summary writer
+    args.writer = SummaryWriter('runs/' + args.run)
 
     # Load dataset
-    if args.dataset == 'tsukuba':
-        trainset = Tsukuba(transform, train=True)
+    if args.dataset == 'irosva-mx':
+        train_path = 'IroSvA2019/train/irosva.mx.train.csv'
+    if args.dataset == 'irosva-es':
+        train_path = 'IroSvA2019/train/irosva.es.train.csv'
+    if args.dataset == 'irosva-cu':
+        train_path = 'IroSvA2019/train/irosva.cu.train.csv'
 
-    # If images were normalized
-    if args.normalize:
-        args.activation = 'tanh'
-    else:
-        args.activation = 'sigmoid'
+    trainset = load_dataset(train_path, args)
+
+    # Split dataset
+    trn, vld = trainset.split(args.train_percentage)
+
+    # Dataset information
+    print('train dataset : {} elements'.format(len(trn)))
+    print('validate dataset : {} elements'.format(len(vld)))
 
     # Create network
-    if args.network == 'unet':
-        # Add 6 color channels (left + right)
-        net = UNet([6] + args.image_shape,
-                   args.filters, args.activation)
-    elif args.network == 'dunet':
-        # Add 6 color channels (left + right)
-        net = UNet_Disparity([6] + args.image_shape,
-                             args.filters, args.activation)
+    if args.network == 'lstm':
+        net = LSTM_Irony_Classifier(args.batch_size,
+                                    args.embedding,
+                                    args.hidden,
+                                    len(args.TEXT.vocab),
+                                    args.layers)
 
     # Send networks to device
     args.net = net.to(args.device)
@@ -332,7 +328,10 @@ def main():
         print(args.net)
 
     # Train network
-    train(trainset)
+    train(trn)
+
+    # Vaidate trainning
+    validate(vld)
 
     # Close tensorboard writer
     args.writer.close()

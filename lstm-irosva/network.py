@@ -1,179 +1,92 @@
-import math
-
+# -*- coding: utf-8 -*-
 import torch
 import torch.nn as nn
+from torch.autograd import Variable
 
 
-class UNet(nn.Module):
+class LSTM_Irony_Classifier(nn.Module):
 
-    def __init__(self, image_shape, filters=8, activation='sigmoid'):
-        super(UNet, self).__init__()
-        self.c, self.h, self.w = image_shape
-        f = self.f = filters
-        self.activation = activation
+    def __init__(self, batch_size, embedding_size, hidden_size,
+                 vocab_size, layers):
+        super(LSTM_Irony_Classifier, self).__init__()
+        self.hidden_size = hidden_size
+        self.embedding_size = embedding_size
+        self.layers = layers
+        self.batch_size = batch_size
 
-        # Level 1
-        self.left_conv_block1 = self.conv_block(self.c, f)
-        self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
-
-        self.right_conv_block1 = self.conv_block(f * 2, f)
-        self.conv_output = nn.Conv2d(f, 1, kernel_size=1, padding=0)
-
-        # Level 2
-        self.left_conv_block2 = self.conv_block(f, f * 2)
-        self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
-
-        self.right_conv_block2 = self.conv_block(f * 4, f * 2)
-        self.tconv2 = nn.ConvTranspose2d(f * 2, f, kernel_size=2, stride=2)
-
-        # Level 3
-        self.left_conv_block3 = self.conv_block(f * 2, f * 4)
-        self.pool3 = nn.MaxPool2d(kernel_size=2, stride=2)
-
-        self.right_conv_block3 = self.conv_block(f * 8, f * 4)
-        self.tconv3 = nn.ConvTranspose2d(f * 4, f * 2, kernel_size=2, stride=2)
-
-        # Level 4
-        self.left_conv_block4 = self.conv_block(f * 4, f * 8)
-        self.pool4 = nn.MaxPool2d(kernel_size=2, stride=2)
-
-        self.right_conv_block4 = self.conv_block(f * 16, f * 8)
-        self.tconv4 = nn.ConvTranspose2d(f * 8, f * 4, kernel_size=2, stride=2)
-
-        # Level 5 (BottleNeck)
-        self.left_conv_block5 = self.conv_block(f * 8, f * 16)
-        self.tconv5 = nn.ConvTranspose2d(f * 16, f * 8,
-                                         kernel_size=2,
-                                         stride=2)
-
-        # Intialize weights
-        self.apply(self.initialize_weights)
-
-    def conv_block(self, in_chan, out_chan, **kwargs):
-        return nn.Sequential(
-            nn.Conv2d(in_channels=in_chan, out_channels=out_chan,
-                      kernel_size=3, padding=1),
-            nn.LeakyReLU(),
-            nn.Conv2d(in_channels=out_chan, out_channels=out_chan,
-                      kernel_size=3, padding=1),
-            nn.BatchNorm2d(out_chan),
-            nn.LeakyReLU()
-        )
-
-    def initialize_weights(self, module):
-        if type(module) == nn.Conv2d or type(module) == nn.ConvTranspose2d:
-            input_dimension = module.in_channels \
-                * module.kernel_size[0] \
-                * module.kernel_size[1]
-            std_dev = math.sqrt(2.0 / float(input_dimension))
-            torch.nn.init.normal_(module.weight, mean=0.0, std=std_dev)
+        self.embedding = nn.Embedding(vocab_size, embedding_size)
+        self.lstm = nn.LSTM(embedding_size, hidden_size, layers)
+        self.linear = nn.Linear(hidden_size * layers, 1)
 
     def forward(self, x):
-
-        # Level 1
-        x1 = self.left_conv_block1(x)
-        # Downsample
-        x2 = self.pool1(x1)
-
-        # Level 2
-        x2 = self.left_conv_block2(x2)
-        # Downsample
-        x3 = self.pool2(x2)
-
-        # Level 3
-        x3 = self.left_conv_block3(x3)
-        # Downsample
-        x4 = self.pool3(x3)
-
-        # Level 4
-        x4 = self.left_conv_block4(x4)
-        # Downsample
-        x5 = self.pool4(x4)
-
-        # Level 5
-        x5 = self.left_conv_block5(x5)
-        # Upsample
-        x6 = self.tconv5(x5)
-
-        # Level 4
-        x6 = torch.cat((x6, x4), 1)
-        x6 = self.right_conv_block4(x6)
-        # Upsample
-        x7 = self.tconv4(x6)
-
-        # Level 3
-        x7 = torch.cat((x7, x3), 1)
-        x7 = self.right_conv_block3(x7)
-        # Upsample
-        x8 = self.tconv3(x7)
-
-        # Level 2
-        x8 = torch.cat((x8, x2), 1)
-        x8 = self.right_conv_block2(x8)
-        # Upsample
-        x9 = self.tconv2(x8)
-
-        # Level 1
-        x9 = torch.cat((x9, x1), 1)
-        x9 = self.right_conv_block1(x9)
-
-        if self.activation == 'sigmoid':
-            x_out = torch.sigmoid(self.conv_output(x9))
-        elif self.activation == 'tanh':
-            x_out = torch.tanh(self.conv_output(x9))
-
-        return x_out
+        # print(x.shape)
+        # print(torch.transpose(x, 0, 1).shape)
+        x = torch.transpose(x, 0, 1)
+        emb = self.embedding(x)
+        # print(emb.shape)
+        emb = emb.permute(1, 0, 2)
+        # print(emb.shape)
+        output, (hidden_n, cell_n) = self.lstm(emb)
+        # print(output.shape)
+        # print(hidden_n.shape)
+        hidden_n = torch.transpose(hidden_n, 0, 1)
+        # print(hidden_n.shape)
+        hidden_n = hidden_n.reshape(-1, self.hidden_size * self.layers)
+        # print(hidden_n.shape)
+        # print(hidden_n[-1].shape)
+        y = self.linear(hidden_n)
+        # print(y.shape)
+        return torch.sigmoid(y.view(-1))
 
 
-class UNet_Disparity(nn.Module):
-
-    def __init__(self, image_shape, filters=8, activation='sigmoid'):
-        super(UNet_Disparity, self).__init__()
-        self.c, self.h, self.w = image_shape
-        self.f = filters
-
-        # Left image conv block
-        self.left = self.conv_block(self.c // 2, self.c // 2)
-
-        # Right image conv block
-        self.right = self.conv_block(self.c // 2, self.c // 2)
-
-        # Unet to estimate disparity map
-        self.unet = UNet(image_shape, filters, activation)
-
-        # Intialize weights
-        self.apply(self.initialize_weights)
-
-    def conv_block(self, in_chan, out_chan, **kwargs):
-        return nn.Sequential(
-            nn.Conv2d(in_channels=in_chan, out_channels=out_chan,
-                      kernel_size=3, padding=1),
-            nn.LeakyReLU(),
-            nn.Conv2d(in_channels=out_chan, out_channels=out_chan,
-                      kernel_size=3, padding=1),
-            nn.BatchNorm2d(out_chan),
-            nn.LeakyReLU()
-        )
-
-    def initialize_weights(self, module):
-        if type(module) == nn.Conv2d or type(module) == nn.ConvTranspose2d:
-            input_dimension = module.in_channels \
-                * module.kernel_size[0] \
-                * module.kernel_size[1]
-            std_dev = math.sqrt(2.0 / float(input_dimension))
-            torch.nn.init.normal_(module.weight, mean=0.0, std=std_dev)
-
-    def forward(self, x):
-        # Separate into left and right
-        left, right = torch.split(x, 3, dim=1)
-
-        # Pass through convolutional layers
-        left = self.left(left)
-        right = self.left(right)
-
-        # Pass left and right through UNet
-        x1 = torch.cat((left, right), dim=1)
-
-        # Pass through Unet
-        x_out = self.unet(x1)
-        return x_out
+class LSTMClassifier(nn.Module):
+    def __init__(self, batch_size, output_size, hidden_size, vocab_size, embedding_length, weights):
+        super(LSTMClassifier, self).__init__()
+        """
+        Arguments
+        ---------
+        batch_size : Size of the batch which is same as the batch_size of the data returned by the TorchText BucketIterator
+        output_size : 2 = (pos, neg)
+        hidden_sie : Size of the hidden_state of the LSTM
+        vocab_size : Size of the vocabulary containing unique words
+        embedding_length : Embeddding dimension of GloVe word embeddings
+        weights : Pre-trained GloVe word_embeddings which we will use to create our word_embedding look-up table
+        """
+        self.batch_size = batch_size
+        self.output_size = output_size
+        self.hidden_size = hidden_size
+        self.vocab_size = vocab_size
+        self.embedding_length = embedding_length
+        
+        self.word_embeddings = nn.Embedding(vocab_size, embedding_length)# Initializing the look-up table.
+        self.word_embeddings.weight = nn.Parameter(weights, requires_grad=False) # Assigning the look-up table to the pre-trained GloVe word embedding.
+        self.lstm = nn.LSTM(embedding_length, hidden_size)
+        self.label = nn.Linear(hidden_size, output_size)
+        
+    def forward(self, input_sentence, batch_size=None):
+        """ 
+        Parameters
+        ----------
+        input_sentence: input_sentence of shape = (batch_size, num_sequences)
+        batch_size : default = None. Used only for prediction on a single sentence after training (batch_size = 1)
+        
+        Returns
+        -------
+        Output of the linear layer containing logits for positive & negative class which receives its input as the final_hidden_state of the LSTM
+        final_output.shape = (batch_size, output_size)
+        
+        """
+        
+        ''' Here we will map all the indexes present in the input sequence to the corresponding word vector using our pre-trained word_embedddins.'''
+        input = self.word_embeddings(input_sentence) # embedded input of shape = (batch_size, num_sequences,  embedding_length)
+        input = input.permute(1, 0, 2) # input.size() = (num_sequences, batch_size, embedding_length)
+        if batch_size is None:
+            h_0 = Variable(torch.zeros(1, self.batch_size, self.hidden_size).cuda()) # Initial hidden state of the LSTM
+            c_0 = Variable(torch.zeros(1, self.batch_size, self.hidden_size).cuda()) # Initial cell state of the LSTM
+        else:
+            h_0 = Variable(torch.zeros(1, batch_size, self.hidden_size).cuda())
+            c_0 = Variable(torch.zeros(1, batch_size, self.hidden_size).cuda())
+        output, (final_hidden_state, final_cell_state) = self.lstm(input, (h_0, c_0))
+        final_output = self.label(final_hidden_state[-1]) # final_hidden_state.size() = (1, batch_size, hidden_size) & final_output.size() = (batch_size, output_size)
+        
+        return final_output
