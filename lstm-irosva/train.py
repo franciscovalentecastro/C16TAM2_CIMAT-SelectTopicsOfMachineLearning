@@ -46,8 +46,8 @@ parser.add_argument('--layers', '--ly',
                     type=int, default=2, metavar='N',
                     help='dimension of embedding (default: 2)')
 parser.add_argument('--vocabulary', '--v',
-                    type=int, default=1000, metavar='N',
-                    help='size of vocabulary (default: 1000)')
+                    type=int, default=5000, metavar='N',
+                    help='size of vocabulary (default: 5000)')
 parser.add_argument('--optimizer', '--o',
                     default='adam', choices=['adam', 'sgd'],
                     help='pick a specific optimizer (default: "sgd")')
