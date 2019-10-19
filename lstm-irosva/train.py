@@ -80,7 +80,8 @@ def predict(outputs, targets):
     return (predicted, correct)
 
 
-def batch_status(batch_idx, epoch, train_loader, loss, irony, topic):
+def batch_status(batch_idx, epoch, train_loader, loss,
+                 validationset, irony, topic):
     # Unpack information
     output_irony, target_irony, loss_irony = irony
     output_topic, target_topic, loss_topic = topic
@@ -114,6 +115,9 @@ def batch_status(batch_idx, epoch, train_loader, loss, irony, topic):
                       loss, loss_irony, loss_topic))
 
         args.running_loss = 0.0
+
+        # validate
+        validate(validationset, log_info=True, global_step=global_step)
 
         # Process current checkpoint
         process_checkpoint(loss.item(), target_irony,
@@ -192,13 +196,9 @@ def train(trainset, validationset):
                 loss.backward()
                 args.optimizer.step()
 
-            # validate
-            validate(validationset,
-                     log_info=True,
-                     global_step=batch_idx + len(train_loader) * epoch)
-
             # Log batch status
-            batch_status(batch_idx, epoch, train_loader, loss,
+            batch_status(batch_idx, epoch, train_loader,
+                         loss, validationset,
                          (output_irony, irony, loss_irony),
                          (output_topic, topic, loss_topic))
 
