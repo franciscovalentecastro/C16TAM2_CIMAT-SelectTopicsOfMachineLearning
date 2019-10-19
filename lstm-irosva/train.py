@@ -46,14 +46,17 @@ parser.add_argument('--layers', '--ly',
                     type=int, default=2, metavar='N',
                     help='dimension of embedding (default: 2)')
 parser.add_argument('--dropout', '--drop',
-                    type=float, default=.2, metavar='N',
-                    help='dropout percentage in lstm layers (default: .2)')
+                    type=float, default=.9, metavar='N',
+                    help='dropout percentage in lstm layers (default: .6)')
 parser.add_argument('--vocabulary', '--v',
                     type=int, default=5000, metavar='N',
                     help='size of vocabulary (default: 5000)')
 parser.add_argument('--optimizer', '--o',
                     default='adam', choices=['adam', 'sgd'],
                     help='pick a specific optimizer (default: "sgd")')
+parser.add_argument('--learning-rate', '--lr',
+                    type=float, default=.0001, metavar='N',
+                    help='learning rate of model (default: .001)')
 parser.add_argument('--dataset', '--data',
                     default='irosva-mx',
                     choices=['irosva-mx', 'irosva-es', 'irosva-cu'],
@@ -123,6 +126,9 @@ def batch_status(batch_idx, epoch, train_loader, loss,
         process_checkpoint(loss.item(), target_irony,
                            output_irony, global_step)
 
+    # Pass all pending items to disk
+    args.writer.flush()
+
 
 def train(trainset, validationset):
     # Create dataset loader
@@ -145,13 +151,15 @@ def train(trainset, validationset):
 
     # Define optimizer
     if args.optimizer == 'adam':
-        args.optimizer = optim.Adam(args.net.parameters(), lr=.01)
+        args.optimizer = optim.Adam(args.net.parameters(),
+                                    lr=args.learning_rate)
     elif args.optimizer == 'sgd':
-        args.optimizer = optim.SGD(args.net.parameters(), lr=.01)
+        args.optimizer = optim.SGD(args.net.parameters(),
+                                   lr=args.learning_rate)
 
     # Set loss function
-    criterion_irony = torch.nn.BCELoss()
-    criterion_topic = torch.nn.NLLLoss()
+    args.criterion_irony = torch.nn.BCELoss()
+    args.criterion_topic = torch.nn.NLLLoss()
 
     # Restore past checkpoint
     restore_checkpoint()
@@ -189,8 +197,8 @@ def train(trainset, validationset):
 
                 # forward + backward + optimize
                 (output_irony, output_topic) = args.net(inputs)
-                loss_irony = criterion_irony(output_irony, irony)
-                loss_topic = criterion_topic(output_topic, topic)
+                loss_irony = args.criterion_irony(output_irony, irony)
+                loss_topic = args.criterion_topic(output_topic, topic)
                 loss = loss_irony + loss_topic
 
                 loss.backward()
@@ -226,7 +234,9 @@ def validate(validationset, print_info=False, log_info=False, global_step=0):
     if print_info:
         print('Started Validation')
 
-    correct = total = 0
+    correct = total = loss = 0
+    labels = torch.tensor([0], dtype=torch.int)
+    predictions = torch.tensor([0], dtype=torch.int)
     for batch_idx, batch in enumerate(dataiter, 1):
 
         # Get text data
@@ -240,18 +250,31 @@ def validate(validationset, print_info=False, log_info=False, global_step=0):
         (output_irony, output_topic) = args.net(inputs)
         predicted = (output_irony > .5)
 
+        # calculate loss
+        loss += args.criterion_irony(output_irony, irony)
+
         # Sum of predicted
         correct += (predicted.type(torch.long) ==
                     irony.type(torch.long)).sum().item()
         total += len(irony)
 
+        # Concatenate prediction and truth
+        predictions = torch.cat((predictions, predicted.int().cpu()))
+        labels = torch.cat((labels, irony.int().cpu()))
+
         if batch_idx == 1 and print_info:
             print_batch(batch, irony.cpu(), predicted.cpu(), args)
 
     if log_info:
-        args.writer.add_scalar('Train/validation_acc',
+        args.writer.add_scalar('Validation/accuracy',
                                100 * correct / total,
                                global_step)
+        args.writer.add_scalar('Validation/loss',
+                               loss / len(validationset),
+                               global_step)
+        args.writer.add_pr_curve('Validation/pr_curve',
+                                 labels, predictions,
+                                 global_step)
 
     if print_info:
         print('Accuracy of the network on %d messages: %d %%' % (
@@ -317,8 +340,6 @@ def main():
     torch.set_printoptions(precision=10)
     torch.set_printoptions(edgeitems=5)
 
-    print(torch.cuda.is_available())
-
     # Set up GPU
     if args.device != 'cpu':
         args.device = torch.device('cuda:0'
@@ -337,6 +358,9 @@ def main():
 
     # Tensorboard summary writer
     args.writer = SummaryWriter('runs/' + args.run)
+
+    # Add hyperparameters to run
+    # args.writer.add_hparams(hparam_dict=args.__dict__)
 
     # Load dataset
     if args.dataset == 'irosva-mx':
@@ -367,6 +391,12 @@ def main():
     # Send networks to device
     args.net = net.to(args.device)
 
+    # number of parameters
+    total_params = sum(p.numel()
+                       for p in args.net.parameters() if p.requires_grad)
+    print('number of trainable parameters : ', total_params)
+
+    # summarize model layers
     if args.summary:
         print(args.net)
 

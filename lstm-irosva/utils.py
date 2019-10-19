@@ -62,3 +62,4 @@ def print_batch(batch, targets, predicted, args):
             word = str(args.TEXT.vocab.itos[int(elem)])
             if word != '<pad>':
                 print('{}'.format(word), end=' ')
+        print()
