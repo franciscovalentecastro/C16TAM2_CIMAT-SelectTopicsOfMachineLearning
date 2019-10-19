@@ -120,7 +120,7 @@ def batch_status(batch_idx, epoch, train_loader, loss, irony, topic):
                            output_irony, global_step)
 
 
-def train(trainset):
+def train(trainset, validationset):
     # Create dataset loader
     train_loader = BucketIterator(trainset,
                                   batch_size=args.batch_size,
@@ -192,6 +192,11 @@ def train(trainset):
                 loss.backward()
                 args.optimizer.step()
 
+            # validate
+            validate(validationset,
+                     log_info=True,
+                     global_step=batch_idx + len(train_loader) * epoch)
+
             # Log batch status
             batch_status(batch_idx, epoch, train_loader, loss,
                          (output_irony, irony, loss_irony),
@@ -206,9 +211,9 @@ def train(trainset):
     print('Finished Training')
 
 
-def validate(validateset):
+def validate(validationset, print_info=False, log_info=False, global_step=0):
     # Create dataset loader
-    valid_loader = BucketIterator(validateset,
+    valid_loader = BucketIterator(validationset,
                                   batch_size=args.batch_size,
                                   device=args.device,
                                   sort_key=lambda x: len(x.message),
@@ -218,14 +223,15 @@ def validate(validateset):
     # iterator
     dataiter = valid_loader.__iter__()
 
-    print('Started Validation')
+    if print_info:
+        print('Started Validation')
+
     correct = total = 0
     for batch_idx, batch in enumerate(dataiter, 1):
 
         # Get text data
         inputs = batch.__dict__['message']
         irony = batch.__dict__['is_ironic'].float()
-        # topic = batch.__dict__['topic']
 
         # Send to device
         inputs = inputs.to(args.device)
@@ -239,14 +245,20 @@ def validate(validateset):
                     irony.type(torch.long)).sum().item()
         total += len(irony)
 
-        if batch_idx == 1:
+        if batch_idx == 1 and print_info:
             print_batch(batch, irony.cpu(), predicted.cpu(), args)
 
-    print('Accuracy of the network on the %d validation messages: %d %%' % (
-        len(validateset), 100 * correct / total))
+    if log_info:
+        args.writer.add_scalar('Train/validation_acc',
+                               100 * correct / total,
+                               global_step)
 
-    # Add trained model
-    print('Finished Validation')
+    if print_info:
+        print('Accuracy of the network on %d messages: %d %%' % (
+            len(validationset), 100 * correct / total))
+
+        # Add trained model
+        print('Finished Validation')
 
 
 def restore_checkpoint():
@@ -359,10 +371,10 @@ def main():
         print(args.net)
 
     # Train network
-    train(trn)
+    train(trn, vld)
 
     # Vaidate trainning
-    validate(vld)
+    validate(vld, print_info=True)
 
     # Close tensorboard writer
     args.writer.close()

@@ -24,7 +24,6 @@ class LSTM_MTL_Classifier(nn.Module):
         # Embedding
         x = torch.transpose(x, 0, 1)
         emb = self.embedding(x)
-        emb = emb.permute(1, 0, 2)
 
         return (self.irony(emb), self.topic(emb))
 
@@ -37,20 +36,21 @@ class LSTM_Irony_Classifier(nn.Module):
         self.hidden_size = hidden_size
         self.layers = layers
 
-        self.lstm = nn.LSTM(embedding_size, hidden_size,
-                            layers, dropout=dropout)
-        self.linear = nn.Linear(hidden_size * layers, 1)
+        self.lstm = nn.LSTM(embedding_size, hidden_size, layers,
+                            dropout=dropout, batch_first=True,
+                            bidirectional=True)
+        self.linear = nn.Linear(hidden_size * layers * 2, 1)
 
     def forward(self, x):
         # RNN
         output, (hidden_n, cell_n) = self.lstm(x)
         hidden_n = torch.transpose(hidden_n, 0, 1)
-        hidden_n = hidden_n.reshape(-1, self.hidden_size * self.layers)
+        hidden_n = hidden_n.reshape(-1, self.hidden_size * self.layers * 2)
 
         # Binary classifier
-        y = torch.sigmoid(self.linear(hidden_n).view(-1))
-
-        return y
+        y = self.linear(hidden_n)
+        y = torch.sigmoid(y)
+        return y.view(-1)
 
 
 class LSTM_Topic_Classifier(nn.Module):
@@ -61,16 +61,17 @@ class LSTM_Topic_Classifier(nn.Module):
         self.hidden_size = hidden_size
         self.layers = layers
 
-        self.lstm = nn.LSTM(embedding_size, hidden_size,
-                            layers, dropout=dropout)
-        self.linear = nn.Linear(hidden_size * layers, categories)
+        self.lstm = nn.LSTM(embedding_size, hidden_size, layers,
+                            dropout=dropout, batch_first=True,
+                            bidirectional=True)
+        self.linear = nn.Linear(hidden_size * layers * 2, categories)
         self.logsoftmax = nn.LogSoftmax(dim=0)
 
     def forward(self, x):
         # RNN
         output, (hidden_n, cell_n) = self.lstm(x)
         hidden_n = torch.transpose(hidden_n, 0, 1)
-        hidden_n = hidden_n.reshape(-1, self.hidden_size * self.layers)
+        hidden_n = hidden_n.reshape(-1, self.hidden_size * self.layers * 2)
 
         # Classifier
         y = self.linear(hidden_n)
