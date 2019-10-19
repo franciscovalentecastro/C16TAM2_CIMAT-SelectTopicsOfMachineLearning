@@ -47,7 +47,7 @@ parser.add_argument('--layers', '--ly',
                     help='dimension of embedding (default: 2)')
 parser.add_argument('--dropout', '--drop',
                     type=float, default=.2, metavar='N',
-                    help='dropout percentage between lstm layers (default: .2)')
+                    help='dropout percentage in lstm layers (default: .2)')
 parser.add_argument('--vocabulary', '--v',
                     type=int, default=5000, metavar='N',
                     help='size of vocabulary (default: 5000)')
@@ -80,7 +80,11 @@ def predict(outputs, targets):
     return (predicted, correct)
 
 
-def batch_status(batch_idx, epoch, train_loader, loss, outputs, targets):
+def batch_status(batch_idx, epoch, train_loader, loss, irony, topic):
+    # Unpack information
+    output_irony, target_irony, loss_irony = irony
+    output_topic, target_topic, loss_topic = topic
+
     # Global step
     global_step = batch_idx + len(train_loader) * epoch
 
@@ -89,26 +93,31 @@ def batch_status(batch_idx, epoch, train_loader, loss, outputs, targets):
     args.train_loss += loss.item()
 
     # predict
-    (predicted, correct) = predict(outputs, targets)
+    (predicted, correct) = predict(output_irony, target_irony)
 
     # Write tensorboard statistics
     args.writer.add_scalar('Train/loss', loss.item(), global_step)
+    args.writer.add_scalar('Train/loss_irony', loss_irony.item(), global_step)
+    args.writer.add_scalar('Train/loss_topic', loss_topic.item(), global_step)
 
     # print every args.log_interval of batches
     if global_step % args.log_interval == 0:
         print('Train Epoch : {} Batches : {} [{}/{} ({:.0f}%)]'
-              '\tLoss : {:.8f} Acc : {:.2f}%'
+              '\tAvg_Loss : {:.4f} Acc_Irony : {:.2f}%\n'
+              '\t\tLoss : {:.4f} Loss_Irony : {:.4f} Loss_Topic : {:.4f}'
               .format(epoch, batch_idx,
                       args.batch_size * batch_idx,
                       args.dataset_size,
                       100. * batch_idx / args.dataloader_size,
                       args.running_loss / args.log_interval,
-                      100. * correct / args.batch_size))
+                      100. * correct / args.batch_size,
+                      loss, loss_irony, loss_topic))
 
         args.running_loss = 0.0
 
         # Process current checkpoint
-        process_checkpoint(loss.item(), targets, outputs, global_step)
+        process_checkpoint(loss.item(), target_irony,
+                           output_irony, global_step)
 
 
 def train(trainset):
@@ -137,7 +146,8 @@ def train(trainset):
         args.optimizer = optim.SGD(args.net.parameters(), lr=.01)
 
     # Set loss function
-    criterion = torch.nn.BCELoss()
+    criterion_irony = torch.nn.BCELoss()
+    criterion_topic = torch.nn.NLLLoss()
 
     # Restore past checkpoint
     restore_checkpoint()
@@ -160,11 +170,13 @@ def train(trainset):
 
             # Get text data
             inputs = batch.__dict__['message']
-            targets = batch.__dict__['is_ironic'].float()
+            irony = batch.__dict__['is_ironic'].float()
+            topic = batch.__dict__['topic']
 
             # Send to device
             inputs = inputs.to(args.device)
-            targets = targets.to(args.device)
+            irony = irony.to(args.device)
+            topic = topic.to(args.device)
 
             # Calculate gradients and update
             with autograd.detect_anomaly():
@@ -172,13 +184,18 @@ def train(trainset):
                 args.optimizer.zero_grad()
 
                 # forward + backward + optimize
-                outputs = args.net(inputs)
-                loss = criterion(outputs, targets)
+                (output_irony, output_topic) = args.net(inputs)
+                loss_irony = criterion_irony(output_irony, irony)
+                loss_topic = criterion_topic(output_topic, topic)
+                loss = loss_irony + loss_topic
+
                 loss.backward()
                 args.optimizer.step()
-            
+
             # Log batch status
-            batch_status(batch_idx, epoch, train_loader, loss, outputs, targets)
+            batch_status(batch_idx, epoch, train_loader, loss,
+                         (output_irony, irony, loss_irony),
+                         (output_topic, topic, loss_topic))
 
         print('====> Epoch: {} Average loss: {:.4f} Average acc {:.4f}%'
               .format(epoch,
@@ -207,24 +224,23 @@ def validate(validateset):
 
         # Get text data
         inputs = batch.__dict__['message']
-        targets = batch.__dict__['is_ironic'].float()
+        irony = batch.__dict__['is_ironic'].float()
+        # topic = batch.__dict__['topic']
 
         # Send to device
         inputs = inputs.to(args.device)
 
         # forward + predict
-        outputs = args.net(inputs)
-        predicted = (outputs > .5)
+        (output_irony, output_topic) = args.net(inputs)
+        predicted = (output_irony > .5)
 
         # Sum of predicted
-        predicted_cpu = predicted.cpu()
-        targets = targets.cpu()
-        correct += (predicted_cpu.type(torch.long) ==
-                    targets.type(torch.long)).sum().item()
-        total += len(targets)
+        correct += (predicted.type(torch.long) ==
+                    irony.type(torch.long)).sum().item()
+        total += len(irony)
 
         if batch_idx == 1:
-            print_batch(batch, targets, predicted_cpu, args)
+            print_batch(batch, irony.cpu(), predicted.cpu(), args)
 
     print('Accuracy of the network on the %d validation messages: %d %%' % (
         len(validateset), 100 * correct / total))
@@ -329,12 +345,12 @@ def main():
 
     # Create network
     if args.network == 'lstm':
-        net = LSTM_Irony_Classifier(args.batch_size,
-                                    args.embedding,
-                                    args.hidden,
-                                    len(args.TEXT.vocab),
-                                    args.layers,
-                                    args.dropout)
+        net = LSTM_MTL_Classifier(args.embedding,
+                                  args.hidden,
+                                  len(args.TEXT.vocab),
+                                  args.layers,
+                                  args.dropout,
+                                  len(args.TOPIC.vocab))
 
     # Send networks to device
     args.net = net.to(args.device)
