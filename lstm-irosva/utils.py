@@ -46,13 +46,6 @@ def print_batch(batch, targets, predicted, args):
     topic = batch.__dict__['topic']
 
     for idx, t in enumerate(torch.t(text)):
-        # Message
-        print(str(idx) + ' MESSAGE : ', end='')
-        for elem in t:
-            word = str(args.TEXT.vocab.itos[int(elem)])
-            if word != '<pad>':
-                print('{}'.format(word), end=' ')
-
         # Topic
         topic_word = str(args.TOPIC.vocab.itos[int(topic[idx])])
         print('TOPIC : ({}){}'
@@ -62,3 +55,10 @@ def print_batch(batch, targets, predicted, args):
         # Irony
         print('IS_IRONIC : ', int(targets[idx]), end=', ')
         print('PREDICTED : ', int(predicted[idx]))
+
+        # Message
+        print(str(idx) + ' MESSAGE : ', end='')
+        for elem in t:
+            word = str(args.TEXT.vocab.itos[int(elem)])
+            if word != '<pad>':
+                print('{}'.format(word), end=' ')

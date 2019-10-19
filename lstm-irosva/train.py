@@ -191,7 +191,7 @@ def train(trainset, validationset):
                 (output_irony, output_topic) = args.net(inputs)
                 loss_irony = criterion_irony(output_irony, irony)
                 loss_topic = criterion_topic(output_topic, topic)
-                loss = loss_irony + 2.0 * loss_topic
+                loss = loss_irony + loss_topic
 
                 loss.backward()
                 args.optimizer.step()
