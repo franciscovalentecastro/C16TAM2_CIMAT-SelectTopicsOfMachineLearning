@@ -20,7 +20,6 @@ dcgan-celeba/dcgan-celeba.sublime-workspace
 *.sublime-workspace
 dcgan-celeba/dcgan-celeba.sublime-workspace
 dcgan-celeba/dcgan-celeba.sublime-workspace
-*.pt
 *.2
 *.1
 lstm-irosva/IroSvA2019/train/readme.mx.txt
@@ -41,3 +40,14 @@ lstm-irosva/IroSvA2019/test/irosva.cu.test.csv
 *.0
 *.csv
 *.zip
+unet-tsukuba/checkpoint/best_nw=unet_ds=tsukuba_fl=64_op=sgd_ep=8_bs=32_tp=1.0_nm=f_10-05-2019-02-57-39.pt
+unet-tsukuba/checkpoint/best_nw=unet_ds=tsukuba_fl=64_op=sgd_ep=8_bs=32_tp=1.0_nm=t_10-05-2019-02-39-01.pt
+unet-tsukuba/checkpoint/last_nw=dunet_ds=tsukuba_fl=64_op=sgd_ep=8_bs=32_tp=1.0_nm=f_10-05-2019-03-34-27.pt
+unet-tsukuba/checkpoint/last_nw=dunet_ds=tsukuba_fl=64_op=sgd_ep=8_bs=32_tp=1.0_nm=t_10-05-2019-03-15-58.pt
+unet-tsukuba/checkpoint/last_nw=unet_ds=tsukuba_fl=64_op=sgd_ep=8_bs=32_tp=1.0_nm=f_10-05-2019-02-57-39.pt
+unet-tsukuba/checkpoint/last_nw=unet_ds=tsukuba_fl=64_op=sgd_ep=8_bs=32_tp=1.0_nm=t_10-05-2019-02-39-01.pt
+unet-tsukuba/checkpoint/best_nw=dunet_ds=tsukuba_fl=64_op=sgd_ep=8_bs=32_tp=1.0_nm=t_10-05-2019-03-15-58.pt
+unet-tsukuba/checkpoint/best_nw=dunet_ds=tsukuba_fl=64_op=sgd_ep=8_bs=32_tp=1.0_nm=f_10-05-2019-03-34-27.pt
+dcgan-celeba/checkpoint/best_nw=dcgan_ds=celeba_ld=100_fl=128_op=adam_ep=16_bs=128_tp=1.0_09-26-2019-00-06-10.pt
+dcgan-celeba/checkpoint/last_nw=dcgan_ds=celeba_ld=100_fl=128_op=adam_ep=16_bs=128_tp=1.0_09-26-2019-00-06-10.pt
+dcgan-celeba/checkpoint/last_nw=dcgan_ds=celeba_ld=100_fl=128_op=adam_ep=16_bs=128_tp=1.0_09-26-2019-03-04-02.pt
