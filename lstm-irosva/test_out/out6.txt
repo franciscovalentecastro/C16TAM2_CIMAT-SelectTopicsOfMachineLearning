@@ -1,0 +1,130 @@
+device : cuda:0
+execution name : nw=mtl_ds=irosva-mx_op=adam_ep=0_bs=32_tp=0.2_10-22-2019-02-56-27
+Read weights from checkpoint\best_nw=mtl_ds=irosva-mx_op=adam_ep=40_bs=32_tp=0.8_10-21-2019-23-41-47.pt.
+vocabulary length :  9717
+number of topics :  11
+train dataset : 1920 elements
+train dataset (is_ironic): 641 elements. 33.39%
+train dataset (not is_ironic): 1279 elements. 66.61%
+validate dataset : 480 elements
+validate dataset (is_ironic): 159 elements. 33.12%
+validate dataset (not is_ironic): 321 elements. 66.88%
+test dataset : 368 elements
+test dataset (is_ironic): 120 elements. 32.61%
+test dataset (not is_ironic): 248 elements. 67.39%
+Parameters : train_percentage : 0.8, batch_size : 32, log_interval : 50, epochs : 40, network : mtl, embedding : 300, hidden : 20, layers : 2, dropout : 0.25, optimizer : adam, learning_rate : 0.0001, dataset : irosva-mx, fasttext : True, checkpoint : checkpoint\best_nw=mtl_ds=irosva-mx_op=adam_ep=40_bs=32_tp=0.8_10-21-2019-23-41-47.pt, test : True, plot : False, summary : False, run : nw=mtl_ds=irosva-mx_op=adam_ep=0_bs=32_tp=0.2_10-22-2019-02-56-27, vocab : 9717, categories : 11, 
+number of trainable parameters :  2977593
+Restored weights from checkpoint\best_nw=mtl_ds=irosva-mx_op=adam_ep=40_bs=32_tp=0.8_10-21-2019-23-41-47.pt.
+Started Testing
+TOPIC : (10)divorcioepn, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : y luego que nos importa si <unk> de televisa termino el 30 de <unk> la <unk> fue una moda nada <unk> ya nadie la <unk> nomas ustedes los <unk> <unk> en <unk> o el <unk> les <unk> jajaja ya no <unk> tiempo informen cosas <unk> <unk> 
+
+
+TOPIC : (6)estanciasinfantiles, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : les juro q lo <unk> y no lo puedo creer retroceso es lo q demuestran esto es la <unk> 
+
+
+TOPIC : (7)nuevogobierno, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : me <unk> de su <unk> y su contrapeso jajajaja pero <unk> en su derecho 
+
+
+TOPIC : (10)divorcioepn, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : y el premio tv novelas por <unk> <unk> epn y el premio trayectoria para <unk> <unk> 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : estos son los genios de la 4a y las <unk> <unk> <unk> 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : asi y amlo le <unk> el palacio nacional a un <unk> como maduro con que clase moral segun lopitos hablas 
+
+
+TOPIC : (7)nuevogobierno, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : fanaticos nivel <unk> ya no hay nivel que <unk> 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : respetable su <unk> y <unk> pero que no vengan a <unk> el <unk> de <unk> del pais 
+
+
+TOPIC : (8)pelicularoma, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : por eso lo <unk> <unk> 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : no inventes todo el <unk> reforma es un <unk> que pinche lastima 
+
+
+TOPIC : (6)estanciasinfantiles, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : lo que se trata es de no <unk> el dinero a los <unk> de las estancias si no <unk> a los padres para que el recurso se <unk> <unk> 
+
+
+TOPIC : (7)nuevogobierno, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : <unk> una muestra de los <unk> del populismo de la 4t <unk> explicar ahora <unk> <unk> y <unk> no <unk> al pueblo sabio y si son primero los pobres <unk> pobres <unk> primero y cuales <unk> y <unk> tan pobres hay que ser para ir <unk> 
+
+
+TOPIC : (10)divorcioepn, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : y <unk> preocupados o <unk> 
+
+
+TOPIC : (9)gobiernocdmx, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : <unk> <unk> muchas gracias 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : pues <unk> a puro pendejo como quieres que no te <unk> 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : no puedo creer que <unk> <unk> de poner al <unk> su ignorancia sobre el tema <unk> <unk> terrible y vergonzoso 
+
+
+TOPIC : (6)estanciasinfantiles, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : cada <unk> me <unk> <unk> es <unk> el nivel de ignorancia que manejan estas personas que lamentable 
+
+
+TOPIC : (9)gobiernocdmx, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : cree que la <unk> es como la <unk> y en <unk> y experimentos se la vive todos los <unk> 
+
+
+TOPIC : (7)nuevogobierno, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : <unk> hayan sido miados lo que le <unk> 
+
+
+TOPIC : (6)estanciasinfantiles, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : <unk> no te <unk> ni con un <unk> <unk> de <unk> 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : #trumphandsoffvenezuela no existe ninguna experticia internacional que <unk> el <unk> de dicha ayuda humanitaria que quemaron los <unk> del lado colombiano para la guerra nada 
+
+
+TOPIC : (5)desabastogasolina, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : puras <unk> de este <unk> si <unk> avispero ps termina <unk> los ductos no es la respuesta queremos nombres de los involucrados 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : nadie lo esta <unk> simplemente que vea asu pueblo pasar hambre y <unk> por <unk> seguir en poder y a todos sus seguidores que le siguen que su <unk> <unk> y <unk> le urge resolver su paz y un buen gobierno que <unk> y no sea dictador 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : este <unk> de gobierno es de puro <unk> <unk> <unk> sin <unk> ni experiencia empezando por el sumo sacerdote de la secta 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : rt <unk> la iglesia dice que la tierra es plana pero yo <unk> que es redonda pues he visto su <unk> en la luna y tengo <unk> <unk> en una <unk> 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : lo bueno es que <unk> que no <unk> estar peor que con el prian <unk> 
+
+
+TOPIC : (5)desabastogasolina, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : y porque no <unk> que los que votaron por morena se <unk> de ir a cargar y los que no votamos <unk> <unk> si es justo !!!!! 
+
+
+TOPIC : (8)pelicularoma, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : <unk> a <unk> la <unk> de roma <unk> lo peor del mexicano 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : con resentidos <unk> de <unk> <unk> a su ombligo estamos fritos #transformacionde4ta <unk> <unk> 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : totalmente de acuerdo al extranjero solo tienen que ir funcionarios a <unk> sin <unk> y fuera de <unk> y <unk> <unk> a nueva <unk> y a <unk> que es casi lo mismo 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : ya <unk> el oscurantismo 
+
+
+TOPIC : (5)desabastogasolina, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : que <unk> como si la gente no tuviera que salir de la ciudad a <unk> <unk> o de trabajo o tuviera <unk> que <unk> usar <unk> el carro 
+
+
+              precision    recall  f1-score   support
+
+           0       0.75      0.73      0.74       249
+           1       0.47      0.50      0.48       120
+
+   micro avg       0.65      0.65      0.65       369
+   macro avg       0.61      0.61      0.61       369
+weighted avg       0.66      0.65      0.66       369
+
+Accuracy of the network on 368 test messages: 65 %
+test metric "acc" : 0.65
+test metric "bacc" : 0.61
+test metric "prec" : 0.47
+test metric "rec" : 0.50
+test metric "f1" : 0.48
+Finished Testing

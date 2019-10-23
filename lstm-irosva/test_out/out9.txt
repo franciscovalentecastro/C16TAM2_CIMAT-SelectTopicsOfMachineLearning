@@ -1,0 +1,17 @@
+device : cuda:0
+execution name : nw=mtl_ds=irosva-mx_op=adam_ep=0_bs=32_tp=0.2_10-22-2019-03-25-26
+Read weights from checkpoint\best_nw=lstm_ds=irosva-es_op=adam_ep=20_bs=32_tp=0.8_10-22-2019-01-58-48.pt.
+vocabulary length :  9717
+number of topics :  11
+train dataset : 1920 elements
+train dataset (is_ironic): 641 elements. 33.39%
+train dataset (not is_ironic): 1279 elements. 66.61%
+validate dataset : 480 elements
+validate dataset (is_ironic): 159 elements. 33.12%
+validate dataset (not is_ironic): 321 elements. 66.88%
+test dataset : 368 elements
+test dataset (is_ironic): 120 elements. 32.61%
+test dataset (not is_ironic): 248 elements. 67.39%
+Parameters : train_percentage : 0.8, batch_size : 32, log_interval : 50, epochs : 20, network : lstm, embedding : 300, hidden : 50, layers : 2, dropout : 0.25, optimizer : adam, learning_rate : 0.0001, dataset : irosva-es, fasttext : True, checkpoint : checkpoint\best_nw=lstm_ds=irosva-es_op=adam_ep=20_bs=32_tp=0.8_10-22-2019-01-58-48.pt, test : True, plot : False, summary : False, run : nw=mtl_ds=irosva-mx_op=adam_ep=0_bs=32_tp=0.2_10-22-2019-03-25-26, vocab : 9717, categories : 11, 
+number of trainable parameters :  3116901
+Restored weights from checkpoint\best_nw=lstm_ds=irosva-es_op=adam_ep=20_bs=32_tp=0.8_10-22-2019-01-58-48.pt.

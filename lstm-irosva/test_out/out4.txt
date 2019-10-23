@@ -1,0 +1,130 @@
+device : cuda:0
+execution name : nw=mtl_ds=irosva-mx_op=adam_ep=0_bs=32_tp=0.2_10-22-2019-02-55-55
+Read weights from checkpoint\best_nw=lstm_ds=irosva-mx_op=adam_ep=20_bs=32_tp=0.8_10-21-2019-23-22-44.pt.
+vocabulary length :  9717
+number of topics :  11
+train dataset : 1920 elements
+train dataset (is_ironic): 647 elements. 33.70%
+train dataset (not is_ironic): 1273 elements. 66.30%
+validate dataset : 480 elements
+validate dataset (is_ironic): 153 elements. 31.88%
+validate dataset (not is_ironic): 327 elements. 68.12%
+test dataset : 368 elements
+test dataset (is_ironic): 120 elements. 32.61%
+test dataset (not is_ironic): 248 elements. 67.39%
+Parameters : train_percentage : 0.8, batch_size : 32, log_interval : 50, epochs : 20, network : lstm, embedding : 300, hidden : 50, layers : 2, dropout : 0.25, optimizer : adam, learning_rate : 0.0001, dataset : irosva-mx, fasttext : True, checkpoint : checkpoint\best_nw=lstm_ds=irosva-mx_op=adam_ep=20_bs=32_tp=0.8_10-21-2019-23-22-44.pt, test : True, plot : False, summary : False, run : nw=mtl_ds=irosva-mx_op=adam_ep=0_bs=32_tp=0.2_10-22-2019-02-55-55, vocab : 9717, categories : 11, 
+number of trainable parameters :  3116901
+Restored weights from checkpoint\best_nw=lstm_ds=irosva-mx_op=adam_ep=20_bs=32_tp=0.8_10-21-2019-23-22-44.pt.
+Started Testing
+TOPIC : (9)gobiernocdmx, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : entonces si uso el ht <unk> <unk> parte de un <unk> es <unk> @claudiashein ? 
+
+
+TOPIC : (6)estanciasinfantiles, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : <unk> o <unk> de 4a la <unk> 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : los venezolanos tienen que resolver sus problemas internos <unk> lo que quiere son sus recursos naturales y <unk> se ve los <unk> por la fuerza <unk> realidades no <unk> <unk> <unk> 
+
+
+TOPIC : (8)pelicularoma, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : una pelicula que <unk> la vida en ese entonces creo la pelicula es muy buena pero para la gente <unk> <unk> <unk> o <unk> pues siempre <unk> mas 
+
+
+TOPIC : (7)nuevogobierno, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : y de que partido seran estos <unk> <unk> <unk> 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : <unk> <unk> nadie es <unk> de la verdad 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : se <unk> cuando hay al adecuado cuando existe un verdadero contra peso 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : <unk> el capo de la mafia del populismo 
+
+
+TOPIC : (7)nuevogobierno, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : <unk> eso suena a q no <unk> medicinas en el seguro ni en el isste ya veo otra vez puro <unk> similar <unk> para curar todo desde <unk> de cabeza hasta <unk> volvemos a los <unk> de hospitales en <unk> <unk> de enfermos y sin medicina de <unk> gracias gobierno de 4t 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : de <unk> y pensar que <unk> llegan <unk> con ese nivel de <unk> <unk> asumen altos cargos igual de irresponsables quienes los propone! eso <unk> es <unk> <unk> <unk> @lopezobrador <unk> @xochitlgalvez <unk> 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : <unk> di que los senadores del pan <unk> en una solicitud que <unk> significa sistema de <unk> <unk> lo correcto es servicio de <unk> <unk> <unk> <unk> <unk> de ser tan <unk> <unk> 
+
+
+TOPIC : (6)estanciasinfantiles, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : y los que no tengan abuela???? estimado sr <unk> vaya <unk> la <unk> porque es una super <unk> 
+
+
+TOPIC : (5)desabastogasolina, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : y <unk> que sigue? ir al super por <unk> del <unk> <unk> <unk> por <unk> unas en la <unk> y otras en la noche que sigue? 
+
+
+TOPIC : (7)nuevogobierno, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : <unk> hayan sido miados lo que le <unk> 
+
+
+TOPIC : (10)divorcioepn, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : hija de su puta perra <unk> <unk> <unk> hizo q la <unk> 6 <unk> <unk> a perra <unk> a tu madre puta gaviota <unk> de nosotros 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : <unk> <unk> que la tierra es plana <unk> 
+
+
+TOPIC : (9)gobiernocdmx, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : en lo que en el gob de la sheinbaum dejan de <unk> y se ponen las <unk> hay que hacer algo lo que sea <unk> 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : rt @historiaenfotos queremos saber su <unk> sobre un tema actual <unk> piensan de las personas que creen que la tierra es plana <unk> 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : es el tipo de gente que les da trabajo el <unk> gente inepta para un trabajo el claro ejemplo <unk> en el 
+
+
+TOPIC : (5)desabastogasolina, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : en que mundo de <unk> vive amlo o por decir tantas mentiras ya cree que son realidades 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : tiene <unk> experiencia en ese tema 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : los amigos de la 4ta y de su amado <unk> <unk> 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : exacto <unk> el <unk> del famoso <unk> sido como <unk> sido <unk> 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : <unk> los <unk> <unk> 
+
+
+TOPIC : (10)divorcioepn, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : y luego que nos importa si <unk> de televisa termino el 30 de <unk> la <unk> fue una moda nada <unk> ya nadie la <unk> nomas ustedes los <unk> <unk> en <unk> o el <unk> les <unk> jajaja ya no <unk> tiempo informen cosas <unk> <unk> 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : disculpa sabes si para trabajar en el @conacytmx <unk> llevar mi <unk> <unk> o <unk> <unk> 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : te digo <unk> mejor cuando <unk> <unk> 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : me pregunto cuantos miembros de la cuarta <unk> muestran este nivel de ignorancia 
+
+
+TOPIC : (10)divorcioepn, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : #reformatodolodeforma esa pinche noticia de <unk> le interesa a telerisa 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : la tierra es plana amigos es la realidad de las cosas 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : serio ???? serio <unk> detener <unk> y se queden de mediocres como muchos forman su gabinete diputados y senadores los <unk> y tienen conocimientos para ser <unk> puede ser d q se <unk> puro cabron puedan manipular y <unk> q pena de gobierno 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : lamentable la gente brillante no aplica para la 4a <unk> <unk> los ineptos 
+
+
+              precision    recall  f1-score   support
+
+           0       0.75      0.77      0.76       249
+           1       0.49      0.46      0.47       120
+
+   micro avg       0.67      0.67      0.67       369
+   macro avg       0.62      0.61      0.61       369
+weighted avg       0.66      0.67      0.66       369
+
+Accuracy of the network on 368 test messages: 66 %
+test metric "acc" : 0.67
+test metric "bacc" : 0.61
+test metric "prec" : 0.49
+test metric "rec" : 0.46
+test metric "f1" : 0.47
+Finished Testing

@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1571711850753.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "697A9CFD",
+    "lastKnownWriteTime" : 2334382072097760620,
+    "last_content_update" : 1571711850753,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "19A0E3F8",
+        "caption" : "cu_merge_sub",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=cu_merge_sub&cache_key=19A0E3F8",
+        "displayedObservations" : 600,
+        "environment" : "",
+        "object" : "cu_merge_sub",
+        "preview" : 0,
+        "totalObservations" : 600,
+        "variables" : 1
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

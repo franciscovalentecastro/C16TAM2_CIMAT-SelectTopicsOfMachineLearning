@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1571619802952.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1083895806",
+    "id" : "2ED4FE35",
+    "lastKnownWriteTime" : 1571730910,
+    "last_content_update" : 1571730910132,
+    "path" : "~/Materias/Computacion/Machine_Learning/C16TAM2_CIMAT-SelectTopicsOfMachineLearning/lstm-irosva/r/analyze_data.R",
+    "project_path" : "analyze_data.R",
+    "properties" : {
+        "cursorPosition" : "30,45",
+        "scrollLine" : "12",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

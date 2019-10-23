@@ -1,0 +1,130 @@
+device : cuda:0
+execution name : nw=mtl_ds=irosva-mx_op=adam_ep=0_bs=32_tp=0.2_10-22-2019-02-55-20
+Read weights from checkpoint\best_nw=lstm_ds=irosva-mx_op=adam_ep=20_bs=32_tp=0.8_10-21-2019-23-18-38.pt.
+vocabulary length :  9717
+number of topics :  11
+train dataset : 1920 elements
+train dataset (is_ironic): 635 elements. 33.07%
+train dataset (not is_ironic): 1285 elements. 66.93%
+validate dataset : 480 elements
+validate dataset (is_ironic): 165 elements. 34.38%
+validate dataset (not is_ironic): 315 elements. 65.62%
+test dataset : 368 elements
+test dataset (is_ironic): 120 elements. 32.61%
+test dataset (not is_ironic): 248 elements. 67.39%
+Parameters : train_percentage : 0.8, batch_size : 32, log_interval : 50, epochs : 20, network : lstm, embedding : 300, hidden : 20, layers : 2, dropout : 0.25, optimizer : adam, learning_rate : 0.0001, dataset : irosva-mx, fasttext : True, checkpoint : checkpoint\best_nw=lstm_ds=irosva-mx_op=adam_ep=20_bs=32_tp=0.8_10-21-2019-23-18-38.pt, test : True, plot : False, summary : False, run : nw=mtl_ds=irosva-mx_op=adam_ep=0_bs=32_tp=0.2_10-22-2019-02-55-20, vocab : 9717, categories : 11, 
+number of trainable parameters :  2976621
+Restored weights from checkpoint\best_nw=lstm_ds=irosva-mx_op=adam_ep=20_bs=32_tp=0.8_10-21-2019-23-18-38.pt.
+Started Testing
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : sugiero que cada vez que en las <unk> <unk> amlo a personas instituciones o empresas <unk> <unk> a conocer a la <unk> los datos de las carpetas de <unk> <unk> por la <unk> o bien del <unk> judicial <unk> lo <unk> son chismes 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : si da confianza a los <unk> en chinga de vienen a <unk> en lo personal <unk> que la <unk> sepa leer 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : no <unk> <unk> <unk> <unk> ustedes <unk> haciendo pedazos las leyes e instituciones y claro <unk> para imponer su ley y sus instituciones <unk> como personas que les deban el favor y sean incondicionales <unk> a quien y como 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : esta <unk> <unk> todo lo que estamos viendo pero lo que me deja peor es que la <unk> del <unk> <unk> feliz <unk> como zombies al precipicio no <unk> la <unk> de cada medida que <unk> tomando la 4t 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : y <unk> <unk> la <unk> <unk> <unk> se <unk> <unk> a la madre tierra? 
+
+
+TOPIC : (5)desabastogasolina, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : en que mundo de <unk> vive amlo o por decir tantas mentiras ya cree que son realidades 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : pinche @lopezobrador tan mamon e ignorante como todos sus pinches <unk> de morena son ignorantes por culpa de ellos mismos no han querido salir del <unk> no importa la <unk> <unk> quien tiene <unk> y huevos se supera por internet <unk> <unk> etc <unk> 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : todo es mafia y todos estan su <unk> discursos <unk> <unk> como no <unk> 
+
+
+TOPIC : (7)nuevogobierno, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : <unk> que ese aceite <unk> le <unk> las <unk> 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : pues <unk> a puro pendejo como quieres que no te <unk> 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : rt <unk> los <unk> <unk> lo mismo por los de la tierra plana que nosotros por los que creen en la <unk> 
+
+
+TOPIC : (9)gobiernocdmx, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : @ferbelaunzaran neta y neta te ves mal en tus <unk> fuera de la realidad de la <unk> mejor <unk> a tus <unk> del prian que son los <unk> del delito 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : que le pongan <unk> de burro como <unk> el <unk> del <unk> <unk> 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : <unk> no nos <unk> tomando el pelo a nosotros les vio la cara de pendejos a todos los que votaron por <unk> si dios quiere la salud no le <unk> una buena <unk> y esto <unk> quedado solo en un mal <unk> me da pena pero pues ya <unk> grande slds 
+
+
+TOPIC : (9)gobiernocdmx, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : el <unk> pero es que los <unk> quieran ayudar por que <unk> la gente no esta <unk> y a nadie le importa si <unk> a un no <unk> a su <unk> <unk> o <unk> <unk> <unk> 
+
+
+TOPIC : (5)desabastogasolina, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : <unk> la <unk> es otra el peje <unk> <unk> el <unk> de <unk> que <unk> de magna a la <unk> sin <unk> peje mentiroso que todo lo <unk> haciendo con las patas 
+
+
+TOPIC : (10)divorcioepn, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : <unk> los comentarios y se le van con <unk> la defiendo pero acaso <unk> es muy su vida y sus <unk> ella <unk> su vida llena de <unk> y ustedes <unk> <unk> y resentidos <unk> triste su realidad 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : <unk> el problema con la <unk> es que si le <unk> la palabra <unk> <unk> considerar aceptable que la tierra es <unk> y todos <unk> <unk> 
+
+
+TOPIC : (5)desabastogasolina, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : otra <unk> para tapar otra <unk> y aceptar que esto no se va a normalizar <unk> 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : ya <unk> el oscurantismo 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : y pobre prensa mexicana ay cada muerto de hambre y <unk> y <unk> verdad <unk> 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : <unk> son esos gobiernos <unk> nuestra <unk> a <unk> 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : <unk> hay gente que opina y dice que tiene pruebas que la tierra es plana y que el sol gira alrededor de ella <unk> 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : <unk> que se vayan a <unk> a venezuela le <unk> muy bien al <unk> jaja 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : la tierra es plana todos los que mandan en el mundo realmente son lagartos y la cerveza sin alcohol no sabe culera! 
+
+
+TOPIC : (9)gobiernocdmx, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : <unk> dicen que es el negocio del siglo <unk> que <unk> lo pague 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : de <unk> y pensar que <unk> llegan <unk> con ese nivel de <unk> <unk> asumen altos cargos igual de irresponsables quienes los propone! eso <unk> es <unk> <unk> <unk> @lopezobrador <unk> @xochitlgalvez <unk> 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : putos panistas vendidos ! los venezolanos a su <unk> de mierda! 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : <unk> con este gobierno modelo <unk> del <unk> un presidente que <unk> dice una cosa dice otra la chimoltrufia hacen cosas sin querer queriendo <unk> <unk> <unk> ya se <unk> <unk> 
+
+
+TOPIC : (9)gobiernocdmx, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : entonces si uso el ht <unk> <unk> parte de un <unk> es <unk> @claudiashein ? 
+
+
+TOPIC : (6)estanciasinfantiles, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : <unk> o <unk> de 4a la <unk> 
+
+
+TOPIC : (7)nuevogobierno, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : y <unk> con esto van a salir con que la gente buena pide la <unk> <unk> 
+
+
+              precision    recall  f1-score   support
+
+           0       0.76      0.73      0.75       249
+           1       0.48      0.51      0.49       120
+
+   micro avg       0.66      0.66      0.66       369
+   macro avg       0.62      0.62      0.62       369
+weighted avg       0.67      0.66      0.66       369
+
+Accuracy of the network on 368 test messages: 66 %
+test metric "acc" : 0.66
+test metric "bacc" : 0.62
+test metric "prec" : 0.48
+test metric "rec" : 0.51
+test metric "f1" : 0.49
+Finished Testing

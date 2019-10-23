@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1571711071897.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "B1FD53E2",
+    "lastKnownWriteTime" : 12666842111017075,
+    "last_content_update" : 1571711071897,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "65ABA0D4",
+        "caption" : "irosva_cu_test_truth",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=irosva_cu_test_truth&cache_key=65ABA0D4",
+        "displayedObservations" : 600,
+        "environment" : "",
+        "object" : "irosva_cu_test_truth",
+        "preview" : 0,
+        "totalObservations" : 600,
+        "variables" : 3
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

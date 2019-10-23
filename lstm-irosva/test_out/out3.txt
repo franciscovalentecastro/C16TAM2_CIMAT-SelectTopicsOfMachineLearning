@@ -1,0 +1,130 @@
+device : cuda:0
+execution name : nw=mtl_ds=irosva-mx_op=adam_ep=0_bs=32_tp=0.2_10-22-2019-02-55-41
+Read weights from checkpoint\best_nw=lstm_ds=irosva-mx_op=adam_ep=30_bs=32_tp=0.8_10-21-2019-23-20-19.pt.
+vocabulary length :  9717
+number of topics :  11
+train dataset : 1920 elements
+train dataset (is_ironic): 636 elements. 33.12%
+train dataset (not is_ironic): 1284 elements. 66.88%
+validate dataset : 480 elements
+validate dataset (is_ironic): 164 elements. 34.17%
+validate dataset (not is_ironic): 316 elements. 65.83%
+test dataset : 368 elements
+test dataset (is_ironic): 120 elements. 32.61%
+test dataset (not is_ironic): 248 elements. 67.39%
+Parameters : train_percentage : 0.8, batch_size : 32, log_interval : 50, epochs : 30, network : lstm, embedding : 100, hidden : 50, layers : 2, dropout : 0.25, optimizer : adam, learning_rate : 0.0001, dataset : irosva-mx, fasttext : False, checkpoint : checkpoint\best_nw=lstm_ds=irosva-mx_op=adam_ep=30_bs=32_tp=0.8_10-21-2019-23-20-19.pt, test : True, plot : False, summary : False, run : nw=mtl_ds=irosva-mx_op=adam_ep=0_bs=32_tp=0.2_10-22-2019-02-55-41, vocab : 9717, categories : 11, 
+number of trainable parameters :  1093501
+Restored weights from checkpoint\best_nw=lstm_ds=irosva-mx_op=adam_ep=30_bs=32_tp=0.8_10-21-2019-23-20-19.pt.
+Started Testing
+TOPIC : (7)nuevogobierno, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : y <unk> con esto van a salir con que la gente buena pide la <unk> <unk> 
+
+
+TOPIC : (9)gobiernocdmx, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : lo que en realidad sucede es que a la <unk> nadie la <unk> no hay quien se <unk> 
+
+
+TOPIC : (6)estanciasinfantiles, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : no claro que no porque ya no <unk> <unk> de ese dinero que es <unk> <unk> para los <unk> pero se lo <unk> <unk> los padres entonces se <unk> la <unk> 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : <unk> de modas y con esa <unk> que <unk> 
+
+
+TOPIC : (8)pelicularoma, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : es demasiado ignorante para <unk> lo que si vale la pena 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : @flat67823361 @miguelpenagomez @livvare @drpalomares @sppozueco <unk> entre los <unk> y la <unk> ni siquiera se te vino eso a la cabeza y te pregunto yo de <unk> <unk> es el sol y la luna en la tierra plana? 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : #trumphandsoffvenezuela no existe ninguna experticia internacional que <unk> el <unk> de dicha ayuda humanitaria que quemaron los <unk> del lado colombiano para la guerra nada 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : pues <unk> a puro pendejo como quieres que no te <unk> 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : <unk> hay gente que opina y dice que tiene pruebas que la tierra es plana y que el sol gira alrededor de ella <unk> 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : yo <unk> que de 5ta <unk> 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : el libro que <unk> es un insulto a la <unk> el caso <unk> lo <unk> a lo que <unk> en los medios de <unk> y no dicen nada de la <unk> con <unk> 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : ya <unk> el oscurantismo 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : <unk> los <unk> que los mexicanos <unk> te manden mucho a chingar a tu puta madre <unk> a la comunidad internacional que quiten el bloqueo <unk> a tu <unk> <unk> <unk> <unk> desabasto de <unk> en tu <unk> <unk> 
+
+
+TOPIC : (4)venezuela, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : los venezolanos tienen que resolver sus problemas internos <unk> lo que quiere son sus recursos naturales y <unk> se ve los <unk> por la fuerza <unk> realidades no <unk> <unk> <unk> 
+
+
+TOPIC : (8)pelicularoma, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : lo que <unk> me gusto de la <unk> fue el <unk> 
+
+
+TOPIC : (8)pelicularoma, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : buen detalle joaquin somos <unk> 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : rt <unk> la iglesia dice que la tierra es plana pero yo <unk> que es redonda pues he visto su <unk> en la luna y tengo <unk> <unk> en una <unk> 
+
+
+TOPIC : (8)pelicularoma, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : ese siempre sale con su <unk> de <unk> pero que <unk> tan <unk> <unk> 
+
+
+TOPIC : (1)asuntosconacyt, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : <unk> perro ya no hay chayote ni <unk> y <unk> 
+
+
+TOPIC : (9)gobiernocdmx, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : <unk> dicen que es el negocio del siglo <unk> que <unk> lo pague 
+
+
+TOPIC : (7)nuevogobierno, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : y <unk> <unk> va salir que el pueblo <unk> que si me canso ganso 
+
+
+TOPIC : (5)desabastogasolina, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : otra <unk> para tapar otra <unk> y aceptar que esto no se va a normalizar <unk> 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : pero es que es todo como que lo <unk> todos <unk> a <unk> en plan <unk> <unk> es todo en mx en realidad <unk> que haber sido una entrevista seria 
+
+
+TOPIC : (8)pelicularoma, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : y eso es noticia porque ? <unk> gracias por <unk> no iba a poder dormir sin saber esto 
+
+
+TOPIC : (6)estanciasinfantiles, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : <unk> no te <unk> ni con un <unk> <unk> de <unk> 
+
+
+TOPIC : (7)nuevogobierno, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : puta madre! este wey se va a <unk> para seguir en el poder 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : se <unk> cuando hay al adecuado cuando existe un verdadero contra peso 
+
+
+TOPIC : (6)estanciasinfantiles, IS_IRONIC :  0, PREDICTED :  1,  MESSAGE : lo que se trata es de no <unk> el dinero a los <unk> de las estancias si no <unk> a los padres para que el recurso se <unk> <unk> 
+
+
+TOPIC : (10)divorcioepn, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : y <unk> preocupados o <unk> 
+
+
+TOPIC : (3)tierraplana, IS_IRONIC :  0, PREDICTED :  0,  MESSAGE : <unk> <unk> que la tierra es plana <unk> 
+
+
+TOPIC : (5)desabastogasolina, IS_IRONIC :  1, PREDICTED :  0,  MESSAGE : y <unk> que sigue? ir al super por <unk> del <unk> <unk> <unk> por <unk> unas en la <unk> y otras en la noche que sigue? 
+
+
+TOPIC : (2)comisionreguladoraenergia, IS_IRONIC :  1, PREDICTED :  1,  MESSAGE : si ya somos un mexico <unk> <unk> 
+
+
+              precision    recall  f1-score   support
+
+           0       0.78      0.46      0.58       249
+           1       0.40      0.73      0.51       120
+
+   micro avg       0.55      0.55      0.55       369
+   macro avg       0.59      0.60      0.55       369
+weighted avg       0.66      0.55      0.56       369
+
+Accuracy of the network on 368 test messages: 55 %
+test metric "acc" : 0.55
+test metric "bacc" : 0.60
+test metric "prec" : 0.40
+test metric "rec" : 0.73
+test metric "f1" : 0.51
+Finished Testing
