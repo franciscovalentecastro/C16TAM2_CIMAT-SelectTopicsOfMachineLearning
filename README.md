@@ -6,5 +6,7 @@ Current implemented architectures :
 - unet - Biomedical image segmentation
 - dcvae - Generative model
 - vae - Generative model
+- dcgan - Generative model
+- lstm-mtl - Classifier model using sequential dependencies.
 
 Visualization using Tensorboard.
