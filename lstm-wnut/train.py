@@ -34,7 +34,7 @@ parser.add_argument('--device', '--d',
                     help='pick device to run the training (defalut: "cpu")')
 parser.add_argument('--network', '--n',
                     default='lstm',
-                    choices=['lstm'],
+                    choices=['lstm', 'teacher', 'mtl', 'attention'],
                     help='pick a specific network to train (default: lstm)')
 parser.add_argument('--embedding', '--emb',
                     type=int, default=100, metavar='N',
@@ -172,7 +172,7 @@ def train(trainset, validationset):
     # Set loss function
     w = torch.tensor([0, 0, 0, 0, .4, 1, 1, 1,
                       1, 1, 1, 1, 1, 1, 1, 1, 1],
-                     dtype=torch.float).cuda()
+                     dtype=torch.float).to(args.device)
     args.criterion = torch.nn.NLLLoss(weight=w)
 
     # restore checkpoint
@@ -382,6 +382,13 @@ def main():
                        args.layers,
                        args.dropout,
                        args.lentag)
+    elif args.network == 'teacher':
+        net = LSTM_NER_TeacherForcing(args.embedding,
+                                      args.hidden,
+                                      args.lenword,
+                                      args.layers,
+                                      args.dropout,
+                                      args.lentag)
 
     # Load pretrained embeddings
     if args.fasttext:
