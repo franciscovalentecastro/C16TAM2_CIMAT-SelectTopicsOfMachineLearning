@@ -3560,3 +3560,16 @@ unet-tsukuba/tsukuba/train/oof/frame_1474.png
 unet-tsukuba/tsukuba/train/oof/frame_1473.png
 unet-tsukuba/tsukuba/train/oof/frame_1472.png
 unet-tsukuba/tsukuba/train/oof/frame_1471.png
+lstm-wnut/checkpoint/last_nw=lstm_ds=wnut2017_op=adam_ep=100_bs=32_tp=0.8_10-27-2019-21-58-29.pt
+lstm-wnut/checkpoint/last_nw=lstm_ds=wnut2017_op=adam_ep=100_bs=32_tp=0.8_10-27-2019-21-51-04.pt
+lstm-wnut/checkpoint/last_nw=lstm_ds=wnut2017_op=adam_ep=100_bs=16_tp=0.8_10-27-2019-22-23-36.pt
+lstm-wnut/checkpoint/last_nw=lstm_ds=wnut2017_op=adam_ep=100_bs=16_tp=0.8_10-27-2019-22-00-39.pt
+lstm-wnut/checkpoint/best_nw=lstm_ds=wnut2017_op=adam_ep=100_bs=32_tp=0.8_10-27-2019-21-58-29.pt
+lstm-wnut/checkpoint/best_nw=lstm_ds=wnut2017_op=adam_ep=100_bs=32_tp=0.8_10-27-2019-21-51-04.pt
+lstm-wnut/checkpoint/best_nw=lstm_ds=wnut2017_op=adam_ep=100_bs=16_tp=0.8_10-27-2019-22-23-36.pt
+lstm-wnut/checkpoint/best_nw=lstm_ds=wnut2017_op=adam_ep=100_bs=16_tp=0.8_10-27-2019-22-00-39.pt
+lstm-wnut/.vector_cache/glove.840B.300d.txt.pt
+lstm-wnut/.vector_cache/glove.840B.300d.txt
+lstm-wnut/__pycache__/utils.cpython-37.pyc
+lstm-wnut/__pycache__/network.cpython-37.pyc
+lstm-wnut/.ipynb_checkpoints/reporte_LSTM-WNUT-checkpoint.ipynb

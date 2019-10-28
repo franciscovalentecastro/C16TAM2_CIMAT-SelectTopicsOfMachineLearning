@@ -1,0 +1,79 @@
+### ENTITY F1-SCORES ###
+processed 23394 tokens with 1079 phrases; 
+found: 1012 phrases; correct: 26.
+
+accuracy:  88.66%; 
+precision:   2.57%; 
+recall:   2.41%; 
+FB1:   2.49
+
+      corporation: 
+precision:  20.00%; 
+recall:   1.52%; 
+FB1:   2.82  1
+
+    creative-work: 
+precision:   0.00%; 
+recall:   0.00%; 
+FB1:   0.00  0
+
+            group: 
+precision:   0.00%; 
+recall:   0.00%; 
+FB1:   0.00  0
+
+         location: 
+precision:   2.33%; 
+recall:   8.00%; 
+FB1:   3.61  12
+
+           person: 
+precision:   3.23%; 
+recall:   3.03%; 
+FB1:   3.13  13
+
+          product: 
+precision:   0.00%; 
+recall:   0.00%; 
+FB1:   0.00  0
+
+
+### SURFACE FORM F1-SCORES ###
+processed 23394 tokens with 955 phrases; 
+found: 709 phrases; correct: 24.
+
+accuracy:  88.66%; 
+precision:   3.39%; 
+recall:   2.51%; 
+FB1:   2.88
+
+      corporation: 
+precision:  20.00%; 
+recall:   1.67%; 
+FB1:   3.08  1
+
+    creative-work: 
+precision:   0.00%; 
+recall:   0.00%; 
+FB1:   0.00  0
+
+            group: 
+precision:   0.00%; 
+recall:   0.00%; 
+FB1:   0.00  0
+
+         location: 
+precision:   2.85%; 
+recall:   8.00%; 
+FB1:   4.20  10
+
+           person: 
+precision:   4.87%; 
+recall:   3.46%; 
+FB1:   4.04  13
+
+          product: 
+precision:   0.00%; 
+recall:   0.00%; 
+FB1:   0.00  0
+
