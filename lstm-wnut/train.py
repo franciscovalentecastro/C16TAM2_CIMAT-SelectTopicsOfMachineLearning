@@ -138,7 +138,8 @@ def unpack_batch(batch):
     targets = targets.to(args.device)
 
     # if multi-task generate is_named_entity
-    if args.network == 'mtl':
+    if args.network == 'mtl' or \
+       args.network == 'prop':
         targets = (targets, targets > 4)
 
     return (inputs, targets)
@@ -400,6 +401,13 @@ def main():
                            args.layers,
                            args.dropout,
                            args.lentag)
+    elif args.network == 'attention':
+        net = LSTM_NER_Attention(args.embedding,
+                                 args.hidden,
+                                 args.lenword,
+                                 args.layers,
+                                 args.dropout,
+                                 args.lentag)
     elif args.network == 'prop':
         net = LSTM_NER_Proposal(args.embedding,
                                 args.hidden,

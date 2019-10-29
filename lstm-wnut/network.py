@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 class loss_ner():
@@ -18,9 +19,12 @@ class loss_ner():
         self.bceloss = torch.nn.BCELoss()
 
     def loss(self, outputs, targets):
-        if self.network == 'mtl':
+        if self.network == 'mtl' or \
+           self.network == 'prop':
+
             ne, is_ne = outputs
             t_ne, t_is_ne = targets
+
             return self.nllloss(ne, t_ne) + \
                 self.bceloss(is_ne, t_is_ne.float())
         else:
@@ -192,7 +196,7 @@ class LSTM_NER_Attention(nn.Module):
 
     def __init__(self, embedding_size, hidden_size,
                  vocab_size, layers, dropout, classes):
-        super(LSTM_NER_Proposal, self).__init__()
+        super(LSTM_NER_Attention, self).__init__()
 
         # Parameters
         self.layers = layers
@@ -207,12 +211,17 @@ class LSTM_NER_Attention(nn.Module):
                                dropout=dropout, batch_first=True,
                                bidirectional=True)
 
+        # Attention
+        self.attention = SelfAttention(2 * hidden_size, batch_first=True)
+
         # Decoder
-        self.decoder = nn.LSTM(2 * hidden_size, classes, layers,
+        self.decoder = nn.LSTM(4 * hidden_size, hidden_size, layers,
                                dropout=dropout, batch_first=True)
 
-        # Classifiers
-        self.log_softmax = nn.LogSoftmax(dim=2)
+        # Classifier
+        self.classifier = nn.Sequential(
+            nn.Linear(hidden_size, classes),
+            nn.LogSoftmax(dim=2))
 
     def forward(self, x):
         # Embedding
@@ -221,11 +230,20 @@ class LSTM_NER_Attention(nn.Module):
         # Encoder
         encoded, _ = self.encoder(emb)
 
-        # Decoder
-        decoded, _ = self.encoder(encoded)
+        # Attention
+        represent, attent = self.attention(encoded)
+
+        # reshape attention
+        represent = represent.unsqueeze(1).repeat(1, encoded.shape[1], 1)
+        concat = torch.cat((encoded, represent), dim=2)
+
+        # Decoder + concatenated attention
+        decoded, _ = self.decoder(concat)
+
+        # Classifier
+        y = self.classifier(decoded)
 
         # Reshape for loss
-        y = self.log_softmax(decoded)
         y = torch.transpose(y, 1, 2)
 
         return y
@@ -250,12 +268,21 @@ class LSTM_NER_Proposal(nn.Module):
                                dropout=dropout, batch_first=True,
                                bidirectional=True)
 
+        # Attention
+        self.attention = SelfAttention(2 * hidden_size, batch_first=True)
+
         # Decoder
-        self.decoder = nn.LSTM(2 * hidden_size, classes, layers,
+        self.decoder = nn.LSTM(4 * hidden_size, hidden_size, layers,
                                dropout=dropout, batch_first=True)
 
         # Classifiers
-        self.log_softmax = nn.LogSoftmax(dim=2)
+        self.ne = nn.Sequential(
+            nn.Linear(hidden_size, classes),
+            nn.LogSoftmax(dim=2))
+
+        self.is_ne = nn.Sequential(
+            nn.Linear(hidden_size, 1),
+            nn.Sigmoid())
 
     def forward(self, x):
         # Embedding
@@ -264,11 +291,64 @@ class LSTM_NER_Proposal(nn.Module):
         # Encoder
         encoded, _ = self.encoder(emb)
 
-        # Decoder
-        decoded, _ = self.decoder(encoded)
+        # Attention
+        represent, attent = self.attention(encoded)
+
+        # reshape attention
+        represent = represent.unsqueeze(1).repeat(1, encoded.shape[1], 1)
+        concat = torch.cat((encoded, represent), dim=2)
+
+        # Decoder + concatenated attention
+        decoded, _ = self.decoder(concat)
+
+        # Classifier
+        ne = self.ne(decoded)
+        is_ne = self.is_ne(decoded).squeeze(2)
 
         # Reshape for loss
-        y = self.log_softmax(decoded)
-        y = torch.transpose(y, 1, 2)
+        ne = torch.transpose(ne, 1, 2)
 
-        return y
+        return (ne, is_ne)
+
+
+class SelfAttention(nn.Module):
+    # taken and adapted from
+    # https://discuss.pytorch.org/t/self-attention-on-words-and-masking/5671/4
+
+    def __init__(self, hidden_size, batch_first=False):
+        super(SelfAttention, self).__init__()
+
+        self.hidden_size = hidden_size
+        self.batch_first = batch_first
+
+        self.att_weights = nn.Parameter(torch.Tensor(1, hidden_size),
+                                        requires_grad=True)
+
+        nn.init.xavier_uniform_(self.att_weights.data)
+
+    def forward(self, inputs):
+
+        if self.batch_first:
+            batch_size, max_len = inputs.size()[:2]
+        else:
+            max_len, batch_size = inputs.size()[:2]
+
+        # apply attention layer
+        weights = torch.bmm(inputs,
+                            self.att_weights  # (1, hidden_size)
+                            .permute(1, 0)  # (hidden_size, 1)
+                            .unsqueeze(0)  # (1, hidden_size, 1)
+                            .repeat(batch_size, 1, 1)
+                            # (batch_size, hidden_size, 1)
+                            )
+
+        attentions = F.softmax(F.relu(weights.squeeze()), dim=1)
+
+        # apply attention weights
+        weighted = torch.mul(inputs,
+                             attentions.unsqueeze(-1).expand_as(inputs))
+
+        # get the final fixed vector representations of the sentences
+        representations = weighted.sum(1).squeeze()
+
+        return representations, attentions

@@ -2,6 +2,7 @@
 import warnings
 from datetime import datetime
 from sklearn import metrics
+from sklearn.exceptions import UndefinedMetricWarning
 
 from torchtext import vocab
 from torchtext.data import *
@@ -9,6 +10,9 @@ from torchtext.datasets import *
 
 # Import network
 from network import *
+
+# Filter scikit-learn metric warnings
+warnings.filterwarnings(action='ignore', category=UndefinedMetricWarning)
 
 
 def load_dataset(train_path, valid_path, test_path, args):
@@ -92,11 +96,18 @@ def print_batch(inputs, targets, predicted, args):
 
 def predict(outputs, targets):
     if type(outputs) is tuple:
-        outputs, _ = outputs
+        ne, is_ne = outputs
         targets, _ = targets
 
-    # predict by getting max from dist
-    predicted = (outputs.argmax(dim=1)).type(torch.long)
+        # predict by getting max from dist
+        predicted = (ne.argmax(dim=1)).type(torch.long)
+
+        # Use other task to predict
+        predicted[is_ne < 0.5] = 4
+
+    else:
+        # predict by getting max from dist
+        predicted = (outputs.argmax(dim=1)).type(torch.long)
 
     # Change unwanted tag predictions
     for idx in range(4):
