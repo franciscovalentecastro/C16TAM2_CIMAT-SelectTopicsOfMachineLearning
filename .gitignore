@@ -76,3 +76,5 @@ lstm-irosva/runs/nw=lstm_ds=irosva-cu_op=adam_ep=20_bs=32_tp=0.8_10-22-2019-02-0
 dcgan-celeba/runs/nw=dcgan_ds=celeba_ld=100_op=adam_ep=32_bs=128_tp=1.0_09-25-2019-16-42-21/events.out.tfevents.1569429741.4f5193766db0.125.2
 dcgan-celeba/runs/nw=dcgan_ds=celeba_ld=100_fl=128_op=adam_ep=16_bs=128_tp=1.0_09-26-2019-03-04-02/events.out.tfevents.1569467042.92bda5b37902.3621.1
 lstm-wnut/runs/*
+lstm-wnut/.vector_cache/*
+lstm-wnut/checkpoint/*

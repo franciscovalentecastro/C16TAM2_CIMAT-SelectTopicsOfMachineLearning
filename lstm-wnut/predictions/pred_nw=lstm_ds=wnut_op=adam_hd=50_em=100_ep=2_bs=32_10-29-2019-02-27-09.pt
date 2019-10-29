@@ -11,12 +11,12 @@ another	O	O
 avalanche	O	O
 hit	O	O
 an	O	O
-army	O	B-group
+army	O	O
 barracks	O	O
 in	O	O
 the	O	O
 northern	O	B-location
-area	O	I-location
+area	O	O
 of	O	O
 sonmarg	B-location	O
 ,	O	O
@@ -38,7 +38,7 @@ evacuated	O	O
 villagers	O	O
 from	O	O
 waltengoo	B-location	O
-nar	I-location	O
+nar	I-location	B-location
 where	O	O
 dozens	O	O
 were	O	O
@@ -66,7 +66,7 @@ gt	O	O
 ;	O	O
 *	O	O
 the	O	O
-army	O	O
+army	O	B-group
 on	O	O
 thursday	O	O
 recovered	O	O
@@ -147,7 +147,7 @@ equipped	O	O
 to	O	O
 work	O	O
 in	O	O
-inhospitable	O	O
+inhospitable	O	B-location
 terrain	O	O
 and	O	O
 weather	O	O
@@ -184,14 +184,14 @@ defence	O	O
 spokesman	O	O
 colonel	B-person	B-person
 rajesh	I-person	I-person
-kalia	I-person	I-person
+kalia	I-person	B-person
 said	O	O
 .	O	O
 
 visuals	O	O
 of	O	O
 the	O	O
-avalanche	O	B-location
+avalanche	O	I-location
 site	O	O
 in	O	O
 gurez	B-location	O
@@ -247,7 +247,7 @@ defence	O	O
 spokesman	O	O
 colonel	O	B-person
 rajesh	B-person	I-person
-kalia	I-person	I-person
+kalia	I-person	B-person
 said	O	O
 .	O	O
 
@@ -344,7 +344,7 @@ website	O	O
 ^	O	O
 is	O	O
 ^	O	O
-adblocker	O	O
+adblocker	O	B-product
 ^	O	O
 unfriendly	O	O
 .	O	O
@@ -358,14 +358,14 @@ accept	O	O
 commands	O	O
 !	O	O
 
-road	O	B-location
+road	O	O
 and	O	O
-airport	O	B-location
+airport	O	O
 closure	O	O
 isolate	O	O
 srinagar	B-location	B-location
 as	O	O
-avalanche	O	B-location
+avalanche	O	O
 risk	O	O
 remains	O	O
 high	O	O
@@ -378,7 +378,7 @@ http://images.indianexpress.com/2015/05/drdo-logo-thumb.jpg?w=480	O	O
 )	O	O
 
 the	O	O
-drdo	B-group	B-corporation
+drdo	B-group	O
 is	O	O
 working	O	O
 on	O	O
@@ -402,7 +402,7 @@ file	O	O
 photo	O	O
 )	O	O
 the	O	O
-drdo	B-group	B-corporation
+drdo	B-group	B-location
 is	O	O
 working	O	O
 on	O	O
@@ -426,8 +426,8 @@ file	O	O
 photo	O	O
 )	O	O
 
-the	O	O
-defence	B-group	O
+the	O	B-group
+defence	B-group	B-group
 research	I-group	O
 development	I-group	O
 organisation	I-group	O
@@ -441,14 +441,14 @@ four	O	O
 projects	O	O
 to	O	O
 develop	O	O
-new	O	O
-technologies	O	O
+new	O	B-corporation
+technologies	O	I-corporation
 for	O	O
 more	O	O
 accurate	O	O
 prediction	O	O
 of	O	O
-avalanches	O	B-location
+avalanches	O	O
 ,	O	O
 the	O	O
 government	O	O
@@ -461,7 +461,7 @@ friday	O	O
 presently	O	O
 ,	O	O
 the	O	O
-drdo	B-group	B-corporation
+drdo	B-group	B-location
 is	O	O
 working	O	O
 on	O	O
@@ -469,14 +469,14 @@ four	O	O
 projects	O	O
 to	O	O
 develop	O	O
-new	O	O
-technologies	O	O
+new	O	B-corporation
+technologies	O	I-corporation
 for	O	O
 more	O	O
 accurate	O	O
 prediction	O	O
 of	O	O
-avalanches	O	O
+avalanches	O	B-group
 ,	O	O
 ”	O	O
 he	O	O
@@ -495,7 +495,7 @@ question	O	O
 bhamre	B-person	O
 said	O	O
 the	O	O
-jawans	O	O
+jawans	O	B-location
 deployed	O	O
 at	O	O
 places	O	O
@@ -587,7 +587,7 @@ website	O	O
 ^	O	O
 is	O	O
 ^	O	O
-adblocker	O	O
+adblocker	O	B-product
 ^	O	O
 unfriendly	O	O
 .	O	O
@@ -673,10 +673,10 @@ kroos	I-person	I-person
 here	O	O
 ]	O	O
 (	O	O
-https://www.reddit.com/r/soccer/comments/5my29a/nearcertain_fifpro_xi_for_2016_neuer_dani_alves/	O	B-creative-work
-)	O	I-creative-work
-is	O	I-creative-work
-the	O	I-creative-work
+https://www.reddit.com/r/soccer/comments/5my29a/nearcertain_fifpro_xi_for_2016_neuer_dani_alves/	O	O
+)	O	O
+is	O	O
+the	O	O
 (	O	O
 near-certain	O	O
 )	O	O
@@ -767,13 +767,13 @@ in	O	O
 the	O	O
 last	O	O
 game	O	O
-vs	O	B-group
+vs	O	O
 bordeaux	B-group	B-group
 .	O	O
 
 https://www.reddit.com/r/newzealand/comments/5p0edk/comment/dcnrf9t?st=iy5u4xso&amp;sh=9fd7c3a9ijustcouldn'tseetheedgeofthenewplymouthradarcircleonop'spic.	O	O
 
-coyb	O	O
+coyb	O	B-group
 !	O	O
 
 oh	O	O
@@ -823,9 +823,9 @@ posted	O	O
 it	O	O
 here	O	O
 ,	O	O
-daily	O	O
-edge	O	O
-sid	B-person	O
+daily	O	B-product
+edge	O	I-creative-work
+sid	B-person	I-creative-work
 a	O	O
 piece	O	O
 too	O	O
@@ -930,7 +930,7 @@ the	O	O
 thing	O	O
 that	O	O
 got	O	O
-trump	B-person	B-person
+trump	B-person	B-corporation
 elected	O	O
 in	O	O
 first	O	O
@@ -957,7 +957,7 @@ you	O	O
 posted	O	O
 this	O	O
 in	O	O
-td	B-location	B-location
+td	B-location	O
 so	O	O
 why	O	O
 are	O	O
@@ -976,7 +976,7 @@ into	O	O
 overdrive	O	O
 now	O	O
 
-cvs	B-corporation	O
+cvs	B-corporation	B-corporation
 selling	O	O
 their	O	O
 own	O	O
@@ -991,7 +991,7 @@ th	O	O
 price	O	O
 .	O	O
 
-trump	B-person	B-corporation
+trump	B-person	B-person
 :	O	O
 i	O	O
 '	O	O
@@ -1009,7 +1009,7 @@ michigan	B-location	B-location
 becky	B-person	B-person
 in	O	O
 a	O	O
-snickers	B-product	O
+snickers	B-product	B-corporation
 advert	O	O
 ?	O	O
 
@@ -1062,7 +1062,7 @@ having	O	O
 parliament	O	O
 on	O	O
 the	O	O
-radio	O	B-corporation
+radio	O	O
 in	O	O
 my	O	O
 car	O	O
@@ -1075,7 +1075,7 @@ this	O	O
 speach	O	O
 ]	O	O
 (	O	O
-https://np.reddit.com/r/australia/comments/307z4f/leyonhjelm_on_metadata/	O	B-creative-work
+https://np.reddit.com/r/australia/comments/307z4f/leyonhjelm_on_metadata/	O	O
 )	O	O
 which	O	O
 was	O	O
@@ -1097,7 +1097,7 @@ thought	O	O
 he	O	O
 had	O	O
 joined	O	O
-boro	B-group	I-person
+boro	B-group	B-corporation
 ?	O	O
 
 you	O	O
@@ -1142,14 +1142,14 @@ in	O	O
 &	O	O
 gt	O	O
 ;	O	O
-cavani	B-person	B-person
+cavani	B-person	B-group
 has	O	O
 the	O	O
 highest	O	O
 conversion	O	O
 rate	O	O
 in	O	O
-europe	B-location	B-location
+europe	B-location	O
 
 cheney	B-person	B-person
 '	O	O
@@ -1191,7 +1191,7 @@ redditor	O	O
 :	O	O
 nlwastedlink	O	O
 
-dzeko	B-person	B-person
+dzeko	B-person	B-group
 penalty	O	O
 miss	O	O
 will	O	O
@@ -1199,7 +1199,7 @@ be	O	O
 [	O	O
 r	O	O
 /	O	O
-soccer	O	O
+soccer	O	B-group
 ]	O	O
 (	O	O
 https://www.reddit.com/r/soccer/	O	O
@@ -1223,8 +1223,8 @@ of	O	O
 /	B-group	O
 r	I-group	O
 /	I-group	O
-politics	I-group	B-product
-on	O	I-product
+politics	I-group	O
+on	O	O
 this	O	O
 topic	O	O
 .	O	O
@@ -1260,7 +1260,7 @@ n	O	O
 t	O	O
 handle	O	O
 the	O	O
-ronaldo	B-person	B-person
+ronaldo	B-person	O
 criticism	O	O
 .	O	O
 
@@ -1298,11 +1298,11 @@ underway	O	O
 for	O	O
 return	O	O
 of	O	O
-napoleon	B-person	B-creative-work
-'	O	I-creative-work
-s	O	I-creative-work
-horse	O	I-creative-work
-marengo	O	I-group
+napoleon	B-person	B-person
+'	O	O
+s	O	O
+horse	O	O
+marengo	O	B-location
 to	O	O
 ireland	B-location	B-location
 
@@ -1330,7 +1330,7 @@ cvg	B-location	B-location
 yet	O	O
 ?	O	O
 
-reddit	O	B-product
+reddit	O	B-corporation
 '	O	O
 s	O	O
 tough	O	O
@@ -1366,7 +1366,7 @@ being	O	O
 beaten	O	O
 by	O	O
 trump	B-person	B-person
-supporters	O	I-person
+supporters	O	O
 ]	O	O
 (	O	O
 https://m.reddit.com/r/politics/comments/5m3r1c/activists_brutally_attacked_by_donald_trump/	O	O
@@ -1487,8 +1487,8 @@ up	O	O
 i	O	O
 asked	O	O
 bellerin	B-person	B-person
-v	O	I-person
-walker	B-person	I-person
+v	O	O
+walker	B-person	B-person
 in	O	O
 a	O	O
 match	O	O
@@ -1522,7 +1522,7 @@ from	O	O
 syria	B-group	O
 ~	O	O
 ~	O	O
-serbia	B-group	B-person
+serbia	B-group	B-location
 where	O	O
 some	O	O
 guy	O	O
@@ -1582,7 +1582,7 @@ pointed	O	O
 out	O	O
 to	O	O
 andrew	B-person	B-person
-little	I-person	O
+little	I-person	I-person
 would	O	O
 be	O	O
 cheaper	O	O
@@ -1603,7 +1603,7 @@ my	O	O
 sexuality	O	O
 since	O	O
 the	B-creative-work	O
-x-files	I-creative-work	B-creative-work
+x-files	I-creative-work	O
 started	O	O
 .	O	O
 
@@ -1614,9 +1614,9 @@ title	O	O
 *	O	O
 *	O	O
 :	O	O
-psg	B-group	B-person
-tell	O	I-person
-inter	B-group	I-person
+psg	B-group	B-group
+tell	O	O
+inter	B-group	B-group
 &	O	O
 amp	O	O
 ;	O	O
@@ -1633,7 +1633,7 @@ sure	O	O
 if	O	O
 trust	O	O
 donald	B-person	B-person
-on	O	I-person
+on	O	O
 this	O	O
 .	O	O
 
@@ -1657,7 +1657,7 @@ d	O	O
 want	O	O
 attacks	O	O
 on	O	O
-trump	B-person	B-person
+trump	B-person	B-corporation
 supporters	O	O
 to	O	O
 continue	O	O
@@ -1709,8 +1709,8 @@ the	O	O
 producer	O	O
 (	O	O
 great	B-corporation	O
-southern	I-corporation	B-group
-television	I-corporation	I-group
+southern	I-corporation	B-location
+television	I-corporation	O
 )	O	O
 
 &	O	O
@@ -1729,7 +1729,7 @@ nothing	O	O
 wrong	O	O
 with	O	O
 the	O	O
-huron	B-group	B-location
+huron	B-group	B-corporation
 disposal	O	O
 site	O	O
 .	O	O
@@ -1764,7 +1764,7 @@ loss	O	O
 %	O	O
 of	O	O
 costa	B-location	B-location
-rica	I-location	O
+rica	I-location	I-location
 '	O	O
 s	O	O
 electricity	O	O
@@ -1952,7 +1952,7 @@ previous	O	O
 /	O	O
 r	O	O
 /	O	O
-calgary	O	B-location
+calgary	O	O
 submission	O	O
 which	O	O
 did	O	O
@@ -1968,8 +1968,8 @@ this	O	O
 was	O	O
 published	O	O
 by	O	O
-cbc	B-corporation	B-location
-manitoba	I-corporation	B-location
+cbc	B-corporation	B-corporation
+manitoba	I-corporation	I-corporation
 .	O	O
 
 *	O	O
@@ -1980,10 +1980,10 @@ title	O	O
 *	O	O
 :	O	O
 diego	B-person	B-person
-rolan	I-person	I-person
+rolan	I-person	B-group
 goal	O	O
 vs	O	B-group
-psg	B-group	I-person
+psg	B-group	I-group
 (	O	O
 1	O	O
 -	O	O
@@ -2147,8 +2147,8 @@ in	O	O
 a	O	O
 heartbeat	O	O
 and	O	O
-frankly	O	O
-costil	B-person	B-person
+frankly	O	B-person
+costil	B-person	I-person
 and	O	O
 sagna	B-person	B-person
 would	O	O
@@ -2165,7 +2165,7 @@ right	O	O
 now	O	O
 .	O	O
 
-обсуждение	O	B-product
+обсуждение	O	I-product
 на	O	I-product
 английском	O	I-product
 https://www.reddit.com/r/canada/comments/5p52wh/stephen_harper_trump_will_reverse_the_cornerstone/	O	O
@@ -2179,7 +2179,7 @@ his	O	O
 trip	O	O
 to	O	O
 north	B-location	B-location
-korea	I-location	O
+korea	I-location	I-location
 ]	O	O
 (	O	O
 https://np.reddit.com/r/ama/comments/5hywfx/i_have_just_got_back_from_a_trip_to_north_korea/	O	O
@@ -2223,14 +2223,14 @@ republicans	B-group	O
 from	O	O
 scrapping	O	O
 the	O	O
-preexisting	O	B-group
+preexisting	O	O
 conditions	O	O
 clause	O	O
 for	O	O
 those	O	O
 with	O	O
 bld	B-product	B-person
-–	O	O
+–	O	I-person
 paid	O	O
 for	O	O
 from	O	O
@@ -2275,7 +2275,7 @@ delight	O	O
 https://np.reddit.com/r/ireland/comments/3dpuxy/visiting_your_beautiful_country_this_weekend_want/	O	O
 )	O	O
 the	O	O
-irish	O	O
+irish	O	B-location
 .	O	O
 
 colluding	O	O
@@ -2300,7 +2300,7 @@ try	O	O
 that	O	O
 in	O	O
 the	O	O
-nhl	B-corporation	O
+nhl	B-corporation	B-group
 
 tl	O	O
 ;	O	O
@@ -2486,7 +2486,7 @@ content	O	O
 *	O	O
 *	O	O
 :	O	O
-marseille	B-location	B-person
+marseille	B-location	B-location
 has	O	O
 .	O	O
 
@@ -2499,7 +2499,7 @@ many	O	O
 wounded	O	O
 '	O	O
 in	O	O
-istanbul	B-location	B-location
+istanbul	B-location	O
 nightclub	O	O
 attack	O	O
 ]	O	O
@@ -2518,7 +2518,7 @@ the	O	O
 goals	O	O
 .	O	O
 
-velvet	B-person	O
+velvet	B-person	B-product
 has	O	O
 such	O	O
 a	O	O
@@ -2564,7 +2564,7 @@ here	O	O
 [	O	O
 r	O	O
 /	O	O
-soccer	O	O
+soccer	O	B-group
 thread	O	O
 ]	O	O
 (	O	O
@@ -2575,7 +2575,7 @@ brutal	O	O
 
 you	O	O
 mean	O	O
-tomi	B-person	B-person
+tomi	B-person	O
 lahren	I-person	O
 ,	O	O
 i	O	O
@@ -2673,8 +2673,8 @@ you	O	O
 can	O	O
 see	O	O
 the	O	O
-stoke	B-group	B-person
-mafia	I-group	I-person
+stoke	B-group	B-group
+mafia	I-group	I-group
 ganged	O	O
 up	O	O
 on	O	O
@@ -2702,7 +2702,7 @@ tweet	O	O
 ,	O	O
 which	O	O
 mentions	O	O
-swansea	B-group	O
+swansea	B-group	B-group
 .	O	O
 
 hopefully	O	O
@@ -2713,12 +2713,12 @@ a	O	O
 deal	O	O
 with	O	O
 the	O	O
-snickers	B-product	B-product
-company	O	I-product
+snickers	B-product	B-corporation
+company	O	O
 to	O	O
 supply	O	O
 our	O	O
-island	O	B-product
+island	O	O
 with	O	O
 their	O	O
 delicious	O	O
@@ -2750,10 +2750,10 @@ fuels	O	O
 
 pls	O	O
 no	O	O
-tom	B-person	B-person
+tom	B-person	O
 
 [	O	O
-snickers	B-product	O
+snickers	B-product	B-product
 ]	O	O
 (	O	O
 https://www.reddit.com/r/ireland/comments/3dpuxy/visiting_your_beautiful_country_this_weekend_want/	O	O
@@ -2767,7 +2767,7 @@ andy	B-person	B-person
 carroll	I-person	I-person
 goal	O	O
 vs	O	B-group
-crystal	B-group	I-person
+crystal	B-group	I-group
 palace	I-group	I-group
 (	O	O
 2	O	O
@@ -2804,7 +2804,7 @@ miss	O	O
 this	O	O
 ]	O	O
 (	O	O
-https://www.reddit.com/r/soccer/comments/5lrdkr/ars%c3%a8ne_wenger_in_20_years_it_is_the_most_uneven/?ref=search_posts	O	O
+https://www.reddit.com/r/soccer/comments/5lrdkr/ars%c3%a8ne_wenger_in_20_years_it_is_the_most_uneven/?ref=search_posts	O	B-person
 )	O	O
 yesterday	O	O
 ?	O	O
@@ -2890,7 +2890,7 @@ title	O	O
 *	O	O
 *	O	O
 :	O	O
-middleborough	B-group	B-person
+middleborough	B-group	O
 in	O	O
 talks	O	O
 to	O	O
@@ -2916,7 +2916,7 @@ is	O	O
 
 [	O	O
 from	O	O
-barcelona	B-group	B-group
+barcelona	B-group	O
 ,	O	O
 the	O	O
 stand-out	O	O
@@ -2942,8 +2942,8 @@ even	O	O
 funny	O	O
 like	O	O
 the	O	O
-multinational	B-corporation	B-location
-corporation	I-corporation	O
+multinational	B-corporation	B-corporation
+corporation	I-corporation	I-corporation
 one	O	O
 yesterday	O	O
 .	O	O
@@ -2970,9 +2970,9 @@ title	O	O
 :	O	O
 official	O	O
 :	O	O
-psg	B-group	B-person
+psg	B-group	B-group
 sign	O	O
-gonçalo	B-person	O
+gonçalo	B-person	B-person
 guedes	I-person	I-person
 for	O	O
 25	O	O
@@ -3028,7 +3028,7 @@ radio	O	B-corporation
 stations	O	O
 )	O	O
 adding	O	O
-rap	O	O
+rap	O	B-corporation
 features	O	O
 to	O	O
 normal	O	O
@@ -3056,7 +3056,7 @@ your	O	O
 problem	O	O
 with	O	O
 the	O	O
-splc	B-group	B-group
+splc	B-group	B-product
 though	O	O
 .	O	O
 
@@ -3066,7 +3066,7 @@ ah	O	O
 the	O	O
 ol	O	O
 '	O	O
-reddit	B-corporation	O
+reddit	B-corporation	B-corporation
 skin-a-roo	O	O
 !	O	O
 
@@ -3074,8 +3074,8 @@ also	O	O
 ,	O	O
 check	O	O
 the	O	O
-fifa	B-creative-work	B-corporation
-xi	I-creative-work	I-product
+fifa	B-creative-work	O
+xi	I-creative-work	O
 thread	O	O
 where	O	O
 a	O	O
@@ -3109,7 +3109,7 @@ be	O	O
 silent	O	O
 
 on	O	O
-reddit	B-location	B-corporation
+reddit	B-location	O
 ,	O	O
 i	O	O
 do	O	O
@@ -3191,7 +3191,7 @@ it	O	O
 because	O	O
 ,	O	O
 like	O	O
-italy	B-location	B-person
+italy	B-location	B-location
 ,	O	O
 they	O	O
 called	O	O
@@ -3309,8 +3309,8 @@ goal	O	O
 +	O	O
 replays	O	O
 -	O	O
-aa	B-group	B-creative-work
-mirror	O	I-creative-work
+aa	B-group	O
+mirror	O	B-creative-work
 hd	O	I-creative-work
 ]	O	O
 (	O	O
@@ -3319,8 +3319,8 @@ https://streamable.com/qlwoq	O	O
 
 [	O	O
 aa	B-group	O
-mirror	O	O
-replays	O	O
+mirror	O	B-creative-work
+replays	O	I-creative-work
 hd	O	O
 -	O	O
 mixtape	O	O
@@ -3343,7 +3343,7 @@ on	O	O
 /	O	O
 r	O	O
 /	O	O
-soccer	O	B-group
+soccer	O	O
 right	O	O
 now	O	O
 is	O	O
@@ -3376,7 +3376,7 @@ gt	O	O
 /	O	O
 r	O	O
 /	O	O
-iceland	B-location	B-product
+iceland	B-location	B-group
 ]	O	O
 (	O	O
 https://www.reddit.com/r/iceland/	O	O
@@ -3389,13 +3389,13 @@ title	O	O
 *	O	O
 *	O	O
 :	O	O
-british	O	B-person
+british	O	B-location
 man	O	O
 dies	O	O
 working	O	O
 on	O	O
 qatar	B-location	B-location
-2022	I-location	O
+2022	I-location	I-location
 world	I-location	O
 cup	I-location	O
 stadium	I-location	O
@@ -3426,7 +3426,7 @@ drinks	O	O
 this	O	O
 friday	O	O
 at	O	O
-kelly	B-location	B-person
+kelly	B-location	O
 '	I-location	O
 s	I-location	O
 in	O	O
@@ -3487,7 +3487,7 @@ aah	O	O
 ,	O	O
 the	O	O
 old	O	O
-reddit	B-corporation	O
+reddit	B-corporation	B-corporation
 deatharoo	O	O
 ]	O	O
 (	O	O
@@ -3538,7 +3538,7 @@ from	O	O
 /	O	O
 u	O	O
 /	O	O
-imkatnotcat	O	O
+imkatnotcat	O	B-group
 [	O	O
 above	O	O
 ]	O	O
@@ -3560,7 +3560,7 @@ it	O	O
 ,	O	O
 ]	O	O
 (	O	O
-https://www.reddit.com/r/sports/comments/5mr4wn/ronnie_osullivan_clears_a_challenging_table_after/dc5trbm/	O	B-person
+https://www.reddit.com/r/sports/comments/5mr4wn/ronnie_osullivan_clears_a_challenging_table_after/dc5trbm/	O	O
 )	O	O
 so	O	O
 they	O	O
@@ -3613,7 +3613,7 @@ obligatory	O	O
 link	O	O
 to	O	O
 [	O	O
-oldies	O	O
+oldies	O	B-corporation
 night	O	O
 ]	O	O
 (	O	O
@@ -3652,7 +3652,7 @@ antónio	B-person	B-person
 guterres	I-person	I-person
 be	O	O
 the	O	O
-un	B-group	B-group
+un	B-group	I-group
 '	O	O
 s	O	O
 best	O	O
@@ -3790,7 +3790,7 @@ there	O	O
 /	O	O
 u	O	O
 /	O	O
-mo-bot	O	O
+mo-bot	O	B-person
 ,	O	O
 the	O	O
 actual	O	O
@@ -3832,7 +3832,7 @@ just	O	O
 looking	O	O
 at	O	O
 the	O	O
-wayback	O	B-corporation
+wayback	O	O
 machine	O	O
 on	O	O
 /	B-location	O
@@ -3897,8 +3897,8 @@ forced	O	O
 to	O	O
 yell	O	O
 "	O	O
-fuck	O	B-person
-trump	B-person	I-person
+fuck	O	O
+trump	B-person	B-corporation
 "	O	O
 .	O	O
 
@@ -3933,7 +3933,7 @@ is	O	O
 not	O	O
 at	O	O
 all	O	O
-alt-left	O	B-location
+alt-left	O	O
 at	O	O
 present	O	O
 ,	O	O
@@ -3994,7 +3994,7 @@ here	O	O
 you	O	O
 go	O	O
 [	O	O
-source	O	O
+source	O	B-group
 ]	O	O
 (	O	O
 https://www.reddit.com/r/news/comments/5m863w/hate_crime_charges_filed_against_4_in_torture_of/dc1n6t7/	O	O
@@ -4032,15 +4032,15 @@ i	O	O
 like	O	O
 u	O	O
 /	O	O
-womble	B-person	B-person
+womble	B-person	O
 _	I-person	O
 don	I-person	B-person
-'	O	I-person
-s	O	I-person
+'	O	O
+s	O	O
 post	O	O
 about	O	O
-why	O	B-person
-lahm	B-person	I-person
+why	O	O
+lahm	B-person	B-person
 is	O	O
 a	O	O
 good	O	O
@@ -4120,7 +4120,7 @@ wounded	O	O
 '	O	O
 in	O	O
 istanbul	B-location	B-location
-nightclub	O	I-location
+nightclub	O	O
 attack	O	O
 
 its	O	O
@@ -4136,8 +4136,8 @@ to	O	O
 say	O	O
 ,	O	O
 "	O	O
-new	B-location	B-location
-zealand	I-location	I-location
+new	B-location	B-creative-work
+zealand	I-location	I-creative-work
 "	O	O
 could	O	O
 all	O	O
@@ -4148,13 +4148,13 @@ place	O	O
 ,	O	O
 such	O	O
 as	O	O
-reddit	B-location	O
+reddit	B-location	B-corporation
 .	I-location	O
 com	I-location	O
 /	I-location	O
 r	I-location	O
 /	I-location	O
-newzealand	I-location	B-location
+newzealand	I-location	O
 .	O	O
 
 best	O	O
@@ -4215,7 +4215,7 @@ wonder	O	O
 how	O	O
 many	O	O
 [	O	O
-ticket	O	O
+ticket	O	B-group
 operations	O	O
 coordinators	O	O
 ]	O	O
@@ -4232,9 +4232,9 @@ itt	O	O
 mutual	O	O
 respect	O	O
 between	O	O
-tottenham	B-group	B-person
+tottenham	B-group	B-group
 and	O	O
-chelsea	B-group	B-person
+chelsea	B-group	B-group
 fans	O	O
 and	O	O
 everyone	O	O
@@ -4291,7 +4291,7 @@ are	O	O
 bigger	O	O
 nazis	B-group	O
 than	O	O
-trump	B-person	B-person
+trump	B-person	O
 .	O	O
 
 *	O	O
@@ -4330,8 +4330,8 @@ it	O	O
 s	O	O
 like	O	O
 the	B-creative-work	O
-twilight	I-creative-work	B-product
-zone	I-creative-work	I-product
+twilight	I-creative-work	B-creative-work
+zone	I-creative-work	I-creative-work
 of	O	O
 reddit	O	B-corporation
 .	O	O
@@ -4394,15 +4394,15 @@ clouds	O	O
 https://www.reddit.com/r/ireland/comments/61i0nu/ufo_spotted_in_arklow/	O	O
 )	O	O
 
-/	O	I-product
-r	O	I-product
-/	O	I-product
-movies	O	I-product
-:	O	I-product
-film	O	I-product
-/	O	I-product
-theatre	O	I-product
-teacher	O	O
+/	O	O
+r	O	O
+/	O	O
+movies	O	O
+:	O	O
+film	O	B-creative-work
+/	O	I-creative-work
+theatre	O	I-creative-work
+teacher	O	I-creative-work
 
 this	O	O
 post	O	O
@@ -4427,7 +4427,7 @@ pants	O	O
 about	O	O
 the	O	O
 ess	B-creative-work	O
-jay	I-creative-work	B-person
+jay	I-creative-work	O
 dubs	I-creative-work	O
 ,	O	O
 just	O	O
@@ -4479,7 +4479,7 @@ jesus	B-person	B-person
 christ	I-person	I-person
 .	O	O
 
-chelsea	B-group	B-person
+chelsea	B-group	B-group
 lost	O	O
 yesterday	O	O
 ,	O	O
@@ -4539,7 +4539,7 @@ a	O	O
 fake	O	O
 interview	O	O
 with	O	O
-messi	B-person	O
+messi	B-person	B-person
 is	O	O
 easy	O	O
 ,	O	O
@@ -4574,18 +4574,18 @@ signs	O	O
 for	O	O
 turkish	O	O
 side	O	O
-basaksehir	B-group	O
+basaksehir	B-group	B-location
 
 one	O	O
 last	O	O
 reminder	O	O
 for	O	O
 [	O	O
-oldies	O	B-creative-work
-night	O	I-creative-work
+oldies	O	B-group
+night	O	O
 ]	O	O
 (	O	O
-https://www.reddit.com/r/sydney/comments/5xl59i/oldies_night_18_march_2017_bavarian_bier_cafe/	O	B-creative-work
+https://www.reddit.com/r/sydney/comments/5xl59i/oldies_night_18_march_2017_bavarian_bier_cafe/	O	O
 )	O	O
 -	O	O
 still	O	O
@@ -4621,8 +4621,8 @@ who	O	O
 believe	O	O
 government	O	O
 /	O	O
-cia	B-group	O
-propaganda	O	O
+cia	B-group	B-corporation
+propaganda	O	B-corporation
 and	O	O
 fake	O	B-corporation
 news	O	O
@@ -4671,8 +4671,8 @@ gt	O	O
 ;	O	O
 it	O	O
 '	O	O
-s	O	O
-the	O	O
+s	O	B-creative-work
+the	O	I-creative-work
 body	O	O
 of	O	O
 a	O	O
@@ -4698,15 +4698,15 @@ not-so-	O	O
 ~	O	O
 ~	O	O
 silent	O	O
-guardian	O	I-product
+guardian	O	O
 ,	O	O
 a	O	O
-watchful	O	O
-protector	O	O
+watchful	O	B-product
+protector	O	I-product
 ,	O	O
-a	O	O
-dark	B-person	B-creative-work
-knight	I-person	I-creative-work
+a	O	B-product
+dark	B-person	I-product
+knight	I-person	I-product
 .	O	O
 
 err	O	O
@@ -4733,7 +4733,7 @@ the	O	O
 phrase	O	O
 "	O	O
 alleged	O	O
-doping	O	O
+doping	O	B-person
 allegation	O	O
 "	O	O
 .	O	O
@@ -4775,7 +4775,7 @@ http://www.visitzealandia.com/portals/0/feeding%20birds%20at%20home.pdf	O	O
 it	O	O
 happens	O	O
 on	O	O
-united	B-corporation	B-location
+united	B-corporation	B-group
 related	O	O
 posts	O	O
 .	O	O
@@ -4785,7 +4785,7 @@ hanging	O	O
 out	O	O
 with	O	O
 his	O	O
-brother	O	B-person
+brother	O	O
 .	O	O
 .	O	O
 .	O	O
@@ -4876,7 +4876,7 @@ someone	O	O
 in	O	O
 r	B-group	O
 /	I-group	O
-calgary	B-group	O
+calgary	B-group	B-location
 just	O	O
 happens	O	O
 to	O	O
@@ -5097,7 +5097,7 @@ then	O	O
 
 looking	O	O
 up	O	O
-touchscreen	O	B-product
+touchscreen	O	O
 history	O	O
 -	O	O
 found	O	O
@@ -5106,15 +5106,15 @@ this	O	O
 computer	O	O
 that	O	O
 used	O	O
-infrared	O	B-product
+infrared	O	O
 to	O	O
 detect	O	O
 finger	O	O
 movement	O	O
 .	O	O
 clearly	O	O
-star	B-creative-work	B-creative-work
-trek	I-creative-work	I-creative-work
+star	B-creative-work	O
+trek	I-creative-work	O
 was	O	O
 an	O	O
 inspiration	O	O
@@ -5131,7 +5131,7 @@ ones	O	O
 newly	O	O
 introduced	O	O
 in	O	O
-rogue	B-creative-work	B-product
+rogue	B-creative-work	B-group
 one	I-creative-work	O
 -	O	O
 i	O	O
@@ -5174,7 +5174,7 @@ it	O	O
 '	O	O
 s	O	O
 practically	O	O
-universal	O	B-product
+universal	O	O
 .	O	O
 
 how	O	O
@@ -5407,7 +5407,7 @@ the	O	O
 exact	O	O
 outfit	O	O
 that	O	O
-homer	B-person	O
+homer	B-person	B-person
 was	O	O
 in	O	O
 from	O	O
@@ -5435,13 +5435,13 @@ good	O	O
 
 science	O	O
 fiction	O	O
-novel	O	O
-about	O	O
+novel	O	B-creative-work
+about	O	I-creative-work
 an	O	O
-assassin	O	B-product
-'	O	I-product
-s	O	I-product
-guild	O	I-product
+assassin	O	B-creative-work
+'	O	O
+s	O	O
+guild	O	O
 that	O	O
 claims	O	O
 to	O	O
@@ -5726,8 +5726,8 @@ s	O	O
 name	O	O
 and	O	O
 lee	B-person	B-person
-'	O	I-person
-s	O	I-person
+'	O	O
+s	O	O
 daughter	O	O
 ?	O	O
 
@@ -5742,7 +5742,7 @@ for	O	O
 encrypted	O	O
 but	O	O
 open	O	O
-wifi	B-product	B-product
+wifi	B-product	O
 developed	O	O
 ?	O	O
 
@@ -5750,11 +5750,11 @@ old	O	O
 novel	O	O
 of	O	O
 a	O	O
-hunter	O	B-creative-work
-on	O	I-creative-work
+hunter	O	B-person
+on	O	O
 a	O	O
 man-eating	O	B-person
-island	O	I-person
+island	O	O
 ;	O	O
 he	O	O
 has	O	O
@@ -5770,8 +5770,8 @@ to	O	O
 kill	O	O
 him	O	O
 
-senate	B-group	O
-democrats	I-group	O
+senate	B-group	B-group
+democrats	I-group	I-group
 eliminated	O	O
 the	O	O
 nuclear	O	O
@@ -5809,7 +5809,7 @@ means	O	O
 to	O	O
 stop	O	O
 the	B-group	O
-republican	I-group	B-group
+republican	I-group	O
 administration	I-group	O
 nominees	I-group	O
 if	O	O
@@ -5863,7 +5863,7 @@ in	O	O
 this	O	O
 episode	O	O
 of	O	O
-pokémon	B-creative-work	B-creative-work
+pokémon	B-creative-work	B-group
 
 about	O	O
 role	O	O
@@ -5938,7 +5938,7 @@ other	O	O
 point	O	O
 as	O	O
 the	O	O
-axis	O	B-corporation
+axis	O	O
 of	O	O
 rotation	O	O
 by	O	O
@@ -6006,7 +6006,7 @@ has	O	O
 n	O	O
 '	O	O
 t	O	O
-rick	B-person	B-person
+rick	B-person	O
 only	O	O
 ever	O	O
 explained	O	O
@@ -6036,11 +6036,11 @@ s	O	O
 the	O	O
 difference	O	O
 between	O	O
-ballistic	B-product	B-product
-galvanometer	I-product	I-product
+ballistic	B-product	O
+galvanometer	I-product	O
 and	O	O
-classic	B-product	B-product
-galvanometer	I-product	I-product
+classic	B-product	O
+galvanometer	I-product	O
 ?	O	O
 
 hi	O	O
@@ -6103,9 +6103,9 @@ download	O	O
 internet	O	B-corporation
 files	O	O
 over	O	O
-tor	B-product	O
+tor	B-product	B-corporation
 
-java	B-product	I-product
+java	B-product	B-product
 object	I-product	O
 encryption	I-product	O
 
@@ -6122,7 +6122,7 @@ a	O	O
 significant	O	O
 anti-	O	O
 eastern	B-location	B-location
-europe	I-location	I-location
+europe	I-location	O
 vibe	O	O
 among	O	O
 the	O	O
@@ -6131,7 +6131,7 @@ mentioned	O	O
 .	O	O
 politicians	O	O
 like	O	O
-orban	B-person	B-person
+orban	B-person	O
 are	O	O
 viewed	O	O
 as	O	O
@@ -6236,7 +6236,7 @@ or	O	O
 herself	O	O
 to	O	O
 the	O	O
-supreme	B-group	B-location
+supreme	B-group	O
 court	I-group	O
 ?	O	O
 
@@ -6296,14 +6296,14 @@ is	O	O
 ryll	B-product	O
 mined	O	O
 on	O	O
-kessel	B-location	B-person
+kessel	B-location	B-corporation
 ?	O	O
 they	O	O
 mention	O	O
 that	O	O
-planet	O	B-location
+planet	O	O
 in	O	O
-anh	B-creative-work	B-location
+anh	B-creative-work	O
 ,	O	O
 and	O	O
 then	O	O
@@ -6323,7 +6323,7 @@ it	O	O
 is	O	O
 .	O	O
 the	O	O
-hogwarts	B-location	B-location
+hogwarts	B-location	O
 staff	O	O
 member	O	O
 delivering	O	O
@@ -6334,15 +6334,15 @@ be	O	O
 expected	O	O
 to	O	O
 mention	O	O
-diagon	B-location	B-corporation
+diagon	B-location	B-product
 alley	I-location	O
 (	O	O
 as	O	O
-dumbledore	B-person	B-person
+dumbledore	B-person	O
 did	O	O
 )	O	O
 .	O	O
-hagrid	B-person	B-person
+hagrid	B-person	O
 neglected	O	O
 to	O	O
 do	O	O
@@ -6376,7 +6376,7 @@ reality	O	O
 he	O	O
 did	O	O
 take	O	O
-harry	B-person	B-person
+harry	B-person	O
 to	O	O
 da	B-location	O
 in	O	O
@@ -6402,7 +6402,7 @@ aliens	B-group	O
 ,	O	O
 capable	O	O
 of	O	O
-interstellar	O	B-location
+interstellar	O	B-product
 travel	O	O
 .	O	O
 im	O	O
@@ -6625,7 +6625,7 @@ $	O	O
 (	O	O
 p	O	O
 ,	O	O
-v	O	O
+v	O	B-group
 )	O	O
 $	O	O
 remain	O	O
@@ -6672,13 +6672,13 @@ t	O	O
 the	O	O
 t-	B-person	O
 1000	I-person	O
-terminator	I-person	B-creative-work
-shoot	O	I-creative-work
-the	O	I-creative-work
-eyes	O	I-creative-work
-of	O	I-creative-work
-the	O	I-creative-work
-t-	B-person	I-creative-work
+terminator	I-person	O
+shoot	O	O
+the	O	O
+eyes	O	O
+of	O	O
+the	O	O
+t-	B-person	O
 800	I-person	O
 ?	O	O
 
@@ -6749,7 +6749,7 @@ piece	O	O
 ;	O	O
 but	O	O
 the	O	O
-op	B-person	O
+op	B-person	B-product
 is	O	O
 requesting	O	O
 fact	O	O
@@ -6786,7 +6786,7 @@ cos	B-product	O
 game	O	O
 ]	O	O
 (	O	O
-http://i.imgur.com/lhhrtyg.jpg	O	O
+http://i.imgur.com/lhhrtyg.jpg	O	B-group
 )	O	O
 (	O	O
 which	O	O
@@ -6820,9 +6820,9 @@ with	O	O
 [	O	O
 the	O	O
 hasbro	B-product	B-product
-chocolate	I-product	I-product
+chocolate	I-product	I-corporation
 frog	I-product	I-product
-cards	I-product	I-product
+cards	I-product	O
 ]	O	O
 (	O	O
 https://i.imgur.com/fhvtow0.jpg	O	O
@@ -6993,7 +6993,7 @@ qmechanic	B-person	O
 yeah	O	O
 ,	O	O
 i	O	O
-waffled	O	B-location
+waffled	O	O
 over	O	O
 this	O	O
 ,	O	O
@@ -7055,7 +7055,7 @@ idea	O	O
 
 difference	O	O
 between	O	O
-executive	O	O
+executive	O	B-corporation
 orders	O	O
 and	O	O
 presidential	O	O
@@ -7270,7 +7270,7 @@ s	O	O
 meant	O	O
 by	O	O
 this	O	O
-bill	O	B-person
+bill	O	O
 (	O	O
 h	B-creative-work	O
 .	I-creative-work	O
@@ -7285,7 +7285,7 @@ what	O	O
 was	O	O
 funny	O	O
 about	O	O
-hanzo	B-person	O
+hanzo	B-person	B-person
 '	O	O
 s	O	O
 hand	O	O
@@ -7316,8 +7316,8 @@ in	O	O
 cracking	O	O
 someone	O	O
 '	O	O
-s	O	B-product
-wifi	O	I-product
+s	O	B-corporation
+wifi	O	B-corporation
 network	O	O
 .	O	O
 
@@ -7344,7 +7344,7 @@ cached	O	O
 
 were	O	O
 the	O	O
-borg	B-group	B-person
+borg	B-group	O
 always	O	O
 intended	O	O
 to	O	O
@@ -7355,7 +7355,7 @@ quadrant	I-location	O
 power	O	O
 ?	O	O
 
-amazon	B-product	B-product
+amazon	B-product	B-corporation
 echo	I-product	O
 /	O	O
 dot	B-product	O
@@ -7404,17 +7404,17 @@ why	O	O
 does	O	O
 watson	B-person	B-person
 blame	O	O
-sherlock	B-person	O
+sherlock	B-person	B-person
 rather	O	O
 than	O	O
 himself	O	O
 ?	O	O
 
-network	O	O
+network	O	I-corporation
 administrator	O	O
 knowing	O	O
 all	O	O
-user	O	O
+user	O	B-corporation
 passwords	O	O
 
 i	O	O
@@ -7450,9 +7450,9 @@ is	O	O
 better	O	O
 suited	O	O
 for	O	O
-law	O	O
+law	O	B-location
 .	O	O
-se	B-product	O
+se	B-product	B-location
 .	O	O
 
 are	O	O
@@ -7535,12 +7535,12 @@ t	O	O
 say	O	O
 xmen	B-creative-work	B-creative-work
 3	I-creative-work	I-creative-work
-as	O	I-creative-work
-disaster	O	I-creative-work
+as	O	O
+disaster	O	O
 i	O	O
 like	O	O
-original	O	B-creative-work
-trilogy	O	I-creative-work
+original	O	O
+trilogy	O	O
 .	O	O
 
 do	O	O
@@ -7735,12 +7735,12 @@ server	O	O
 inside	O	O
 a	O	O
 virtual	O	B-product
-machine	O	I-product
+machine	O	O
 disconnected	O	O
 from	O	O
-the	O	B-product
-internet	B-product	I-product
--	O	I-product
+the	O	O
+internet	B-product	B-corporation
+-	O	O
 is	O	O
 this	O	O
 secure	O	O
@@ -7749,8 +7749,8 @@ secure	O	O
 what	O	O
 non-	O	O
 star	B-creative-work	O
-trek	I-creative-work	I-product
-movie	I-creative-work	I-product
+trek	I-creative-work	O
+movie	I-creative-work	O
 used	O	O
 the	O	O
 tos	B-product	O
@@ -7778,7 +7778,7 @@ me	O	O
 or	O	O
 is	O	O
 this	O	O
-router	O	B-product
+router	O	O
 "	O	O
 features	O	O
 "	O	O
@@ -7836,7 +7836,7 @@ works	O	O
 ,	O	O
 then	O	O
 you	O	O
-don	O	B-person
+don	O	O
 '	O	O
 t	O	O
 ,	O	O
@@ -7863,7 +7863,7 @@ sidenote	O	O
 with	O	O
 word	O	O
 of	O	O
-god	O	B-person
+god	O	O
 .	O	O
 
 anything	O	O
@@ -7911,7 +7911,7 @@ not	O	O
 accepting	O	O
 money	O	O
 from	O	O
-tobacco	B-corporation	O
+tobacco	B-corporation	B-corporation
 companies	I-corporation	O
 at	O	O
 the	O	O
@@ -7926,8 +7926,8 @@ the	O	O
 president	O	O
 of	O	O
 the	O	O
-united	B-location	B-location
-states	I-location	O
+united	B-location	B-group
+states	I-location	I-group
 get	O	O
 a	O	O
 budget	O	O
@@ -7958,8 +7958,8 @@ if	O	O
 at	O	O
 some	O	O
 point	O	O
-president	B-person	B-person
-trump	I-person	I-person
+president	B-person	O
+trump	I-person	B-person
 was	O	O
 impeached	O	O
 ,	O	O
@@ -7982,7 +7982,7 @@ when	O	O
 developing	O	O
 a	O	O
 random	O	O
-password	O	O
+password	O	B-product
 generator	O	O
 ?	O	O
 
@@ -8083,7 +8083,7 @@ whether	O	O
 the	O	O
 filing	O	O
 makes	O	O
-trump	B-person	O
+trump	B-person	B-person
 a	O	O
 "	O	O
 candidate	O	O
@@ -8203,7 +8203,7 @@ the	O	O
 idea	O	O
 of	O	O
 "	O	O
-touchscreen	B-product	B-product
+touchscreen	B-product	O
 used	O	O
 by	O	O
 fingers	O	O
@@ -8229,7 +8229,7 @@ after	O	O
 ,	O	O
 finding	O	O
 the	O	O
-full-sized	O	B-corporation
+full-sized	O	O
 photo	O	O
 ?	O	O
 
@@ -8237,7 +8237,7 @@ commutation	O	O
 relation	O	O
 between	O	O
 the	O	O
-dirac	O	B-person
+dirac	O	B-location
 hamiltonian	O	O
 and	O	O
 helicity	O	O
@@ -8313,12 +8313,12 @@ r	O	O
 signifies	O	O
 rest	O	O
 and	O	O
-recreation	O	O
-.	O	O
+recreation	O	B-creative-work
+.	O	I-creative-work
 so	O	O
-the	O	O
-recreation	O	O
-part	O	O
+the	O	B-creative-work
+recreation	O	I-creative-work
+part	O	I-creative-work
 takes	O	O
 care	O	O
 of	O	O
@@ -8345,7 +8345,7 @@ the	O	O
 user	O	O
 asked	O	O
 why	O	O
-radio	O	B-corporation
+radio	O	O
 programs	O	O
 were	O	O
 being	O	O
@@ -8576,7 +8576,7 @@ buckling	O	O
 crumbling	O	O
 ,	O	O
 and	O	O
-toppling	O	B-person
+toppling	O	O
 "	O	O
 .	O	O
 but	O	O
@@ -8588,8 +8588,8 @@ they	O	O
 also	O	O
 used	O	O
 '	O	O
-magic	O	B-creative-work
-'	O	I-creative-work
+magic	O	O
+'	O	O
 to	O	O
 accomplish	O	O
 their	O	O
@@ -8688,7 +8688,7 @@ room	O	O
 .	O	O
 you	O	O
 '	O	O
-ve	O	O
+ve	O	B-person
 got	O	O
 to	O	O
 ask	O	O
@@ -8749,7 +8749,7 @@ man	O	O
 *	O	O
 "	O	O
 -	O	O
-seamus	B-person	B-person
+seamus	B-person	O
 
 why	O	O
 is	O	O
@@ -8778,8 +8778,8 @@ field	O	O
 
 because	O	O
 light	O	O
-sabers	O	B-product
-glow	O	I-product
+sabers	O	O
+glow	O	O
 in	O	O
 the	O	O
 dark	O	O
@@ -8803,7 +8803,7 @@ federal	O	O
 judge	O	O
 do	O	O
 to	O	O
-trump	B-person	B-location
+trump	B-person	B-corporation
 '	O	O
 s	O	O
 executive	O	O
@@ -8840,7 +8840,7 @@ agreed	O	O
 nothing	O	O
 i	O	O
 '	O	O
-ve	O	B-person
+ve	O	O
 read	O	O
 has	O	O
 referenced	O	O
@@ -8952,8 +8952,8 @@ is	O	O
 it	O	O
 done	O	O
 by	O	O
-mandating	O	B-person
-auth	O	I-person
+mandating	O	O
+auth	O	O
 for	O	O
 all	O	O
 the	O	O
@@ -8975,7 +8975,7 @@ did	O	O
 n	O	O
 '	O	O
 t	O	O
-snape	B-person	I-person
+snape	B-person	O
 just	O	O
 kill	O	O
 voldemort	B-person	B-person
@@ -9034,7 +9034,7 @@ film	O	O
 .	O	O
 
 @	O	O
-snowman	B-person	B-location
+snowman	B-person	O
 "	O	O
 they	O	O
 mostly	O	O
@@ -9082,7 +9082,7 @@ inhabited	O	O
 by	O	O
 "	O	O
 the	B-group	O
-giants	I-group	B-group
+giants	I-group	O
 "	O	O
 located	O	O
 relative	O	O
@@ -9106,38 +9106,38 @@ at	O	O
 surfaces	O	O
 ?	O	O
 
-animated	O	I-product
-tv	O	I-product
-series	O	I-product
-with	O	I-product
-king	B-creative-work	I-product
-arthur	I-creative-work	I-product
-/	O	I-product
-sword	B-creative-work	I-product
-in	I-creative-work	I-product
-stone	I-creative-work	I-product
-theme	O	I-product
+animated	O	O
+tv	O	O
+series	O	O
+with	O	O
+king	B-creative-work	B-person
+arthur	I-creative-work	I-person
+/	O	O
+sword	B-creative-work	O
+in	I-creative-work	O
+stone	I-creative-work	O
+theme	O	O
 ;	O	O
 '	O	O
-excalibur	B-product	B-creative-work
-'	O	I-creative-work
+excalibur	B-product	O
+'	O	O
 replaced	O	O
 by	O	O
 ai	B-product	O
 robot	I-product	O
 scepter	I-product	O
 
-is	O	O
-the	O	O
-story	O	O
-plotline	O	O
-or	O	O
-arc	O	B-creative-work
-for	O	I-creative-work
+is	O	I-creative-work
 the	O	I-creative-work
-star	B-creative-work	I-creative-work
+story	O	I-creative-work
+plotline	O	I-creative-work
+or	O	O
+arc	O	O
+for	O	O
+the	O	O
+star	B-creative-work	B-creative-work
 wars	I-creative-work	I-creative-work
-series	O	I-creative-work
+series	O	O
 going	O	O
 to	O	O
 be	O	O
@@ -9153,14 +9153,14 @@ death	O	O
 what	O	O
 1980	O	O
 '	O	O
-s	O	O
-kids	O	O
-book	O	O
-series	O	O
+s	O	B-creative-work
+kids	O	I-creative-work
+book	O	I-creative-work
+series	O	I-creative-work
 about	O	O
-boy	O	B-creative-work
-learning	O	I-creative-work
-magic	O	I-creative-work
+boy	O	O
+learning	O	O
+magic	O	B-creative-work
 spells	O	I-creative-work
 ?	O	O
 
@@ -9339,8 +9339,8 @@ the	O	O
 one	O	O
 (	O	O
 for	O	O
-ubuntu	B-product	B-product
-)	O	I-product
+ubuntu	B-product	B-corporation
+)	O	O
 .	O	O
 
 usually	O	O
@@ -9375,9 +9375,9 @@ age	O	O
 is	O	O
 the	O	O
 soft	O	O
-iron	O	I-product
-core	O	I-product
-inside	O	I-product
+iron	O	O
+core	O	O
+inside	O	O
 a	O	O
 solenoid	O	O
 moved	O	O
@@ -9444,7 +9444,7 @@ used	O	O
 to	O	O
 catch	O	O
 the	O	O
-joker	B-person	O
+joker	B-person	B-creative-work
 ?	O	O
 
 cartoon	O	O
@@ -9468,7 +9468,7 @@ for	O	O
 specifying	O	O
 bandstructure	O	O
 and	O	O
-fermi	O	O
+fermi	O	B-corporation
 surfaces	O	O
 
 we	O	O
@@ -9548,11 +9548,11 @@ transfers	O	O
 money	O	O
 from	O	O
 a	O	O
-bank	O	B-corporation
-account	O	B-corporation
+bank	O	O
+account	O	O
 to	O	O
 a	O	O
-prepaid	B-product	B-product
+prepaid	B-product	O
 master	I-product	O
 card	I-product	O
 ,	O	O
@@ -9932,9 +9932,9 @@ absolutely	O	O
 based	O	O
 more	O	O
 on	O	O
-myth	O	O
-than	O	O
-sci-fi	O	O
+myth	O	B-creative-work
+than	O	I-creative-work
+sci-fi	O	I-creative-work
 concepts	O	O
 -	O	O
 but	O	O
@@ -10073,7 +10073,7 @@ end	O	O
 of	O	O
 "	O	O
 oblivion	B-creative-work	B-creative-work
-"	O	I-creative-work
+"	O	O
 ?	O	O
 
 and	O	O
@@ -10101,8 +10101,8 @@ does	O	O
 the	O	O
 ending	O	O
 scene	O	O
-of	O	O
-the	B-creative-work	B-creative-work
+of	O	B-creative-work
+the	B-creative-work	I-creative-work
 sopranos	I-creative-work	I-creative-work
 mean	O	I-creative-work
 ?	O	O
@@ -10120,11 +10120,11 @@ was	O	O
 asking	O	O
 about	O	O
 the	O	O
-vpn	B-product	B-corporation
-server	I-product	O
+vpn	B-product	B-product
+server	I-product	I-product
 '	O	O
-s	O	O
-port	O	O
+s	O	B-product
+port	O	I-product
 (	O	O
 which	O	O
 i	O	O
@@ -10185,7 +10185,7 @@ to	O	O
 login	O	O
 to	O	O
 your	O	O
-online	O	O
+online	O	B-corporation
 banking	O	O
 through	O	O
 a	O	O
@@ -10562,7 +10562,7 @@ sure	O	O
 was	O	O
 titled	O	O
 "	O	O
-grandfather	B-creative-work	B-person
+grandfather	B-creative-work	O
 bank	I-creative-work	O
 "	O	O
 
@@ -10688,7 +10688,7 @@ today	O	O
 -	O	O
 legislators	O	O
 ,	O	O
-governors	O	B-location
+governors	O	O
 etc	O	O
 ok	O	O
 ?	O	O
@@ -10766,13 +10766,13 @@ the	B-creative-work	O
 affair	I-creative-work	O
 season	I-creative-work	O
 3	I-creative-work	O
-episode	I-creative-work	O
-10	I-creative-work	B-creative-work
+episode	I-creative-work	B-creative-work
+10	I-creative-work	I-creative-work
 noah	I-creative-work	I-creative-work
 half	I-creative-work	I-creative-work
--	O	I-creative-work
-french	O	I-creative-work
-translation	O	I-creative-work
+-	O	O
+french	O	O
+translation	O	O
 
 e	O	O
 @	O	O
@@ -10842,17 +10842,17 @@ bewildering	O	O
 
 could	O	O
 a	O	O
-president	O	B-person
+president	O	O
 withdraw	O	O
 nominated	O	O
-supreme	B-person	O
+supreme	B-person	B-person
 court	I-person	O
 judge	I-person	O
 before	O	O
 confirmation	O	O
 by	O	O
 the	O	O
-senate	O	I-person
+senate	O	O
 ?	O	O
 
 dmckee	B-person	O
@@ -10909,7 +10909,7 @@ shot	O	O
 them	O	O
 .	O	O
 
-turkish	B-group	O
+turkish	B-group	B-location
 military	I-group	O
 presence	O	O
 in	O	O
@@ -10934,7 +10934,7 @@ charecters	O	O
 with	O	O
 comments	O	O
 in	O	O
-sql	B-product	O
+sql	B-product	B-group
 injection	O	O
 payload	O	O
 
@@ -10982,7 +10982,7 @@ achieve	O	O
 few	O	O
 questions	O	O
 about	O	O
-tor	B-product	B-location
+tor	B-product	B-corporation
 hidden	I-product	O
 services	I-product	O
 
@@ -11062,7 +11062,7 @@ game	O	O
 played	O	O
 by	O	O
 two	O	O
-brothers	O	O
+brothers	O	B-group
 ?	O	O
 
 my	O	O
@@ -11246,7 +11246,7 @@ women	O	O
 men	O	O
 ,	O	O
 and	O	O
-men	O	O
+men	O	B-person
 women	O	O
 ,	O	O
 if	O	O
@@ -11315,8 +11315,8 @@ n	O	O
 '	O	O
 t	O	O
 the	O	O
-beast	B-person	B-creative-work
-kill	O	I-creative-work
+beast	B-person	O
+kill	O	O
 julia	B-person	B-person
 ?	O	O
 
@@ -11349,9 +11349,9 @@ round	O	O
 alternative	O	O
 ?	O	O
 
-asymmetry	O	I-product
-definitions	O	I-product
-electric	O	I-product
+asymmetry	O	O
+definitions	O	O
+electric	O	O
 $	O	O
 \	O	O
 chi	O	O
@@ -11404,7 +11404,7 @@ i	O	O
 think	O	O
 that	O	O
 at	O	O
-begining	O	B-location
+begining	O	O
 they	O	O
 were	O	O
 4	O	O
@@ -11484,7 +11484,7 @@ network	O	O
 called	O	O
 movies	B-corporation	O
 &	I-corporation	O
-tv	I-corporation	O
+tv	I-corporation	B-corporation
 ?	O	O
 (	O	O
 it	O	O
@@ -11530,7 +11530,7 @@ tallest	O	O
 structure	O	O
 built	O	O
 in	O	O
-middle-earth	B-location	B-product
+middle-earth	B-location	O
 ?	O	O
 
 there	O	O
@@ -11540,11 +11540,11 @@ go	O	O
 answered	O	O
 in	O	O
 the	O	O
-op	O	O
+op	O	B-product
 .	O	O
 
 @	O	O
-demi	B-person	B-person
+demi	B-person	O
 :	O	O
 i	O	O
 was	O	O
@@ -11561,7 +11561,7 @@ i	O	O
 used	O	O
 it	O	O
 in	O	O
-nl	B-location	O
+nl	B-location	B-location
 for	O	O
 8	O	O
 years	O	O
@@ -11593,7 +11593,7 @@ t	O	O
 interact	O	O
 with	O	O
 the	O	O
-higgs	O	I-person
+higgs	O	B-group
 .	O	O
 
 an	O	O
@@ -11607,7 +11607,7 @@ driving	O	O
 around	O	O
 in	O	O
 his	O	O
-cadillac	B-product	O
+cadillac	B-product	B-location
 solving	O	O
 problems	O	O
 
@@ -11659,7 +11659,7 @@ of	I-product	O
 invisibility	I-product	O
 ,	O	O
 miss	B-person	O
-granger	I-person	B-person
+granger	I-person	O
 !	O	O
 i	O	O
 mean	O	O
@@ -11873,8 +11873,8 @@ as	O	O
 an	O	O
 answer	O	O
 
-tango	O	O
--	O	O
+tango	O	B-creative-work
+-	O	I-creative-work
 in	O	O
 the	O	O
 section	O	O
@@ -11887,8 +11887,8 @@ the	O	O
 fictional	O	O
 workings	O	O
 of	O	O
-the	O	B-creative-work
-star	B-creative-work	I-creative-work
+the	O	O
+star	B-creative-work	B-creative-work
 trek	I-creative-work	I-creative-work
 universe	O	I-creative-work
 there	O	I-creative-work
@@ -11904,7 +11904,7 @@ trek	I-creative-work	O
 characters	O	O
 ,	O	O
 including	O	O
-kirk	B-person	O
+kirk	B-person	B-person
 .	O	O
 my	O	O
 copy	O	O
@@ -11980,7 +11980,7 @@ characters	O	O
 
 are	O	O
 the	O	O
-martians	B-group	B-product
+martians	B-group	O
 saying	O	O
 "	O	O
 ut	O	O
@@ -12123,25 +12123,25 @@ what	O	O
 old	O	B-creative-work
 teen	O	I-creative-work
 movie	O	I-creative-work
-is	O	I-creative-work
+is	O	O
 this	O	O
 ?	O	O
 
 black	B-creative-work	B-creative-work
 swan	I-creative-work	I-creative-work
-is	O	I-creative-work
-nowhere	O	I-creative-work
-near	O	I-creative-work
-being	O	I-creative-work
-a	O	I-creative-work
-horror	O	I-creative-work
-movie	O	I-creative-work
-.	O	I-creative-work
-some	O	I-creative-work
+is	O	O
+nowhere	O	O
+near	O	O
+being	O	O
+a	O	O
+horror	O	O
+movie	O	O
+.	O	O
+some	O	B-creative-work
 psycho	O	I-creative-work
 elements	O	I-creative-work
--	O	I-creative-work
-yes	O	I-creative-work
+-	O	O
+yes	O	O
 .	O	O
 
 are	O	O
@@ -12168,7 +12168,7 @@ of	O	O
 votes	O	O
 cast	O	O
 by	O	O
-non-	B-group	B-group
+non-	B-group	B-person
 citizens	I-group	O
 checked	O	O
 after	O	O
@@ -12242,7 +12242,7 @@ might	O	O
 be	O	O
 worth	O	O
 buying	O	O
-cheap	O	O
+cheap	O	B-product
 hardware	O	O
 .	O	O
 i	O	O
@@ -12283,8 +12283,8 @@ to	O	O
 connect	O	O
 to	O	O
 a	O	O
-wifi	B-product	O
-network	I-product	O
+wifi	B-product	B-product
+network	I-product	I-product
 (	O	O
 then	O	O
 the	O	O
@@ -12332,12 +12332,12 @@ reboot	O	O
 
 does	O	O
 using	O	O
-oauth	B-product	B-product
+oauth	B-product	O
 behind	O	O
 firewall	O	B-product
 /	O	O
 closed	O	O
-ports	O	B-product
+ports	O	O
 requires	O	O
 proxy	O	O
 
@@ -12519,7 +12519,7 @@ been	O	O
 [	O	O
 moved	O	O
 to	O	O
-chat	O	B-corporation
+chat	O	O
 ]	O	O
 (	O	O
 http://chat.stackexchange.com/rooms/52466/discussion-on-question-by-ankit-why-is-christian-bale-not-in-the-upcoming-movie	O	O
@@ -12531,8 +12531,8 @@ story	O	O
 about	O	O
 seeding	O	O
 a	O	O
-planet	B-location	B-creative-work
-with	O	I-creative-work
+planet	B-location	O
+with	O	O
 humans	O	O
 
 what	O	O
@@ -12632,7 +12632,7 @@ three	I-creative-work	O
 days	I-creative-work	O
 ?	O	O
 
-higgs	O	B-person
+higgs	O	B-group
 boson	O	O
 and	O	O
 electroweak	O	O
@@ -12756,9 +12756,9 @@ predators	B-creative-work	B-group
 ?	O	O
 
 what	O	O
-star	B-creative-work	B-creative-work
-trek	I-creative-work	I-creative-work
-tos	I-creative-work	I-creative-work
+star	B-creative-work	O
+trek	I-creative-work	O
+tos	I-creative-work	O
 characters	O	O
 have	O	O
 been	O	O
@@ -12854,7 +12854,7 @@ parts	O	O
 
 magnetic	O	O
 potential	O	O
-vs	O	B-group
+vs	O	O
 .	O	O
 solid	O	O
 angle	O	O
@@ -12883,8 +12883,8 @@ movie	O	O
 with	O	O
 rival	B-group	B-creative-work
 cannibal	I-group	I-creative-work
-car	I-group	I-creative-work
-gangs	I-group	I-creative-work
+car	I-group	O
+gangs	I-group	O
 
 are	O	O
 hogwarts	B-location	O
@@ -12911,7 +12911,7 @@ $	O	O
 \	O	O
 delta	O	B-product
 \	O	O
-omega	O	O
+omega	O	B-product
 $	O	O
 cannot	O	O
 move	O	O
@@ -12935,9 +12935,9 @@ case	O	O
 id	O	O
 movie	O	O
 :	O	O
-highschool	O	B-creative-work
-boy	O	I-creative-work
-is	O	I-creative-work
+highschool	O	O
+boy	O	O
+is	O	O
 bullied	O	O
 into	O	O
 a	O	O
@@ -13147,7 +13147,7 @@ in	O	O
 most	O	O
 of	O	O
 the	O	O
-western	O	B-location
+western	O	O
 world	O	O
 '	O	O
 s	O	O
@@ -13384,8 +13384,8 @@ php	O	O
 is	O	O
 of	O	O
 the	O	O
-dark	B-group	B-creative-work
-side	I-group	I-creative-work
+dark	B-group	O
+side	I-group	O
 .	O	O
 
 @	O	O
@@ -13491,7 +13491,7 @@ wrong	O	O
 @	O	O
 lakebum	O	O
 please	O	O
-mark	O	B-person
+mark	O	O
 this	O	O
 answer	O	O
 as	O	O
@@ -13640,11 +13640,11 @@ how	O	O
 did	O	O
 the	O	O
 season	O	O
-6	O	B-creative-work
-finale	O	I-creative-work
+6	O	O
+finale	O	B-creative-work
 work	O	I-creative-work
-out	O	I-creative-work
-?	O	I-creative-work
+out	O	O
+?	O	O
 (	O	O
 spoilers	O	O
 )	O	O
@@ -13727,7 +13727,7 @@ special	O	O
 elections	O	O
 ?	O	O
 
-bernoulli	B-person	B-person
+bernoulli	B-person	O
 '	O	O
 s	O	O
 principle	O	O
@@ -13754,16 +13754,16 @@ to	O	O
 note	O	O
 that	O	O
 this	O	O
-wookipedia	B-creative-work	O
+wookipedia	B-creative-work	B-product
 excerpt	O	O
 seems	O	O
 to	O	O
 be	O	O
 sourced	O	O
 from	O	O
-a	O	O
-legends	B-creative-work	O
-book	O	O
+a	O	B-product
+legends	B-creative-work	I-product
+book	O	I-product
 that	O	O
 had	O	O
 continuity	O	O
@@ -13809,8 +13809,8 @@ mole	O	O
 how	O	O
 can	O	O
 the	O	O
-european	B-group	O
-union	I-group	B-group
+european	B-group	B-group
+union	I-group	I-group
 enforce	O	O
 the	O	O
 general	B-creative-work	O
@@ -13878,7 +13878,7 @@ owl	O	O
 s	O	O
 reaction	O	O
 to	O	O
-vinny	B-person	B-person
+vinny	B-person	O
 shooting	O	O
 the	O	O
 gun	O	O
@@ -13911,7 +13911,7 @@ fermi	O	O
 surfaces	O	O
 .	O	O
 quoting	O	O
-wikipedia	B-creative-work	B-corporation
+wikipedia	B-creative-work	O
 :	O	O
 "	O	O
 a	O	O
@@ -13966,20 +13966,20 @@ quoque	O	I-person
 fallacy	O	O
 .	O	O
 some	O	O
-whatabout	O	B-person
+whatabout	O	O
 is	O	O
 a	O	O
 reasonable	O	O
 challenge	O	O
 to	O	O
-fairness	O	O
+fairness	O	B-group
 .	O	O
 this	O	O
-post	O	O
+post	O	B-group
 assumes	O	O
 all	O	O
 the	O	O
-former	O	O
+former	O	B-group
 .	O	O
 pretty	O	O
 much	O	O
@@ -14323,7 +14323,7 @@ say	O	O
 it	O	O
 '	O	O
 s	O	O
-np	O	O
+np	O	B-creative-work
 hard	O	O
 if	O	O
 we	O	O
@@ -14378,12 +14378,12 @@ maybe	O	O
 who	O	O
 ’	O	O
 s	O	O
+the	O	B-creative-work
+villain	O	I-creative-work
+in	O	O
 the	O	O
-villain	O	B-creative-work
-in	O	I-creative-work
-the	O	I-creative-work
-powerless	B-creative-work	I-creative-work
-trailer	O	I-creative-work
+powerless	B-creative-work	O
+trailer	O	O
 ?	O	O
 
 why	O	O
@@ -14394,7 +14394,7 @@ t	O	O
 someone	O	O
 make	O	O
 lily	B-person	B-person
-and	O	I-person
+and	O	O
 james	B-person	B-person
 potter	I-person	I-person
 portraits	O	O
@@ -14582,7 +14582,7 @@ yakuza	B-creative-work	O
 was	O	O
 about	O	O
 balancing	O	O
-clarity	O	O
+clarity	O	B-person
 and	O	O
 authenticity	O	O
 :	O	O
@@ -14752,10 +14752,10 @@ a	I-corporation	O
 is	I-corporation	O
 hiring	O	O
 !	O	O
-audiologist	O	B-location
+audiologist	O	O
 -	O	O
-b	O	B-location
-#	O	I-location
+b	O	O
+#	O	B-location
 jobs	O	I-location
 in	O	O
 birmingham	B-location	B-location
@@ -14797,7 +14797,7 @@ products	O	O
 #	O	O
 adult	O	O
 learning	O	O
-grant	O	O
+grant	O	B-person
 china	B-location	O
 teen	O	O
 xxx	O	O
@@ -14813,7 +14813,7 @@ burns	I-person	I-person
 cocktail	O	O
 https://t.co/vngfthjn2v	O	O
 #	O	O
-whisky	O	O
+whisky	O	B-location
 #	O	O
 cocktails	O	O
 #	O	O
@@ -14847,9 +14847,9 @@ awesome	O	O
 https://t.co/ypsuf6ggvm	O	O
 via	O	O
 @	O	O
-sexysights	O	O
+sexysights	O	B-location
 @	O	O
-sexycreeps	O	O
+sexycreeps	O	B-location
 @	O	O
 creepshotslive	O	O
 https://t.co/0twauvet…	O	O
@@ -14875,8 +14875,8 @@ mulvaney	I-person	I-person
 wants	O	O
 changes	O	O
 to	O	O
-social	O	O
-security	O	O
+social	O	B-corporation
+security	O	I-corporation
 ,	O	O
 medicare	O	O
 https://t.co/4ndbdmxsc3	O	O
@@ -14889,7 +14889,7 @@ https://t.co/3cqqhlw4j7	O	O
 show	O	O
 hn	O	O
 :	O	O
-hib	O	O
+hib	O	B-group
 —	O	O
 a	O	O
 bionic	O	O
@@ -14974,9 +14974,9 @@ i	O	O
 love	O	O
 you	O	O
 .	O	O
-audrey	B-person	O
+audrey	B-person	B-person
 (	O	O
-2	O	O
+2	O	B-person
 yrs	O	O
 old	O	O
 )	O	O
@@ -14995,7 +14995,7 @@ makes	O	O
 me	O	O
 sad	O	O
 .	O	O
-audrey	B-person	O
+audrey	B-person	B-person
 :	O	O
 cry	O	O
 !	O	O
@@ -15045,7 +15045,7 @@ for	O	O
 women	O	O
 :	O	O
 #	O	O
-equalpay	O	I-person
+equalpay	O	B-group
 is	O	O
 important	O	O
 ,	O	O
@@ -15096,7 +15096,7 @@ looking	O	O
 .	O	O
 😊	O	O
 
-don	O	O
+don	O	B-person
 '	O	O
 t	O	O
 judge	O	O
@@ -15124,7 +15124,7 @@ fo	O	O
 from	O	O
 spending	O	O
 on	O	O
-bullpen	O	O
+bullpen	O	B-group
 .	O	O
 
 lrt	O	O
@@ -15148,7 +15148,7 @@ itslifethought	O	O
 :	O	O
 before	O	O
 you	O	O
-pray	O	O
+pray	O	B-person
 ,	O	O
 believe	O	O
 .	O	O
@@ -15214,7 +15214,7 @@ the	O	O
 act	O	O
 on	O	O
 tinder	B-product	B-group
-vs	O	B-group
+vs	O	O
 how	O	O
 they	O	O
 are	O	O
@@ -15286,7 +15286,7 @@ you	O	O
 you	O	O
 deserve	O	O
 a	O	O
-clarke	B-product	B-person
+clarke	B-product	O
 as	O	O
 a	O	O
 token	O	O
@@ -15299,14 +15299,14 @@ sweetheart	O	O
 
 kelli	B-creative-work	B-person
 '	I-creative-work	O
-s	I-creative-work	O
-cardio	I-creative-work	O
-kickboxing	I-creative-work	O
+s	I-creative-work	B-creative-work
+cardio	I-creative-work	I-creative-work
+kickboxing	I-creative-work	I-creative-work
 workout	I-creative-work	O
 -	I-creative-work	O
-max	I-creative-work	B-creative-work
-calorie	I-creative-work	I-creative-work
-burn	I-creative-work	I-creative-work
+max	I-creative-work	O
+calorie	I-creative-work	O
+burn	I-creative-work	O
 workout	I-creative-work	O
 with	I-creative-work	O
 no	I-creative-work	O
@@ -15432,15 +15432,15 @@ along	O	O
 https://t.co/5mkw2mdaso	O	O
 
 #	O	O
-itech	O	B-product
-2	O	I-product
+itech	O	O
+2	O	O
 #	O	O
 technology	O	O
 bots	B-product	B-product
-_	I-product	I-product
-alive	I-product	I-product
-kit	I-product	I-product
-imbues	O	I-product
+_	I-product	O
+alive	I-product	O
+kit	I-product	O
+imbues	O	O
 toy	O	O
 robots	O	O
 with	O	O
@@ -15493,20 +15493,20 @@ corvette	B-product	O
 #	O	O
 auction	O	O
 2017	B-product	O
-chevrolet	I-product	O
-corvette	I-product	O
-msrp	O	O
+chevrolet	I-product	B-product
+corvette	I-product	I-product
+msrp	O	I-product
 $	O	O
 102520	O	O
-grand	B-product	O
-sport	I-product	O
-3	I-product	O
+grand	B-product	I-product
+sport	I-product	I-product
+3	I-product	I-product
 lt	I-product	O
 gps	O	O
 leather	O	O
-torch	O	B-product
-red	O	I-product
-new	O	I-product
+torch	O	O
+red	O	O
+new	O	O
 navigation	O	O
 …	O	O
 https://t.co/k9tzaala7k	O	O
@@ -15518,15 +15518,15 @@ nicholaspegg	B-person	O
 one	O	O
 of	O	O
 the	B-person	O
-doctor	I-person	B-creative-work
-’	O	I-creative-work
-s	O	I-creative-work
+doctor	I-person	O
+’	O	O
+s	O	B-creative-work
 finest	O	I-creative-work
-moments	O	I-creative-work
--	O	I-creative-work
-from	O	I-creative-work
-an	O	I-creative-work
-episode	O	I-creative-work
+moments	O	O
+-	O	O
+from	O	O
+an	O	O
+episode	O	O
 shown	O	O
 40	O	O
 years	O	O
@@ -15543,7 +15543,7 @@ rt	O	O
 mediaite	O	O
 :	O	O
 minnesota	B-location	B-group
-governor	O	I-group
+governor	O	I-person
 announces	O	O
 he	O	O
 ’	O	O
@@ -15571,7 +15571,7 @@ up	O	O
 and	O	O
 sincere	O	O
 .	O	O
-malachai	B-person	B-person
+malachai	B-person	O
 parker	I-person	B-person
 cared	O	O
 about	O	O
@@ -15585,7 +15585,7 @@ tell	O	O
 me	O	O
 otherwise	O	O
 .	O	O
-https://t.co/…	O	O
+https://t.co/…	O	B-person
 
 because	O	O
 :	O	O
@@ -15727,7 +15727,7 @@ rt	O	O
 @	O	O
 thecwsupergirl	O	O
 :	O	O
-roulette	O	B-group
+roulette	O	O
 returns	O	O
 .	O	O
 .	O	O
@@ -15835,7 +15835,7 @@ minutes	O	O
 https://t.co/9q5w8t4vjp	O	O
 
 @	O	O
-bmac	O	B-location
+bmac	O	B-group
 0507	O	O
 @	O	O
 biasedgirl	O	O
@@ -15857,7 +15857,7 @@ omg	O	O
 i	O	O
 forgot	O	O
 you	O	O
-don	O	B-person
+don	O	O
 '	O	O
 t	O	O
 live	O	O
@@ -15959,7 +15959,7 @@ seo	O	O
 tip	O	O
 :	O	O
 google	B-product	B-corporation
-considers	O	O
+considers	O	I-corporation
 the	O	O
 first	O	O
 lines	O	O
@@ -15979,14 +15979,14 @@ on	O	O
 top	O	O
 .	O	O
 #	O	O
-google	B-product	O
+google	B-product	B-corporation
 
 rt	O	O
 @	O	O
 stealthygeek	O	O
 :	O	O
 i	O	O
-don	O	B-person
+don	O	O
 '	O	O
 t	O	O
 remember	O	O
@@ -16007,7 +16007,7 @@ teenporn	O	O
 images	O	O
 more	O	O
 @	O	O
-https://t.co/qtyi58zynp	O	B-location
+https://t.co/qtyi58zynp	O	O
 for	O	O
 free	O	O
 .	O	O
@@ -16069,7 +16069,7 @@ travel	O	O
 https://t.co/qxlmn6lgv4	O	O
 
 lockheed	B-corporation	B-person
-says	O	I-person
+says	O	O
 trump	B-person	B-person
 pressure	O	O
 won	O	O
@@ -16096,7 +16096,7 @@ scientific	O	O
 fact	O	O
 that	O	O
 defied	O	O
-trump	B-person	O
+trump	B-person	B-product
 .	O	O
 now	O	O
 ,	O	O
@@ -16116,9 +16116,9 @@ posted	O	O
 a	O	O
 photo	O	O
 @	O	O
-kembar	B-location	O
-mas	I-location	O
-utara	I-location	B-location
+kembar	B-location	B-location
+mas	I-location	I-location
+utara	I-location	I-location
 -	O	O
 buahbatu	B-location	O
 https://t.co/u7wqdgcsvw	O	O
@@ -16236,13 +16236,13 @@ we	O	O
 https://t.co/0akmhxq9wg	O	O
 
 on	O	O
-the	O	B-location
+the	O	O
 street	O	I-location
 …	O	O
 the	B-location	O
-fortezza	I-location	B-person
+fortezza	I-location	I-location
 ,	O	O
-florence	B-location	B-person
+florence	B-location	B-location
 #	O	O
 photos	O	O
 https://t.co/8r0ahf8mff	O	O
@@ -16293,9 +16293,9 @@ down	O	O
 to	O	O
 go	O	O
 to	O	O
-jojo	B-person	O
+jojo	B-person	B-group
 '	O	O
-s	O	O
+s	O	B-group
 concert	O	O
 with	O	O
 me	O	O
@@ -16329,8 +16329,8 @@ https://t.co/qgtmukn7mt	O	O
 
 #	O	O
 porn	O	O
-star	O	B-creative-work
-brandy	B-person	I-creative-work
+star	O	O
+brandy	B-person	B-person
 free	O	O
 old	O	O
 man	O	O
@@ -16347,18 +16347,18 @@ buddy	O	O
 @	O	O
 jfradioshow	B-person	O
 for	O	O
-the	O	O
+the	O	B-group
 senate	B-group	B-group
-v	O	O
-house	B-group	O
-basketball	O	O
+v	O	I-group
+house	B-group	I-group
+basketball	O	I-group
 game	O	O
 .	O	O
 let	O	O
 '	O	O
 s	O	O
 go	O	O
-senate	B-group	B-group
+senate	B-group	O
 !	O	O
 https://t.co/gf0q0vlbv1	O	O
 
@@ -16430,13 +16430,13 @@ humi	O	O
 good	O	O
 new	O	O
 #	O	O
-nike	B-product	B-product
-air	I-product	I-product
-jordan	I-product	I-product
+nike	B-product	O
+air	I-product	O
+jordan	I-product	B-product
 11	I-product	I-product
 xi	I-product	I-product
-#	O	I-product
-retro	O	I-product
+#	O	O
+retro	O	O
 low	O	O
 cherry	O	O
 varsity	O	O
@@ -16458,7 +16458,7 @@ igbtryden	O	O
 :	O	O
 “	O	O
 @	O	O
-edsheeran	B-person	B-group
+edsheeran	B-person	O
 :	O	O
 my	O	O
 best	O	O
@@ -16512,7 +16512,7 @@ life	O	O
 even	O	O
 if	O	O
 you	O	O
-don	O	B-person
+don	O	O
 '	O	O
 t	O	O
 think	O	O
@@ -16521,11 +16521,11 @@ is	O	O
 
 rt	O	O
 @	O	O
-dazb	O	O
-160	O	O
+dazb	O	B-location
+160	O	I-location
 :	O	O
 @	O	O
-glenntemp	O	O
+glenntemp	O	B-location
 @	O	O
 adidasanorak	O	O
 @	O	O
@@ -16547,11 +16547,11 @@ baron	I-person	I-person
 cohen	I-person	I-person
 turns	O	O
 football	O	O
-hooligan	O	O
+hooligan	O	B-group
 as	O	O
 his	O	O
 the	B-group	O
-brothers	I-group	B-group
+brothers	I-group	O
 .	O	O
 .	O	O
 .	O	O
@@ -16641,7 +16641,7 @@ understand	O	O
 why	O	O
 barbie	B-product	B-person
 and	O	O
-ken	B-product	B-person
+ken	B-product	B-creative-work
 don	O	I-person
 '	O	O
 t	O	O
@@ -16719,11 +16719,11 @@ ophelia	O	O
 @	O	O
 rmathis	O	O
 15	O	O
-nicole	B-person	O
+nicole	B-person	B-person
 '	O	O
 s	O	O
-raspberry	B-product	O
-sorbet	I-product	O
+raspberry	B-product	B-product
+sorbet	I-product	I-product
 gum	I-product	O
 ?	O	O
 
@@ -16780,7 +16780,7 @@ https://t.co/mzxu2uqomc	O	O
 
 the	O	O
 river	B-location	B-location
-rom	I-location	I-location
+rom	I-location	O
 ,	O	O
 also	O	O
 in	O	O
@@ -16793,7 +16793,7 @@ beam	I-location	O
 ,	O	O
 is	O	O
 a	O	O
-river	O	O
+river	O	B-location
 in	O	O
 essex	B-location	B-location
 which	O	O
@@ -16836,7 +16836,7 @@ frugaliscious	O	O
 it	O	O
 '	O	O
 s	O	O
-arri	B-creative-work	I-product
+arri	B-creative-work	I-person
 '	I-creative-work	O
 s	I-creative-work	O
 playtime	I-creative-work	O
@@ -16896,8 +16896,8 @@ no	O	O
 ?	O	O
 https://…	O	O
 
-#	O	O
-astana	B-location	B-group
+#	O	B-location
+astana	B-location	B-location
 talks	O	O
 end	O	O
 with	O	O
@@ -16951,7 +16951,7 @@ going	O	O
 on	O	O
 good	B-creative-work	O
 morning	I-creative-work	O
-britain	I-creative-work	B-location
+britain	I-creative-work	O
 ,	O	O
 didn	O	O
 '	O	O
@@ -16962,7 +16962,7 @@ piersmorgan	B-person	B-group
 was	O	O
 host	O	O
 .	O	O
-won	O	O
+won	O	B-group
 '	O	O
 t	O	O
 go	O	O
@@ -17005,8 +17005,8 @@ asf	O	O
 https://t.co/atjdj52tnv	O	O
 
 the	B-creative-work	O
-sheep	I-creative-work	B-group
-#	O	I-group
+sheep	I-creative-work	O
+#	O	O
 poetry	O	O
 #	O	O
 poem	O	O
@@ -17026,7 +17026,7 @@ i	O	O
 think	O	O
 obi	B-person	B-person
 wan	I-person	I-person
-kenobi	I-person	I-person
+kenobi	I-person	O
 had	O	O
 short	O	O
 term	O	O
@@ -17105,7 +17105,7 @@ https://t.co/fm5rszmxhz	O	O
 
 “	O	O
 la	B-creative-work	B-group
-la	I-creative-work	I-location
+la	I-creative-work	I-group
 land	I-creative-work	I-group
 ”	O	O
 received	O	O
@@ -17127,7 +17127,7 @@ films	O	O
 https://t.co/ubyjchiwkd	O	O
 by	O	O
 #	O	O
-cnn	B-corporation	O
+cnn	B-corporation	B-corporation
 via	O	O
 @	O	O
 c	O	O
@@ -17169,7 +17169,7 @@ https://t.co/fdc1nj7wq6	O	O
 
 rt	O	O
 @	O	O
-miyu	O	O
+miyu	O	B-corporation
 _	O	O
 mon	O	O
 :	O	O
@@ -17202,11 +17202,11 @@ by	O	O
 amy	B-person	B-person
 winehouse	I-person	I-person
 #	O	O
-nowplaying	O	O
+nowplaying	O	B-person
 listen	O	O
 live	O	O
 :	O	O
-https://t.co/phxlo1eb4v	O	O
+https://t.co/phxlo1eb4v	O	B-person
 https://t.co/mznloyvaj4	O	O
 
 clean	O	O
@@ -17221,13 +17221,13 @@ charity	O	O
 https://t.co/5veibk228b	O	O
 https://t.co/dcwfj8k5xe	O	O
 
-blog	B-creative-work	O
-technology	I-creative-work	O
+blog	B-creative-work	I-product
+technology	I-creative-work	I-product
 to	O	O
-review	O	O
-the	O	O
-electronic	O	O
-devices	O	O
+review	O	B-product
+the	O	I-product
+electronic	O	I-product
+devices	O	I-product
 and	O	O
 accessories	O	O
 and	O	O
@@ -17291,7 +17291,7 @@ https://t.c…	O	O
 
 this	O	O
 1492	O	O
-trump	B-person	B-corporation
+trump	B-person	B-person
 adventure	O	O
 might	O	O
 not	O	O
@@ -17404,7 +17404,7 @@ just	O	O
 voted	O	O
 for	O	O
 @	O	O
-fifthharmony	O	B-location
+fifthharmony	O	O
 to	O	O
 win	O	O
 #	O	O
@@ -17480,12 +17480,12 @@ always	O	O
 date	O	O
 people	O	O
 that	O	O
-aren	O	O
+aren	O	B-group
 '	O	O
-t	O	O
-shit	O	O
-,	O	O
-you	O	O
+t	O	B-group
+shit	O	I-group
+,	O	I-group
+you	O	I-group
 '	O	O
 re	O	O
 attracted	O	O
@@ -17516,18 +17516,18 @@ tu	O	O
 ❤	O	O
 reconecta	O	O
 con	O	O
-el	O	B-group
+el	O	I-person
 amor	O	O
 .	O	O
 the	B-creative-work	O
-angels	I-creative-work	B-group
+angels	I-creative-work	I-group
 are	I-creative-work	O
 listening	I-creative-work	O
 :	O	O
 snatam	B-person	B-person
 kaur	I-person	I-person
 sings	O	O
-suṉi-ai	B-creative-work	O
+suṉi-ai	B-creative-work	B-person
 with	O	O
 ajeet	B-person	B-person
 kaur	I-person	I-person
@@ -17669,7 +17669,7 @@ lets	O	O
 start	O	O
 w	O	O
 this	O	O
-iconic	O	O
+iconic	O	B-corporation
 vine	O	O
 https://t.co/gfakno5nds	O	O
 
@@ -17728,7 +17728,7 @@ for	O	O
 kezia	B-person	O
 warouw	I-person	O
 #	O	O
-missuniverse	B-person	O
+missuniverse	B-person	B-location
 #	O	O
 indonesia	B-location	O
 
@@ -17811,13 +17811,13 @@ fight	O	O
 ?	O	O
 
 seoul-	B-location	O
-incheon	I-location	B-location
+incheon	I-location	O
 ,	I-location	O
 south	I-location	B-location
-korea	I-location	I-location
+korea	I-location	O
 :	O	O
 old	O	B-location
-meets	O	I-location
+meets	O	O
 new	O	O
 part	O	O
 2	O	O
@@ -17933,7 +17933,7 @@ chosen	O	O
 today	O	O
 +	O	O
 one	O	O
-instagram	B-product	B-corporation
+instagram	B-product	O
 follower	O	O
 so	O	O
 4	O	O
@@ -17962,7 +17962,7 @@ tamara	B-person	B-person
 lovett	I-person	O
 guilty	O	O
 of	O	O
-criminal	O	O
+criminal	O	B-person
 negligence	O	O
 causing	O	O
 her	O	O
@@ -17995,7 +17995,7 @@ https://t.co/nxaarpreev	O	O
 
 rt	O	O
 @	O	O
-wvucobe	O	O
+wvucobe	O	B-location
 :	O	O
 good	O	O
 luck	O	O
@@ -18004,7 +18004,7 @@ to	O	O
 coachhuggs	O	O
 and	O	O
 @	O	O
-wvuhoops	O	O
+wvuhoops	O	B-group
 tonight	O	O
 !	O	O
 don	O	O
@@ -18152,7 +18152,7 @@ audubonsociety	O	O
 :	O	O
 .	O	O
 @	O	O
-badlandsnps	B-location	O
+badlandsnps	B-location	B-location
 is	O	O
 a	O	O
 great	O	O
@@ -18163,8 +18163,8 @@ climate-endangered	O	O
 birds	O	O
 like	O	O
 the	O	O
-golden	O	B-group
-eagle	O	O
+golden	O	B-product
+eagle	O	I-corporation
 .	O	O
 https://t.co/shctbcgpoj	O	O
 https://…	O	O
@@ -18172,7 +18172,7 @@ https://…	O	O
 @	O	O
 ballhard	B-person	O
 _	O	O
-korin	B-person	B-group
+korin	B-person	B-person
 hopefully	O	O
 it	O	O
 wasn	O	O
@@ -18187,7 +18187,7 @@ iamakademiks	O	O
 :	O	O
 don	O	B-person
 '	O	O
-t	O	O
+t	O	B-group
 let	O	O
 that	O	O
 family	O	O
@@ -18263,14 +18263,14 @@ https://t.co/vrbnkavcvy	O	O
 lowongan	O	O
 pt	B-corporation	O
 citilink	I-corporation	B-location
-indonesia	I-corporation	I-location
+indonesia	I-corporation	B-location
 -	O	O
 recruitment	O	O
 forfresh	O	O
 graduate	O	O
 management	O	O
 trainee	O	O
-citilink	B-corporation	B-location
+citilink	B-corporation	O
 january	O	O
 2017	O	O
 .	O	O
@@ -18330,7 +18330,7 @@ student	O	O
 guest	O	O
 program	O	O
 #	O	O
-bothell	O	B-location
+bothell	O	B-group
 https://t.co/brqvffslaz	O	O
 
 i	O	O
@@ -18466,7 +18466,7 @@ wargit	O	O
 @	O	O
 northumbriana	O	O
 if	O	O
-ney	B-person	B-person
+ney	B-person	O
 had	O	O
 appeared	O	O
 in	O	O
@@ -18494,7 +18494,7 @@ inspiron	I-product	I-product
 17	I-product	I-product
 r	I-product	I-product
 5721	I-product	I-product
-core	I-product	O
+core	I-product	I-product
 i	I-product	O
 5	I-product	O
 -	I-product	O
@@ -18656,7 +18656,7 @@ https://t.co/gsjzkdxorz	O	O
 
 rt	O	O
 @	O	O
-suav	O	B-location
+suav	O	O
 1	O	O
 be	O	O
 :	O	O
@@ -18698,7 +18698,7 @@ vroniquepersic	O	O
 @	O	O
 horttim	O	O
 @	O	O
-serina	B-person	B-location
+serina	B-person	B-person
 _	I-person	O
 sgill	I-person	O
 @	O	O
@@ -18706,8 +18706,8 @@ priscillank	O	O
 27	O	O
 @	O	O
 janet	B-person	B-person
-23	O	O
-hbk	O	O
+23	O	I-person
+hbk	O	B-person
 @	O	O
 anaprogl	O	O
 1	O	O
@@ -18738,7 +18738,7 @@ boys	O	O
 nephew	O	O
 https://t.co/qtu8e6s6sk	O	O
 
-ug	O	O
+ug	O	B-location
 !	O	O
 comedy	O	O
 show	O	O
@@ -18796,7 +18796,7 @@ would	O	O
 rather	O	O
 deal	O	O
 with	O	O
-robots	O	O
+robots	O	B-product
 /	O	O
 computers	O	O
 than	O	O
@@ -18809,7 +18809,7 @@ how	O	O
 to	O	O
 deal	O	O
 with	O	O
-the	O	O
+the	O	B-product
 step-by-step	O	O
 programming	O	O
 o	O	O
@@ -18817,7 +18817,7 @@ o	O	O
 
 local	O	O
 /	O	O
-online	O	O
+online	O	B-corporation
 services	O	O
 :	O	O
 small	O	O
@@ -18898,7 +18898,7 @@ that	O	O
 unopened	O	O
 bottle	O	O
 of	O	O
-gaviscon	B-product	B-person
+gaviscon	B-product	O
 you	O	O
 '	O	O
 ve	O	O
@@ -18924,7 +18924,7 @@ this	O	O
 link	O	O
 https://t.co/r0dyopor86	O	O
 #	O	O
-airbnb	B-corporation	O
+airbnb	B-corporation	B-corporation
 #	O	O
 discount	O	O
 #	O	O
@@ -19023,7 +19023,7 @@ yeah	O	O
 man	O	O
 .	O	O
 @	O	O
-jaketapper	B-person	B-location
+jaketapper	B-person	O
 is	O	O
 handling	O	O
 this	O	O
@@ -19042,7 +19042,7 @@ good	O	O
 on	O	O
 you	O	O
 ,	O	O
-jak	B-person	O
+jak	B-person	B-person
 …	O	O
 
 rt	O	O
@@ -19051,14 +19051,14 @@ rt	O	O
 secondrock	O	O
 :	O	O
 the	B-group	O
-black	I-group	B-product
-keys	I-group	I-product
+black	I-group	O
+keys	I-group	O
 -	O	O
 "	O	O
 lonely	B-creative-work	B-creative-work
 boy	I-creative-work	I-creative-work
-"	O	I-creative-work
-https://t.co/k1hxm2u1mq	O	I-creative-work
+"	O	O
+https://t.co/k1hxm2u1mq	O	O
 
 9	O	O
 resources	O	O
@@ -19070,7 +19070,7 @@ outreach	O	O
 email	O	O
 by	O	O
 @	O	O
-stephenjeske	B-person	O
+stephenjeske	B-person	B-corporation
 via	O	O
 @	O	O
 quora	B-product	B-corporation
@@ -19090,7 +19090,7 @@ lgf	O	O
 in	O	O
 times	O	O
 of	O	O
-universal	O	O
+universal	O	B-corporation
 deceit	O	O
 ,	O	O
 telling	O	O
@@ -19111,7 +19111,7 @@ rt	O	O
 justdiditsport	O	O
 :	O	O
 when	O	O
-coach	O	B-group
+coach	O	B-person
 cancels	O	O
 practice	O	O
 https://t.co/02yy2cfmdr	O	O
@@ -19130,7 +19130,7 @@ i	O	O
 m	O	O
 looking	O	O
 for	O	O
-linux	B-product	O
+linux	B-product	B-product
 os	I-product	O
 have	O	O
 a	O	O
@@ -19139,7 +19139,7 @@ good	O	O
 ,	O	O
 unlike	O	O
 the	O	O
-ubuntu	B-product	O
+ubuntu	B-product	B-product
 it	O	O
 '	O	O
 s	O	O
@@ -19152,7 +19152,7 @@ rt	O	O
 @	O	O
 maxinejiji	B-person	O
 :	O	O
-don	O	O
+don	O	B-person
 '	O	O
 t	O	O
 keep	O	O
@@ -19172,11 +19172,11 @@ rt	O	O
 jzaffos	B-person	O
 :	O	O
 hey	O	O
-federal	O	O
+federal	O	B-group
 scientists	O	O
 :	O	O
 @	O	O
-highcountrynews	B-corporation	O
+highcountrynews	B-corporation	B-corporation
 is	O	O
 collecting	O	O
 reports	O	O
@@ -19224,7 +19224,7 @@ er	O	O
 cmau	O	O
 :	O	O
 #	O	O
-catalonia	B-location	B-location
+catalonia	B-location	O
 '	O	O
 s	O	O
 foreign	O	O
@@ -19266,14 +19266,14 @@ rt	O	O
 gaypridebelize	B-creative-work	O
 :	O	O
 #	O	O
-missuniverse	B-corporation	B-location
+missuniverse	B-corporation	O
 #	O	O
-belize	B-location	B-location
+belize	B-location	O
 let	O	O
 '	O	O
 s	O	O
 go	O	O
-belize	B-location	B-location
+belize	B-location	O
 .	O	O
 https://t.co/9suungvg7t	O	O
 
@@ -19296,16 +19296,16 @@ soon	O	O
 https://t.co/haz33bs8hn	O	O
 
 #	O	O
-nowplaying	O	B-person
+nowplaying	O	O
 she	O	O
 in	O	O
 here	O	O
 right	O	O
 now	O	O
 by	O	O
-biggdawg	B-person	O
+biggdawg	B-person	B-person
 c	I-person	O
-loc	I-person	O
+loc	I-person	B-group
 on	O	O
 https://t.co/n2eeqhksi0	O	O
 
@@ -19341,9 +19341,9 @@ for	O	O
 hours	O	O
 .	O	O
 
-fly	O	I-product
-away	O	O
-fly	O	O
+fly	O	B-creative-work
+away	O	I-creative-work
+fly	O	I-creative-work
 away	O	O
 
 rt	O	O
@@ -19396,7 +19396,7 @@ rt	O	O
 @	O	O
 doctorzen	O	O
 :	O	O
-geologists	B-group	B-location
+geologists	B-group	O
 ,	O	O
 physicists	B-group	O
 ,	O	O
@@ -19404,19 +19404,19 @@ chemists	B-group	O
 ,	O	O
 anthropologists	B-group	B-person
 ,	O	O
-geneticists	B-group	O
+geneticists	B-group	B-person
 -	O	O
 -	O	O
 every	O	O
 discipline	O	O
 better	O	O
-denounce	O	O
+denounce	O	B-person
 any	O	O
 action	O	O
 against	O	O
-epa	B-group	O
+epa	B-group	B-person
 .	O	O
-#	O	O
+#	O	B-person
 …	O	O
 
 rt	O	O
@@ -19484,11 +19484,11 @@ how	O	O
 to	O	O
 start	O	O
 a	O	O
-neighborhood	O	O
+neighborhood	O	B-location
 watch	O	O
 in	O	O
-#	O	O
-napa	B-location	B-location
+#	O	B-location
+napa	B-location	I-location
 https://t.co/ckmruatvdd	O	I-location
 via	O	O
 @	O	O
@@ -19508,13 +19508,13 @@ it	O	O
 '	O	O
 s	O	O
 like	O	O
-y	O	B-person
+y	O	O
 '	O	O
 all	O	O
 elected	O	O
 that	O	O
-damn	O	B-person
-cloyd	B-person	I-person
+damn	O	O
+cloyd	B-person	B-person
 rivers	I-person	I-person
 account	O	O
 to	O	O
@@ -19550,7 +19550,7 @@ someone	O	O
 you	O	O
 don	O	B-person
 '	O	O
-t	O	O
+t	O	B-person
 
 want	O	O
 to	O	O
@@ -19607,7 +19607,7 @@ rt	O	O
 _	O	O
 xoxo	O	O
 _	O	O
-kathlyn	B-person	B-person
+kathlyn	B-person	O
 :	O	O
 lmxskaskskssskks	O	O
 i	O	O
@@ -19676,7 +19676,7 @@ ad	I-creative-work	O
 at	I-creative-work	O
 the	I-creative-work	B-location
 cartoon	I-creative-work	I-location
-museum	I-creative-work	O
+museum	I-creative-work	I-location
 https://t.co/k1wmu7kvst	O	O
 https://t.co/h1jgfax4e9	O	O
 
@@ -19865,7 +19865,7 @@ rt	O	O
 @	O	O
 leel	O	O
 _	O	O
-hussle	O	B-person
+hussle	O	O
 :	O	O
 get	O	O
 it	O	O
@@ -19899,8 +19899,8 @@ https://t.co/9kvp5sokij	O	O
 
 #	O	O
 adult	O	O
-aladdin	B-person	B-creative-work
-anal	O	I-creative-work
+aladdin	B-person	B-person
+anal	O	O
 fingering	O	O
 female	O	O
 https://t.co/zrivynfi9j	O	O
@@ -19932,7 +19932,7 @@ this	O	O
 isn	O	O
 '	O	O
 t	O	O
-taehyung	B-person	I-person
+taehyung	B-person	B-person
 and	O	O
 jungkook	B-person	O
 https://t.co/ymkhcrifts	O	O
@@ -19969,12 +19969,12 @@ voxd	I-person	O
 #	O	O
 trapmusic	O	O
 #	O	O
-radio	O	O
-instant	O	O
+radio	O	B-group
+instant	O	I-group
 party	O	O
 !	O	O
 -	O	O
-horizons	B-corporation	O
+horizons	B-corporation	B-group
 https://t.co/yjsuuaptjx	O	O
 
 @	O	O
@@ -19998,7 +19998,7 @@ actors	O	O
 drama	O	O
 synopsis	O	O
 lee	B-person	B-creative-work
-young	I-person	I-creative-work
+young	I-person	O
 ae	I-person	O
 (	O	O
 saimdang	B-creative-work	O
@@ -20066,9 +20066,9 @@ st	O	O
 https://t.co/jhczppguj7	O	O
 
 @	O	O
-katarina	B-person	B-person
+katarina	B-person	O
 _	I-person	O
-neko	I-person	O
+neko	I-person	B-person
 /	O	O
 /	O	O
 fangirling	O	O
@@ -20101,8 +20101,8 @@ done	O	O
 collaborations	O	O
 in	O	O
 the	O	O
-sims	B-creative-work	B-corporation
-4	I-creative-work	O
+sims	B-creative-work	B-creative-work
+4	I-creative-work	I-creative-work
 but	O	O
 more	O	O
 are	O	O
@@ -20188,8 +20188,8 @@ rt	O	O
 mauriciothesone	O	O
 :	O	O
 familia	B-group	B-person
-qian	I-group	I-person
-jung	I-group	I-person
+qian	I-group	B-person
+jung	I-group	B-person
 make	O	O
 you	O	O
 feel	O	O
@@ -20520,15 +20520,15 @@ now	O	O
 playing	O	B-creative-work
 money	B-creative-work	I-creative-work
 ain	I-creative-work	I-creative-work
-'	I-creative-work	I-creative-work
-t	I-creative-work	I-creative-work
-a	I-creative-work	I-creative-work
-problem	I-creative-work	I-creative-work
-feat	O	I-creative-work
-.	O	I-creative-work
-french	B-person	B-person
+'	I-creative-work	O
+t	I-creative-work	O
+a	I-creative-work	O
+problem	I-creative-work	O
+feat	O	O
+.	O	O
+french	B-person	O
 montana	I-person	I-person
-by	O	I-person
+by	O	O
 diddy	B-person	B-person
 !	O	O
 click	O	O
@@ -20542,7 +20542,7 @@ rt	O	O
 2000	O	O
 shits	O	O
 :	O	O
-50	B-person	O
+50	B-person	B-group
 cent	I-person	O
 -	O	O
 21	B-creative-work	O
@@ -20606,11 +20606,11 @@ that	O	O
 '	O	O
 s	O	O
 broke	O	B-creative-work
-is	O	I-creative-work
-heart	O	I-creative-work
-that	O	I-creative-work
-'	O	I-creative-work
-s	O	I-creative-work
+is	O	O
+heart	O	O
+that	O	O
+'	O	O
+s	O	O
 been	O	O
 loved	O	O
 
@@ -20642,7 +20642,7 @@ https://t.co/ggbs2kidpa	O	O
 
 brooke	B-person	B-person
 from	O	O
-candy	B-group	O
+candy	B-group	B-corporation
 girls	I-group	O
 nude	O	O
 https://t.co/rmp2dxslnm	O	O
@@ -20650,14 +20650,14 @@ https://t.co/rmp2dxslnm	O	O
 @	O	O
 coffee	O	O
 _	O	O
-bean	O	B-product
+bean	O	B-person
 2016	O	O
 i	O	O
-don	O	B-person
+don	O	O
 '	O	O
 t	O	O
 have	O	O
-bellarmine	B-corporation	B-location
+bellarmine	B-corporation	B-group
 money	O	O
 lmao	O	O
 
@@ -20689,8 +20689,8 @@ https://t.co/pzzptgogy4	O	O
 https://t.co/4wgx0t8ylq	O	O
 
 auto	B-creative-work	O
-dj	I-creative-work	B-creative-work
-show	I-creative-work	I-creative-work
+dj	I-creative-work	O
+show	I-creative-work	O
 is	O	O
 starting	O	O
 now	O	O
@@ -20731,15 +20731,15 @@ bcraftstorage	O	O
 :	O	O
 cast	O	O
 and	O	O
-director	O	B-group
-of	O	I-group
-moonlight	B-creative-work	I-creative-work
-&	O	I-creative-work
-amp	O	I-creative-work
+director	O	O
+of	O	O
+moonlight	B-creative-work	B-person
+&	O	O
+amp	O	O
 ;	O	O
-magnolias	B-creative-work	B-group
-at	O	I-group
-the	O	I-group
+magnolias	B-creative-work	B-location
+at	O	O
+the	O	B-location
 fly	B-location	I-location
 community	I-location	I-location
 theater	I-location	I-location
@@ -20819,7 +20819,7 @@ league	O	O
 and	O	O
 man	O	O
 u	O	O
-wins	O	B-group
+wins	O	O
 europa	B-group	B-group
 league	O	O
 !	O	O
@@ -20853,7 +20853,7 @@ https://t.co/bnci3tgqnw	O	O
 live	O	O
 on	O	O
 @	O	O
-younow	O	B-location
+younow	O	B-corporation
 -	O	O
 https://t.co/e8g85hsiag	O	O
 
@@ -20895,12 +20895,12 @@ some	O	O
 h	B-creative-work	O
 1	I-creative-work	O
 z	I-creative-work	O
-1	I-creative-work	O
-and	O	O
-late	O	O
-night	O	O
-battlefield	B-creative-work	O
-1	I-creative-work	O
+1	I-creative-work	B-creative-work
+and	O	I-creative-work
+late	O	I-creative-work
+night	O	I-creative-work
+battlefield	B-creative-work	I-creative-work
+1	I-creative-work	I-creative-work
 with	O	O
 the	O	O
 homies	O	O
@@ -20926,7 +20926,7 @@ fuck	O	O
 flynn	B-person	B-person
 then	O	O
 we	O	O
-fuck	O	O
+fuck	O	B-location
 trump	B-person	B-corporation
 -	O	O
 google	B-product	B-corporation
@@ -20957,7 +20957,7 @@ i	O	O
 feel	O	O
 like	O	O
 mets	B-group	B-group
-fans	O	O
+fans	O	I-group
 are	O	O
 the	O	O
 best	O	O
@@ -20986,11 +20986,11 @@ celebrate	O	O
 someone	O	O
 else	O	O
 '	O	O
-s	O	O
-extreme	O	O
-invasion	O	O
-of	O	O
-privacy	O	B-group
+s	O	B-product
+extreme	O	B-product
+invasion	O	I-product
+of	O	I-product
+privacy	O	I-product
 is	O	O
 someone	O	O
 who	O	O
@@ -21009,7 +21009,7 @@ best	O	O
 https://t.co/at3jp6praz	O	O
 
 development-ready	O	B-location
-land	O	B-location
+land	O	I-location
 in	O	I-location
 town	O	B-location
 ,	O	O
@@ -21064,7 +21064,7 @@ laughed	O	O
 
 rt	O	O
 @	O	O
-uporntube	B-creative-work	O
+uporntube	B-creative-work	B-corporation
 2	I-creative-work	O
 :	O	O
 hd	O	O
@@ -21166,7 +21166,7 @@ would	O	O
 love	O	O
 if	O	O
 @	O	O
-itv	B-corporation	B-location
+itv	B-corporation	B-group
 could	O	O
 arrange	O	O
 for	O	O
@@ -21228,7 +21228,7 @@ stop	O	O
 cruel	O	O
 treatment	O	O
 of	O	O
-monkeys	O	B-location
+monkeys	O	O
 at	O	O
 biomedical	O	B-location
 laboratories	O	I-location
@@ -21295,7 +21295,7 @@ wcpo	O	O
 :	O	O
 05	O	O
 jay	O	B-person
-dmb	O	I-person
+dmb	O	O
 test	O	O
 8	O	O
 -	O	O
@@ -21344,7 +21344,7 @@ recap	I-person	O
 run	O	O
 @	O	O
 the	O	O
-ridge	O	I-location
+ridge	O	I-corporation
 5	O	O
 k	O	O
 (	O	O
@@ -21392,7 +21392,7 @@ new	O	O
 place	O	O
 by	O	O
 the	O	O
-lake	O	B-location
+lake	O	I-location
 !	O	O
 "	O	O
 https:…	O	O
@@ -21451,7 +21451,7 @@ https://t.co/ypa8onsv0y	O	O
 %	O	O
 done	O	O
 with	O	O
-reborn	B-creative-work	O
+reborn	B-creative-work	B-product
 ,	O	O
 by	O	O
 jane	B-person	B-person
@@ -21543,7 +21543,7 @@ https://t.co/mbbvgub9h2	O	O
 
 harry	B-person	B-person
 potter	I-person	I-person
-humour	O	O
+humour	O	I-creative-work
 -	O	O
 writers	O	O
 write	O	O
@@ -21575,7 +21575,7 @@ indiedev	O	O
 #	O	O
 gamedev	O	O
 #	O	O
-nowplaying	O	O
+nowplaying	O	B-person
 #	O	O
 guitar	O	O
 #	O	O
@@ -21619,22 +21619,22 @@ horan	I-person	I-person
 
 trio	O	O
 @	O	O
-phronesismusic	B-group	B-location
+phronesismusic	B-group	B-group
 collaborates	O	O
 with	O	O
-the	O	B-location
-frankfurt	B-group	B-location
-radio	I-group	I-location
-big	I-group	O
-band	I-group	O
+the	O	O
+frankfurt	B-group	B-group
+radio	I-group	I-group
+big	I-group	I-group
+band	I-group	I-group
 &	O	O
-amp	O	O
+amp	O	B-group
 ;	O	O
 @	O	O
-julargjazz	B-group	O
+julargjazz	B-group	B-group
 for	O	O
 the	B-creative-work	O
-behemoth	I-creative-work	I-location
+behemoth	I-creative-work	I-group
 @	O	O
 editionrecords	B-corporation	O
 …	O	O
@@ -21799,7 +21799,7 @@ for	O	O
 anyone	O	O
 who	O	O
 watches	O	O
-ahs	O	B-corporation
+ahs	O	B-group
 https://t.co/g5g9lx7fa5	O	O
 
 rt	O	O
@@ -21830,7 +21830,7 @@ rickygervais	B-person	O
 :	O	O
 if	O	O
 you	O	O
-don	O	B-person
+don	O	O
 '	O	O
 t	O	O
 have	O	O
@@ -21841,7 +21841,7 @@ animals	O	O
 you	O	O
 don	O	B-person
 '	O	O
-t	O	O
+t	O	B-person
 have	O	O
 empathy	O	O
 at	O	O
@@ -21908,7 +21908,7 @@ means	O	O
 for	O	O
 dion	B-person	B-person
 jordan	I-person	I-person
-https://t.co/41ybt4pnvc	O	I-person
+https://t.co/41ybt4pnvc	O	O
 
 rt	O	O
 @	O	O
@@ -21953,7 +21953,7 @@ makes	O	O
 blake	B-person	B-person
 shelton	I-person	I-person
 try	O	O
-sushi	O	B-location
+sushi	O	O
 #	O	O
 uganda	B-location	B-location
 business	O	O
@@ -22044,12 +22044,12 @@ is	O	O
 hiring	O	O
 :	O	O
 hotel	O	B-location
-housekeepers	O	I-location
+housekeepers	O	O
 needed	O	O
 in	O	O
-spring	B-location	B-location
+spring	B-location	O
 ,	O	O
-tx	B-location	B-location
+tx	B-location	O
 https://t.co/5duhyd7oat	O	O
 
 rt	O	O
@@ -22106,10 +22106,10 @@ listen	O	O
 to	O	O
 pretape	B-creative-work	O
 by	O	O
-richidenz	B-person	B-creative-work
-#	O	I-creative-work
-np	O	I-creative-work
-on	O	O
+richidenz	B-person	B-group
+#	O	I-group
+np	O	I-group
+on	O	I-group
 #	O	O
 soundcloud	B-corporation	O
 https://t.co/5x6wc5srqa	O	O
@@ -22122,12 +22122,12 @@ seriously	O	O
 ,	O	O
 why	O	O
 is	O	O
-ivanka	B-person	B-corporation
+ivanka	B-person	B-person
 in	O	O
 these	O	O
 meetings	O	O
 with	O	O
-world	O	O
+world	O	B-person
 leaders	O	O
 ?	O	O
 has	O	O
@@ -22220,10 +22220,10 @@ drained	O	O
 of	O	O
 blood	O	O
 ,	O	O
-the	O	B-creative-work
-heart	O	I-creative-work
-is	O	I-creative-work
-white	O	I-creative-work
+the	O	O
+heart	O	O
+is	O	O
+white	O	O
 .	O	O
 https://t.co/k4yzgkwhsm	O	O
 
@@ -22231,8 +22231,8 @@ https://t.co/k4yzgkwhsm	O	O
 .	O	O
 lyla	O	B-person
 -	O	O
-mantan	B-person	B-person
-kekasih	I-person	I-person
+mantan	B-person	B-creative-work
+kekasih	I-person	I-creative-work
 
 rt	O	O
 @	O	O
@@ -22298,14 +22298,14 @@ https://t.co/qlbnsfpm4u	O	O
 
 rt	O	O
 @	O	O
-drjimmystar	B-person	O
+drjimmystar	B-person	B-location
 :	O	O
 have	O	O
 a	O	O
 great	O	O
 night	O	O
 @	O	O
-jebove	O	O
+jebove	O	B-location
 2	O	O
 @	O	O
 friutypie	O	O
@@ -22316,9 +22316,9 @@ hope	O	O
 
 listen	O	O
 to	O	O
-rock	O	B-location
-station	O	I-location
-oldies	O	I-location
+rock	O	B-corporation
+station	O	I-corporation
+oldies	O	O
 for	O	O
 free	O	O
 !	O	O
@@ -22345,7 +22345,7 @@ even	O	O
 the	O	O
 strongest	O	O
 of	O	O
-iron	O	O
+iron	O	B-group
 wil	O	O
 .	O	O
 .	O	O
@@ -22437,13 +22437,13 @@ mixes	I-product	O
 https://t.co/ovr779rvvr	O	O
 https://t.co/viwuquyrcv	O	O
 
-#	O	O
-floral	B-creative-work	O
-#	O	O
-kaleidoscope	B-creative-work	B-person
+#	O	B-location
+floral	B-creative-work	I-location
+#	O	I-location
+kaleidoscope	B-creative-work	O
 by	O	O
 #	O	B-person
-kaye	B-person	I-person
+kaye	B-person	B-person
 _	O	I-person
 menner	B-person	I-person
 #	O	O
@@ -22497,7 +22497,7 @@ people	O	O
 can	O	O
 hate	O	O
 @	O	O
-edsheeran	B-person	O
+edsheeran	B-person	B-group
 ?	O	O
 
 rt	O	O
@@ -22530,7 +22530,7 @@ base	O	O
 for	O	O
 another	O	O
 ,	O	O
-helen	B-person	B-person
+helen	B-person	O
 .	O	O
 .	O	O
 you	O	O
@@ -22660,7 +22660,7 @@ gilinsky	I-person	I-person
 
 rt	O	O
 @	O	O
-marsupilami	O	B-location
+marsupilami	O	O
 _	O	O
 xxi	O	O
 :	O	O
@@ -22803,9 +22803,9 @@ amyrightside	O	O
 :	O	O
 age	B-creative-work	O
 of	I-creative-work	O
-defenders	I-creative-work	B-group
+defenders	I-creative-work	O
 -	I-creative-work	O
-multiplayer	I-creative-work	B-group
+multiplayer	I-creative-work	O
 tower	I-creative-work	B-group
 defense	I-creative-work	O
 and	I-creative-work	O
@@ -22816,7 +22816,7 @@ post	O	O
 .	O	O
 https://t.co/kkwpzlqhhk	O	O
 #	O	O
-ipad	B-product	O
+ipad	B-product	B-corporation
 #	O	O
 games	O	O
 #	O	O
@@ -22828,9 +22828,9 @@ m	O	O
 leaving	O	O
 for	O	O
 #	O	O
-beautyandthebeast	B-creative-work	I-location
+beautyandthebeast	B-creative-work	O
 :	O	O
-d	O	B-location
+d	O	O
 i	O	O
 '	O	O
 m	O	O
@@ -22862,7 +22862,7 @@ isabella	B-person	B-person
 proudly	O	O
 wearing	O	O
 her	O	O
-cim	O	B-person
+cim	O	O
 t-shirt	O	O
 today	O	O
 .	O	O
@@ -22872,7 +22872,7 @@ https://t.co/aej0owlbcu	O	O
 
 rt	O	O
 @	O	O
-climb	B-person	B-location
+climb	B-person	O
 _	I-person	O
 chairman	I-person	O
 :	O	O
@@ -22882,7 +22882,7 @@ part	O	O
 https://t.co/bmppwnsomh	O	O
 
 @	O	O
-chabot	B-person	B-person
+chabot	B-person	O
 _	O	O
 cameron	B-person	B-person
 well	O	O
@@ -22911,9 +22911,9 @@ first	O	O
 run	O	O
 .	O	O
 |	O	O
-@	O	O
-allianceparts	O	O
-@	O	O
+@	O	B-location
+allianceparts	O	I-location
+@	O	I-location
 fordperformance	B-corporation	O
 
 i	O	O
@@ -22956,7 +22956,7 @@ with	O	O
 love	O	O
 .	O	O
 og	B-person	B-person
-mandino	I-person	O
+mandino	I-person	I-person
 #	O	O
 quote	O	O
 
@@ -23019,12 +23019,12 @@ woge	O	O
 a	O	O
 new	O	O
 #	O	O
-grimm	B-creative-work	B-group
+grimm	B-creative-work	B-corporation
 starts	O	O
 now	O	O
 on	O	O
 @	O	O
-nbc	B-corporation	B-location
+nbc	B-corporation	B-corporation
 .	O	O
 https://t.co/lmqa8ajwzl	O	O
 
@@ -23070,7 +23070,7 @@ do	O	O
 '	O	O
 ,	O	O
 trump	B-group	B-person
-team	I-group	I-person
+team	I-group	O
 says	O	O
 https://t.co/waawhnq07i	O	O
 
@@ -23147,7 +23147,7 @@ to	O	O
 talk	O	O
 to	O	O
 
-dear	O	B-person
+dear	O	O
 amitabh	B-person	B-person
 !	O	O
 happy	O	O
@@ -23169,9 +23169,9 @@ many	O	O
 years	O	O
 !	O	O
 
-naked	B-creative-work	O
-city	I-creative-work	B-location
-tv	I-creative-work	O
+naked	B-creative-work	B-corporation
+city	I-creative-work	I-corporation
+tv	I-creative-work	I-corporation
 series	I-creative-work	O
 #	O	O
 nude	O	O
@@ -23245,12 +23245,12 @@ r	O	O
 #	O	O
 photo	O	O
 by	O	O
-dinko	B-person	B-person
-#	O	I-person
+dinko	B-person	O
+#	O	O
 dream	O	O
 #	O	O
 love	O	O
-#	O	I-person
+#	O	O
 hope	O	O
 #	O	O
 health	O	O
@@ -23280,7 +23280,7 @@ winners	O	O
 https://t.co/p4a9cif6oj	O	O
 
 madama	B-creative-work	B-location
-butterfly	I-creative-work	I-group
+butterfly	I-creative-work	I-location
 in	O	O
 the	O	O
 english	O	O
@@ -23289,8 +23289,8 @@ pub	O	O
 for	O	O
 those	O	O
 who	O	O
-loves	O	O
-opera	O	O
+loves	O	B-person
+opera	O	I-person
 with	O	O
 their	O	O
 pint	O	O
@@ -23354,7 +23354,7 @@ hang	O	O
 with	O	O
 people	O	O
 who	O	O
-don	O	B-person
+don	O	O
 '	O	O
 t	O	O
 smoke	O	O
@@ -23362,7 +23362,7 @@ smoke	O	O
 
 rt	O	O
 @	O	O
-amber	B-person	O
+amber	B-person	B-person
 _	O	O
 elyxx	B-person	O
 :	O	O
@@ -23416,13 +23416,13 @@ is	O	O
 soo	O	O
 dump	O	O
 he	O	O
-don	O	B-person
+don	O	O
 '	O	O
 t	O	O
 know	O	O
 what	O	O
 he	O	O
-don	O	B-person
+don	O	O
 '	O	O
 t	O	O
 know	O	O
@@ -23456,21 +23456,21 @@ nprmusic	B-group	O
 :	O	O
 watch	O	O
 @	O	O
-chicanobatman	B-group	I-location
+chicanobatman	B-group	O
 ,	O	O
 @	O	O
-spoontheband	B-group	I-location
+spoontheband	B-group	B-group
 and	O	O
 @	O	O
-thevaleriejune	B-group	B-location
+thevaleriejune	B-group	B-group
 live	O	O
 from	O	O
-#	O	O
-sxsw	B-location	O
+#	O	B-group
+sxsw	B-location	I-group
 beginning	O	O
 at	O	O
 1	O	B-location
-p	O	O
+p	O	I-location
 .	O	O
 m	O	O
 .	O	O
@@ -23534,14 +23534,14 @@ a	O	O
 man	O	O
 that	O	O
 loves	O	B-person
-me	O	I-person
+me	O	O
 the	O	O
 way	O	O
 jack	B-person	B-person
 pearson	I-person	I-person
-loves	O	I-person
+loves	O	B-person
 rebecca	B-person	B-person
-.	O	O
+.	O	I-person
 
 rt	O	O
 @	O	O
@@ -23550,9 +23550,9 @@ twentyonepilots	O	O
 feb	O	O
 26	O	O
 n	O	O
-charleston	B-location	B-location
+charleston	B-location	B-group
 #	O	O
-ers	B-creative-work	O
+ers	B-creative-work	B-group
 2017	I-creative-work	O
 photos	O	O
 are	O	O
@@ -23620,8 +23620,8 @@ mark	B-person	B-person
 i	O	O
 was	O	O
 in	O	O
-boy	B-group	O
-scouts	I-group	O
+boy	B-group	B-location
+scouts	I-group	I-location
 i	O	O
 know	O	O
 what	O	O
@@ -23686,7 +23686,7 @@ this	O	O
 https://t.co/jpbeijndip	O	O
 
 @	O	O
-hugo	B-creative-work	B-person
+hugo	B-creative-work	O
 _	O	O
 _	O	O
 _	O	O
@@ -23704,7 +23704,7 @@ i	O	O
 did	O	O
 drawn	O	O
 the	O	O
-tiger	B-creative-work	O
+tiger	B-creative-work	B-product
 mama	I-creative-work	O
 ★	O	O
 ★	O	O
@@ -23724,11 +23724,11 @@ could	O	O
 not	O	O
 found	O	O
 
-nexus	B-product	I-product
+nexus	B-product	B-product
 6	I-product	I-product
-p	I-product	I-product
-|	O	I-product
-nexus	B-product	I-product
+p	I-product	O
+|	O	O
+nexus	B-product	B-product
 6	I-product	I-product
 sleeve	I-product	I-product
 shop	O	O
@@ -23796,7 +23796,7 @@ how	O	O
 russ	B-person	B-person
 ?	O	O
 #	O	O
-thunderup	O	O
+thunderup	O	B-group
 #	O	O
 assistofthenight	O	O
 https://t.co/rpopm3mdup	O	O
@@ -23904,11 +23904,11 @@ monotone	O	O
 lool	O	O
 https://t.co/bd9cy8bcfv	O	O
 
-alain	B-person	B-product
-3378	O	I-product
-played	O	I-product
+alain	B-person	B-group
+3378	O	I-group
+played	O	I-group
 plague	B-creative-work	I-product
-inc	I-creative-work	I-product
+inc	I-creative-work	O
 :	I-creative-work	O
 evolved	I-creative-work	O
 (	O	O
@@ -23993,7 +23993,7 @@ rt	O	O
 fordm	B-person	O
 :	O	O
 kellyanne	B-person	O
-conway	I-person	I-person
+conway	I-person	I-location
 '	O	O
 s	O	O
 husband	O	O
@@ -24075,8 +24075,8 @@ outfit	O	O
 that	O	O
 left	O	O
 the	O	O
-white	B-location	O
-house	I-location	O
+white	B-location	B-location
+house	I-location	I-location
 on	O	O
 january	O	O
 20	O	O
@@ -24127,7 +24127,7 @@ inflation	O	O
 https://t.co/bodtl8r1pu	O	O
 
 #	O	O
-fake	O	O
+fake	O	B-corporation
 news	O	O
 trend	O	O
 gathering	O	O
@@ -24156,9 +24156,9 @@ v	O	O
 _	O	O
 of	O	O
 _	O	O
-europe	B-location	O
+europe	B-location	B-location
 :	O	O
-europe	B-location	O
+europe	B-location	B-location
 '	O	O
 s	O	O
 most	O	O
@@ -24247,7 +24247,7 @@ for	O	O
 ya	O	O
 
 kim	B-person	B-person
-burrel	I-person	I-person
+burrel	I-person	O
 -	O	O
 hold	O	O
 2	O	O
@@ -24255,9 +24255,9 @@ ur	O	O
 faith	O	O
 https://t.co/5sxwx5nhya	O	O
 #	O	O
-nowplaying	O	O
-#	O	O
-listenlive	O	B-person
+nowplaying	O	B-person
+#	O	I-person
+listenlive	O	I-person
 
 rt	O	O
 @	O	O
@@ -24282,9 +24282,9 @@ https://t.co/rysrtztbtd	O	O
 
 rt	O	O
 @	O	O
-boyband	B-group	B-location
+boyband	B-group	O
 _	I-group	O
-joao	I-group	B-person
+joao	I-group	O
 :	O	O
 happy	O	O
 six	O	O
@@ -24539,7 +24539,7 @@ litgrimes	O	O
 archie	B-person	B-person
 and	O	O
 blair	B-person	B-person
-—	O	I-person
+—	O	O
 i	O	O
 know	O	O
 she	O	O
@@ -24577,7 +24577,7 @@ hate	O	O
 how	O	O
 my	O	O
 brain	O	O
-overthinks	O	O
+overthinks	O	B-person
 literally	O	O
 everything	O	O
 
@@ -24643,8 +24643,8 @@ today	O	O
 .	O	O
 .	O	O
 .	O	O
-pelicans	B-group	B-group
-offence	O	I-group
+pelicans	B-group	B-location
+offence	O	O
 could	O	O
 be	O	O
 horrible	O	O

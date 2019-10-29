@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import warnings
 from datetime import datetime
 from sklearn import metrics
 
@@ -10,10 +11,10 @@ from torchtext.datasets import *
 from network import *
 
 
-def load_dataset(train_path, test_path, args):
+def load_dataset(train_path, valid_path, test_path, args):
 
     # Create new fields on vocab
-    args.WORD = Field(init_token="<bos>", eos_token="<eos>")
+    args.WORD = Field(init_token="<bos>", eos_token="<eos>", lower=True)
     args.TAG = Field(init_token="<bos>", eos_token="<eos>")
 
     # Data fields
@@ -21,20 +22,22 @@ def load_dataset(train_path, test_path, args):
 
     # Create datasets
     trn_data = SequenceTaggingDataset(train_path, fields=data_fields)
+    vld_data = SequenceTaggingDataset(valid_path, fields=data_fields)
     tst_data = SequenceTaggingDataset(test_path, fields=data_fields)
 
     # Merge train + test to get full vocab
     list_of_trn = [x for x in trn_data]
+    list_of_vld = [x for x in vld_data]
     list_of_tst = [x for x in tst_data]
-    list_of_join = list_of_trn + list_of_tst
+    list_of_join = list_of_trn + list_of_vld + list_of_tst
     full_dataset = Dataset(list_of_join, data_fields)
 
     # build vocaboulary
-    if args.fasttext:
-        args.WORD.build_vocab(full_dataset,  # min_freq=2,
-                              vectors=vocab.GloVe())
+    if args.glove:
+        args.WORD.build_vocab(full_dataset,
+                              vectors=vocab.GloVe('twitter.27B', dim=100))
     else:
-        args.WORD.build_vocab(full_dataset)  # , min_freq=2)
+        args.WORD.build_vocab(full_dataset)
 
     args.TAG.build_vocab(trn_data)
 
@@ -49,17 +52,14 @@ def load_dataset(train_path, test_path, args):
     for key, value in args.TAG.vocab.freqs.items():
         total += value
     for key, value in args.TAG.vocab.freqs.items():
-        print('{} {}elems {:.2f}%'.format(key, value, 100 * value / total))
-
-    # Split dataset
-    trn, vld = trn_data.split(args.train_percentage)
+        print('\t{} {} elems {:.2f}%'.format(key, value, 100 * value / total))
 
     # Dataset information
-    print('train dataset : {} elements'.format(len(trn)))
-    print('validate dataset : {} elements'.format(len(vld)))
+    print('train dataset : {} elements'.format(len(trn_data)))
+    print('validate dataset : {} elements'.format(len(vld_data)))
     print('test dataset : {} elements'.format(len(tst_data)))
 
-    return (trn, vld, tst_data)
+    return (trn_data, vld_data, tst_data)
 
 
 def write_batch(inputs, targets, predicted, file, args):
@@ -90,14 +90,19 @@ def print_batch(inputs, targets, predicted, args):
         print('')
 
 
-def predict(outputs):
+def predict(outputs, targets):
+    if type(outputs) is tuple:
+        outputs, _ = outputs
+        targets, _ = targets
+
+    # predict by getting max from dist
     predicted = (outputs.argmax(dim=1)).type(torch.long)
 
     # Change unwanted tag predictions
     for idx in range(4):
         predicted[predicted == idx] = 4
 
-    return predicted
+    return predicted, targets
 
 
 def calculate_metrics(targets, predictions, report=True):
@@ -110,12 +115,17 @@ def calculate_metrics(targets, predictions, report=True):
         targets = targets[dif]
         predictions = predictions[dif]
 
-    met = {
-        'acc': metrics.accuracy_score(targets, predictions),
-        'bacc': metrics.balanced_accuracy_score(targets, predictions),
-        'prec': metrics.precision_score(targets, predictions, average=avg),
-        'rec': metrics.recall_score(targets, predictions, average=avg),
-        'f1': metrics.f1_score(targets, predictions, average=avg)}
+    # ignore scikit-learn metrics warnings
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+
+        # calculate metrics
+        met = {
+            'acc': metrics.accuracy_score(targets, predictions),
+            'bacc': metrics.balanced_accuracy_score(targets, predictions),
+            'prec': metrics.precision_score(targets, predictions, average=avg),
+            'rec': metrics.recall_score(targets, predictions, average=avg),
+            'f1': metrics.f1_score(targets, predictions, average=avg)}
 
     # Classification report
     if report:
@@ -202,9 +212,10 @@ def create_run_name(args):
     run = '{}={}'.format('nw', args.network)
     run += '_{}={}'.format('ds', args.dataset)
     run += '_{}={}'.format('op', args.optimizer)
+    run += '_{}={}'.format('hd', args.hidden)
+    run += '_{}={}'.format('em', args.embedding)
     run += '_{}={}'.format('ep', args.epochs)
     run += '_{}={}'.format('bs', args.batch_size)
-    run += '_{}={}'.format('tp', args.train_percentage)
     run += '_{}'.format(datetime.now().strftime("%m-%d-%Y-%H-%M-%S"))
 
     return run

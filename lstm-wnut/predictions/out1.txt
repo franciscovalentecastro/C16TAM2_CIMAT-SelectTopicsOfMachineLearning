@@ -1,79 +1,79 @@
 ### ENTITY F1-SCORES ###
 processed 23394 tokens with 1079 phrases; 
-found: 1012 phrases; correct: 26.
+found: 713 phrases; correct: 246.
 
-accuracy:  88.66%; 
-precision:   2.57%; 
-recall:   2.41%; 
-FB1:   2.49
+accuracy:  92.63%; 
+precision:  34.50%; 
+recall:  22.80%; 
+FB1:  27.46
 
       corporation: 
-precision:  20.00%; 
-recall:   1.52%; 
-FB1:   2.82  1
+precision:  12.24%; 
+recall:   9.09%; 
+FB1:  10.43  6
 
     creative-work: 
-precision:   0.00%; 
-recall:   0.00%; 
-FB1:   0.00  0
+precision:   8.51%; 
+recall:   2.82%; 
+FB1:   4.23  4
 
             group: 
-precision:   0.00%; 
-recall:   0.00%; 
-FB1:   0.00  0
+precision:  21.21%; 
+recall:   8.48%; 
+FB1:  12.12  14
 
          location: 
-precision:   2.33%; 
-recall:   8.00%; 
-FB1:   3.61  12
+precision:  32.78%; 
+recall:  39.33%; 
+FB1:  35.76  59
 
            person: 
-precision:   3.23%; 
-recall:   3.03%; 
-FB1:   3.13  13
+precision:  48.90%; 
+recall:  36.13%; 
+FB1:  41.55  155
 
           product: 
-precision:   0.00%; 
-recall:   0.00%; 
-FB1:   0.00  0
+precision:  14.81%; 
+recall:   6.30%; 
+FB1:   8.84  8
 
 
 ### SURFACE FORM F1-SCORES ###
-processed 23394 tokens with 955 phrases; 
-found: 709 phrases; correct: 24.
+processed 23394 tokens with 943 phrases; 
+found: 610 phrases; correct: 203.
 
-accuracy:  88.66%; 
-precision:   3.39%; 
-recall:   2.51%; 
-FB1:   2.88
+accuracy:  92.63%; 
+precision:  33.28%; 
+recall:  21.53%; 
+FB1:  26.14
 
       corporation: 
-precision:  20.00%; 
-recall:   1.67%; 
-FB1:   3.08  1
+precision:  12.50%; 
+recall:   6.78%; 
+FB1:   8.79  4
 
     creative-work: 
-precision:   0.00%; 
-recall:   0.00%; 
-FB1:   0.00  0
+precision:   8.51%; 
+recall:   2.94%; 
+FB1:   4.37  4
 
             group: 
-precision:   0.00%; 
-recall:   0.00%; 
-FB1:   0.00  0
+precision:  21.67%; 
+recall:   9.29%; 
+FB1:  13.00  13
 
          location: 
-precision:   2.85%; 
-recall:   8.00%; 
-FB1:   4.20  10
+precision:  29.03%; 
+recall:  36.89%; 
+FB1:  32.49  45
 
            person: 
-precision:   4.87%; 
-recall:   3.46%; 
-FB1:   4.04  13
+precision:  49.05%; 
+recall:  34.68%; 
+FB1:  40.63  129
 
           product: 
-precision:   0.00%; 
-recall:   0.00%; 
-FB1:   0.00  0
+precision:  15.09%; 
+recall:   7.02%; 
+FB1:   9.58  8
 

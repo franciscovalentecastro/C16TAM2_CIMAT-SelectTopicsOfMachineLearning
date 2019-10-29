@@ -16,9 +16,6 @@ from utils import *
 # Parser arguments
 parser = argparse.ArgumentParser(description='Train PyTorch LSTM WNut2017 '
                                              'Named Entity Recognition')
-parser.add_argument('--train-percentage', '--t',
-                    type=float, default=.2, metavar='N',
-                    help='porcentage of the training set to use (default: .2)')
 parser.add_argument('--batch-size', '--b',
                     type=int, default=32, metavar='N',
                     help='input batch size for training (default: 32)')
@@ -34,7 +31,7 @@ parser.add_argument('--device', '--d',
                     help='pick device to run the training (defalut: "cpu")')
 parser.add_argument('--network', '--n',
                     default='lstm',
-                    choices=['lstm', 'teacher', 'mtl', 'attention'],
+                    choices=['lstm', 'teacher', 'mtl', 'attention', 'prop'],
                     help='pick a specific network to train (default: lstm)')
 parser.add_argument('--embedding', '--emb',
                     type=int, default=100, metavar='N',
@@ -55,10 +52,10 @@ parser.add_argument('--learning-rate', '--lr',
                     type=float, default=.0001, metavar='N',
                     help='learning rate of model (default: .0001)')
 parser.add_argument('--dataset', '--data',
-                    default='wnut2017',
-                    choices=['wnut2017'],
-                    help='pick a specific dataset (default: "wnut2017")')
-parser.add_argument('--fasttext', '--ft',
+                    default='wnut',
+                    choices=['wnut'],
+                    help='pick a specific dataset (default: "wnut")')
+parser.add_argument('--glove',
                     action='store_true',
                     help='use pretrained embeddings')
 parser.add_argument('--checkpoint', '--check',
@@ -86,7 +83,7 @@ def batch_status(batch_idx, outputs, targets, epoch,
     args.train_loss += loss.item()
 
     # predict
-    predicted = predict(outputs)
+    predicted, targets = predict(outputs, targets)
 
     # Reshape vectors
     targets = targets.reshape(-1)
@@ -94,6 +91,7 @@ def batch_status(batch_idx, outputs, targets, epoch,
 
     # Calculate metrics
     batch_met = calculate_metrics(targets.cpu(), predicted.cpu(), False)
+    args.train_acc = batch_met['acc']
 
     # Write tensorboard statistics
     args.writer.add_scalar('Train/loss', loss.item(), global_step)
@@ -121,7 +119,7 @@ def batch_status(batch_idx, outputs, targets, epoch,
 
         args.running_loss = 0.0
 
-    # Pass all pending items to disk
+    # (compatibility issues) Pass all pending items to disk
     # args.writer.flush()
 
 
@@ -138,6 +136,10 @@ def unpack_batch(batch):
     # Send to device
     inputs = inputs.to(args.device)
     targets = targets.to(args.device)
+
+    # if multi-task generate is_named_entity
+    if args.network == 'mtl':
+        targets = (targets, targets > 4)
 
     return (inputs, targets)
 
@@ -158,8 +160,8 @@ def train(trainset, validationset):
 
     # Show sample of messages
     if args.print:
-        batch = next(dataiter)
-        ## print_batch(batch, args)
+        inpts, trgts = unpack_batch(next(dataiter))
+        print_batch(inpts, trgts, trgts, args)
 
     # Define optimizer
     if args.optimizer == 'adam':
@@ -170,10 +172,7 @@ def train(trainset, validationset):
                                    lr=args.learning_rate)
 
     # Set loss function
-    w = torch.tensor([0, 0, 0, 0, .4, 1, 1, 1,
-                      1, 1, 1, 1, 1, 1, 1, 1, 1],
-                     dtype=torch.float).to(args.device)
-    args.criterion = torch.nn.NLLLoss(weight=w)
+    args.criterion = loss_ner(args).loss
 
     # restore checkpoint
     restore_checkpoint(args)
@@ -202,7 +201,11 @@ def train(trainset, validationset):
                 args.optimizer.zero_grad()
 
                 # forward
-                outputs = args.net(inputs)
+                if args.network == 'teacher':
+                    # pass targets to do 'Teacher Forcing'
+                    outputs = args.net(inputs, True, targets)
+                else:
+                    outputs = args.net(inputs)
 
                 # calculate loss
                 loss = args.criterion(outputs, targets)
@@ -215,10 +218,9 @@ def train(trainset, validationset):
             batch_status(batch_idx, outputs, targets, epoch,
                          train_loader, loss, validationset)
 
-        print('====> Epoch: {} Average loss: {:.4f} Average acc {:.4f}%'
-              .format(epoch,
-                      args.train_loss / len(train_loader),
-                      100. * args.train_acc / len(train_loader)))
+        print('Epoch: {} Average loss: {:.4f} Average acc {:.4f}%'
+              .format(epoch, args.train_loss / len(train_loader),
+                      100. * args.train_acc))
 
     # Add trained model
     print('Finished Training')
@@ -253,7 +255,7 @@ def validate(validationset, print_info=False, log_info=False, global_step=0):
         run_loss += args.criterion(outputs, targets).item()
 
         # predict
-        predicted = predict(outputs)
+        predicted, targets = predict(outputs, targets)
 
         # concatenate prediction and truth
         preds = torch.cat((preds, predicted.reshape(-1).int().cpu()))
@@ -277,7 +279,7 @@ def validate(validationset, print_info=False, log_info=False, global_step=0):
         args.writer.add_scalar('Validation/f1',
                                met['f1'], global_step)
         args.writer.add_scalar('Validation/loss',
-                               run_loss / len(validationset),
+                               run_loss / len(valid_loader),
                                global_step)
 
     if print_info:
@@ -287,7 +289,7 @@ def validate(validationset, print_info=False, log_info=False, global_step=0):
         # Add trained model
         print('Finished Validation')
 
-    return met['acc'], run_loss / len(validationset)
+    return met['acc'], run_loss / len(valid_loader)
 
 
 def predict_test(testset):
@@ -305,7 +307,7 @@ def predict_test(testset):
     restore_checkpoint(args)
 
     # Output file
-    f = open('predictions/pred.txt', 'w', encoding='utf8')
+    f = open('predictions/pred_{}.pt'.format(args.run), 'w', encoding='utf8')
 
     print('Generating Test Predictions')
     for batch_idx, batch in enumerate(dataiter, 1):
@@ -316,7 +318,7 @@ def predict_test(testset):
         outputs = args.net(inputs)
 
         # predict
-        predicted = predict(outputs)
+        predicted, targets = predict(outputs, targets)
 
         # print batch
         write_batch(inputs, targets, predicted, f, args)
@@ -353,8 +355,9 @@ def main():
     args.writer = writer
 
     # Load dataset
-    if args.dataset == 'wnut2017':
+    if args.dataset == 'wnut':
         train_path = 'emerging_entities_17/wnut17train.conll'
+        valid_path = 'emerging_entities_17/emerging.dev.conll'
         test_path = 'emerging_entities_17/emerging.test.annotated'
 
     # Read parameters from checkpoint
@@ -362,11 +365,11 @@ def main():
         read_checkpoint(args)
 
     # Read dataset
-    trn, vld, tst = load_dataset(train_path, test_path, args)
+    trn, vld, tst = load_dataset(train_path, valid_path, test_path, args)
 
-    # Set fasttext embeddings parameters
-    if args.fasttext:
-        args.embedding = 300
+    # Set glove embeddings parameters
+    if args.glove:
+        args.embedding = 100
 
     # Get hparams from args
     args.hparams = get_hparams(args.__dict__)
@@ -383,17 +386,32 @@ def main():
                        args.dropout,
                        args.lentag)
     elif args.network == 'teacher':
-        net = LSTM_NER_TeacherForcing(args.embedding,
-                                      args.hidden,
-                                      args.lenword,
-                                      args.layers,
-                                      args.dropout,
-                                      args.lentag)
+        net = LSTM_NER_TF(args.embedding,
+                          args.hidden,
+                          args.lenword,
+                          args.layers,
+                          args.dropout,
+                          args.lentag,
+                          args.device)
+    elif args.network == 'mtl':
+        net = LSTM_NER_MTL(args.embedding,
+                           args.hidden,
+                           args.lenword,
+                           args.layers,
+                           args.dropout,
+                           args.lentag)
+    elif args.network == 'prop':
+        net = LSTM_NER_Proposal(args.embedding,
+                                args.hidden,
+                                args.lenword,
+                                args.layers,
+                                args.dropout,
+                                args.lentag)
 
     # Load pretrained embeddings
-    if args.fasttext:
+    if args.glove:
         net.embedding.weight.data.copy_(args.WORD.vocab.vectors)
-        # net.embedding.weight.requires_grad = False
+        net.embedding.weight.requires_grad = False
 
     # Send networks to device
     args.net = net.to(args.device)
@@ -418,7 +436,7 @@ def main():
         # Validate trainning
         validate(vld, print_info=args.print)
 
-    # Add hparams with metrics to tensorboard
+    # (compatibility issues) Add hparams with metrics to tensorboard
     # args.writer.add_hparams(args.hparams, {'metrics': 0})
 
     # Delete model + Free memory
