@@ -1,0 +1,13 @@
+﻿Modelo,F1 - Entity(%),F1 - Surface(%)
+Drexel-CCI,26.30,25.26
+LSTM-NER + GloVe,29.27,27.32
+FLYTXT,38.85,36.31
+LSTM-NER-TF + GloVe,27.8,25.64
+MIC-CIS,37.06,34.25
+LSTM-NER-MTL + GloVe,25.67,23.78
+Arcada,39.98,37.77
+SpinningBytes,40.78,39.33
+SJTU-Adapt,40.42,37.62
+UH-RiTUAL,41.86,40.24
+LSTM-NER-Attention + Glove,26.86,25.49
+LSTM-NER-Proposed + GloVe,18.83,17.61
