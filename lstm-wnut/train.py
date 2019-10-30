@@ -14,8 +14,8 @@ from network import *
 from utils import *
 
 # Parser arguments
-parser = argparse.ArgumentParser(description='Train PyTorch LSTM WNut2017 '
-                                             'Named Entity Recognition')
+parser = argparse.ArgumentParser(description='Train PyTorch LSTM W-NUT 2017 '
+                                             '- Named Entity Recognition')
 parser.add_argument('--batch-size', '--b',
                     type=int, default=32, metavar='N',
                     help='input batch size for training (default: 32)')
@@ -41,7 +41,7 @@ parser.add_argument('--hidden', '--h',
                     help='dimension of hidden state (default: 50)')
 parser.add_argument('--layers', '--ly',
                     type=int, default=2, metavar='N',
-                    help='dimension of embedding (default: 2)')
+                    help='number of lstm layers (default: 2)')
 parser.add_argument('--dropout', '--drop',
                     type=float, default=.25, metavar='N',
                     help='dropout percentage in lstm layers (default: .25)')
@@ -90,7 +90,7 @@ def batch_status(batch_idx, outputs, targets, epoch,
     predicted = predicted.reshape(-1)
 
     # Calculate metrics
-    batch_met = calculate_metrics(targets.cpu(), predicted.cpu(), False)
+    batch_met = calculate_metrics(targets.cpu(), predicted.cpu(), args, False)
     args.train_acc = batch_met['acc']
 
     # Write tensorboard statistics
@@ -266,7 +266,7 @@ def validate(validationset, print_info=False, log_info=False, global_step=0):
             print_batch(inputs, targets, predicted, args)
 
     # Calculate metrics
-    met = calculate_metrics(trgts, preds)
+    met = calculate_metrics(trgts, preds, args)
 
     if log_info:
         args.writer.add_scalar('Validation/accuracy',
@@ -307,8 +307,12 @@ def predict_test(testset):
     # restore checkpoint
     restore_checkpoint(args)
 
+    # Complete Cased test set
+    tst_pth = 'emerging_entities_17/emerging.test.annotated'
+    tst = open(tst_pth, 'r', encoding='utf8')
+
     # Output file
-    f = open('predictions/pred_{}.pt'.format(args.run), 'w', encoding='utf8')
+    f = open('predictions/pred_{}.txt'.format(args.run), 'w', encoding='utf8')
 
     print('Generating Test Predictions')
     for batch_idx, batch in enumerate(dataiter, 1):
@@ -322,9 +326,10 @@ def predict_test(testset):
         predicted, targets = predict(outputs, targets)
 
         # print batch
-        write_batch(inputs, targets, predicted, f, args)
+        write_batch(inputs, predicted, f, tst, args)
 
     f.close()
+    tst.close()
     print('Finished')
 
 
@@ -343,17 +348,31 @@ def main():
     # Dataset information
     print('device : {}'.format(args.device))
 
+    # Read parameters from checkpoint
+    if args.checkpoint:
+        read_checkpoint(args)
+
     # Save parameters in string to name the execution
     args.run = create_run_name(args)
 
     # print run name
     print('execution name : {}'.format(args.run))
 
-    # Tensorboard summary writer
-    writer = SummaryWriter('runs/' + args.run)
+    if args.predict is not None:
+        # Tensorboard summary writer
+        writer = SummaryWriter('runs/' + args.run)
 
-    # Save as parameter
-    args.writer = writer
+        # Save as parameter
+        args.writer = writer
+
+    # Set glove embeddings parameters
+    if args.glove:
+        # posible glove dimensions
+        glove_dim = [25, 50, 100, 200]
+
+        # force one of this dimensions
+        if args.embedding not in glove_dim:
+            args.embedding = glove_dim[2]
 
     # Load dataset
     if args.dataset == 'wnut':
@@ -361,16 +380,8 @@ def main():
         valid_path = 'emerging_entities_17/emerging.dev.conll'
         test_path = 'emerging_entities_17/emerging.test.annotated'
 
-    # Read parameters from checkpoint
-    if args.checkpoint:
-        read_checkpoint(args)
-
     # Read dataset
     trn, vld, tst = load_dataset(train_path, valid_path, test_path, args)
-
-    # Set glove embeddings parameters
-    if args.glove:
-        args.embedding = 100
 
     # Get hparams from args
     args.hparams = get_hparams(args.__dict__)
@@ -451,8 +462,9 @@ def main():
     del args.net
     torch.cuda.empty_cache()
 
-    # Close tensorboard writer
-    args.writer.close()
+    if args.predict is not None:
+        # Close tensorboard writer
+        args.writer.close()
 
 
 if __name__ == "__main__":

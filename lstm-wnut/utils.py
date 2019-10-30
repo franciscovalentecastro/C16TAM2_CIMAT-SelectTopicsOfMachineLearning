@@ -39,7 +39,8 @@ def load_dataset(train_path, valid_path, test_path, args):
     # build vocaboulary
     if args.glove:
         args.WORD.build_vocab(full_dataset,
-                              vectors=vocab.GloVe('twitter.27B', dim=100))
+                              vectors=vocab.GloVe('twitter.27B',
+                                                  dim=args.embedding))
     else:
         args.WORD.build_vocab(full_dataset)
 
@@ -66,17 +67,18 @@ def load_dataset(train_path, valid_path, test_path, args):
     return (trn_data, vld_data, tst_data)
 
 
-def write_batch(inputs, targets, predicted, file, args):
+def write_batch(inputs, predicted, file, tst, args):
     # print prediction
     for idx in range(predicted.shape[0]):
         for jdx in range(predicted.shape[1]):
             word = args.WORD.vocab.itos[inputs[idx, jdx]]
-            truth = args.TAG.vocab.itos[targets[idx, jdx]]
             pred = args.TAG.vocab.itos[predicted[idx, jdx]]
 
             if word not in['<pad>', '<bos>', '<eos>']:
-                file.write('{}\t{}\t{}\n'
-                           .format(word, truth, pred))
+                line = tst.readline()[:-1]
+                file.write('{}\t{}\n'.format(line, pred))
+
+        line = tst.readline()
         print('', file=file)
 
 
@@ -116,7 +118,7 @@ def predict(outputs, targets):
     return predicted, targets
 
 
-def calculate_metrics(targets, predictions, report=True):
+def calculate_metrics(targets, predictions, args, report=True):
     # Calculate metrics
     avg = 'macro'
 
@@ -140,8 +142,13 @@ def calculate_metrics(targets, predictions, report=True):
 
     # Classification report
     if report:
-        print(metrics.classification_report(targets, predictions))
+        # Labels to predict and names
+        labels = range(4, 17)
+        names = args.TAG.vocab.itos[4:]
 
+        # Print classification report
+        print(metrics.classification_report(targets, predictions,
+                                            labels, names))
     return met
 
 
@@ -164,7 +171,7 @@ def read_checkpoint(args):
     print('Read weights from {}.'.format(args.checkpoint))
 
     # Discard hparams
-    discard = ['run', 'predict', 'checkpoint', 'WORD', 'TAG']
+    discard = ['run', 'predict', 'checkpoint', 'WORD', 'TAG', 'summary']
 
     # Restore past checkpoint
     hparams = checkpoint['hparams']
