@@ -14,8 +14,7 @@ from network import *
 from utils import *
 
 # Parser arguments
-parser = argparse.ArgumentParser(description='Train PyTorch LSTM W-NUT 2017 '
-                                             '- Named Entity Recognition')
+parser = argparse.ArgumentParser(description='Train YOLO on PASCAL 2007 Dataset ')
 parser.add_argument('--batch-size', '--b',
                     type=int, default=32, metavar='N',
                     help='input batch size for training (default: 32)')
