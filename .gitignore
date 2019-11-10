@@ -77,3 +77,7 @@ dcgan-celeba/runs/nw=dcgan_ds=celeba_ld=100_op=adam_ep=32_bs=128_tp=1.0_09-25-20
 dcgan-celeba/runs/nw=dcgan_ds=celeba_ld=100_fl=128_op=adam_ep=16_bs=128_tp=1.0_09-26-2019-03-04-02/events.out.tfevents.1569467042.92bda5b37902.3621.1
 lstm-wnut/.vector_cache/*
 lstm-wnut/checkpoint/last*
+yolito-pascal/VOC2007/*
+yolito-pascal/runs/*
+yolito-pascal/checkpoint/*
+yolito-pascal/__pycache__/*

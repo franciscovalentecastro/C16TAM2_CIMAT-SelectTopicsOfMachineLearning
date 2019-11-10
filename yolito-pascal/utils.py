@@ -4,10 +4,6 @@ from datetime import datetime
 from sklearn import metrics
 from sklearn.exceptions import UndefinedMetricWarning
 
-from torchtext import vocab
-from torchtext.data import *
-from torchtext.datasets import *
-
 # Import network
 from network import *
 
@@ -229,9 +225,7 @@ def process_checkpoint(loss, global_step, args):
 def create_run_name(args):
     run = '{}={}'.format('nw', args.network)
     run += '_{}={}'.format('ds', args.dataset)
-    run += '_{}={}'.format('op', args.optimizer)
-    run += '_{}={}'.format('hd', args.hidden)
-    run += '_{}={}'.format('em', args.embedding)
+    # run += '_{}={}'.format('op', args.optimizer)
     run += '_{}={}'.format('ep', args.epochs)
     run += '_{}={}'.format('bs', args.batch_size)
     run += '_{}'.format(datetime.now().strftime("%m-%d-%Y-%H-%M-%S"))

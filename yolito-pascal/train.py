@@ -6,15 +6,16 @@ import torch
 import torch.optim as optim
 import torch.autograd as autograd
 
-from torchtext.data import *
 from torch.utils.tensorboard import SummaryWriter
 
 # Import network
 from network import *
 from utils import *
+from datasets import *
+from imshow import *
 
 # Parser arguments
-parser = argparse.ArgumentParser(description='Train YOLO on PASCAL 2007 Dataset ')
+parser = argparse.ArgumentParser(description='Train YOLO on PASCAL VOC2007')
 parser.add_argument('--batch-size', '--b',
                     type=int, default=32, metavar='N',
                     help='input batch size for training (default: 32)')
@@ -29,18 +30,15 @@ parser.add_argument('--device', '--d',
                     default='cpu', choices=['cpu', 'cuda'],
                     help='pick device to run the training (defalut: "cpu")')
 parser.add_argument('--network', '--n',
-                    default='lstm',
-                    choices=['lstm', 'teacher', 'mtl', 'attention', 'prop'],
-                    help='pick a specific network to train (default: lstm)')
-parser.add_argument('--embedding', '--emb',
-                    type=int, default=100, metavar='N',
-                    help='dimension of embedding (default: 100)')
-parser.add_argument('--hidden', '--h',
-                    type=int, default=50, metavar='N',
-                    help='dimension of hidden state (default: 50)')
-parser.add_argument('--layers', '--ly',
-                    type=int, default=2, metavar='N',
-                    help='number of lstm layers (default: 2)')
+                    default='yolo',
+                    choices=['yolo'],
+                    help='pick a specific network to train (default: "yolo")')
+parser.add_argument('--image-shape', '--imshape',
+                    type=int, nargs='+',
+                    default=[140, 140],
+                    metavar='height width',
+                    help='rectanlge size to crop input images '
+                         '(default: 140 140)')
 parser.add_argument('--dropout', '--drop',
                     type=float, default=.25, metavar='N',
                     help='dropout percentage in lstm layers (default: .25)')
@@ -51,9 +49,9 @@ parser.add_argument('--learning-rate', '--lr',
                     type=float, default=.0001, metavar='N',
                     help='learning rate of model (default: .0001)')
 parser.add_argument('--dataset', '--data',
-                    default='wnut',
-                    choices=['wnut'],
-                    help='pick a specific dataset (default: "wnut")')
+                    default='voc_7',
+                    choices=['voc_7', 'voc_14'],
+                    help='pick a specific dataset (default: "voc_7")')
 parser.add_argument('--glove',
                     action='store_true',
                     help='use pretrained embeddings')
@@ -63,9 +61,9 @@ parser.add_argument('--checkpoint', '--check',
 parser.add_argument('--predict', '--pred',
                     action='store_true',
                     help='predict test dataset')
-parser.add_argument('--print', '--p',
+parser.add_argument('--plot', '--p',
                     action='store_true',
-                    help='print dataset sample')
+                    help='plot dataset sample')
 parser.add_argument('--summary', '--sm',
                     action='store_true',
                     help='show summary of model')
@@ -82,15 +80,17 @@ def batch_status(batch_idx, outputs, targets, epoch,
     args.train_loss += loss.item()
 
     # predict
-    predicted, targets = predict(outputs, targets)
+    # predicted, targets = predict(outputs, targets)
 
     # Reshape vectors
-    targets = targets.reshape(-1)
-    predicted = predicted.reshape(-1)
+    # targets = targets.reshape(-1)
+    # predicted = predicted.reshape(-1)
 
     # Calculate metrics
-    batch_met = calculate_metrics(targets.cpu(), predicted.cpu(), args, False)
-    args.train_acc = batch_met['acc']
+    # batch_met = calculate_metrics(targets.cpu(), 
+                                    # predicted.cpu(),
+                                    # args, False)
+    # args.train_acc = batch_met['acc']
 
     # Write tensorboard statistics
     args.writer.add_scalar('Train/loss', loss.item(), global_step)
@@ -98,22 +98,20 @@ def batch_status(batch_idx, outputs, targets, epoch,
     # print every args.log_interval of batches
     if global_step % args.log_interval == 0:
         # validate
-        vacc, vloss = validate(validationset, log_info=True,
-                               global_step=global_step)
+        # vacc, vloss = validate(validationset, log_info=True,
+        #                        global_step=global_step)
 
         # Process current checkpoint
         process_checkpoint(loss.item(), global_step, args)
 
         print('Epoch : {} Batch : {} [{}/{} ({:.0f}%)]\n'
-              '====> Run_Loss : {:.4f} Acc_Batch : {:.2f}% '
-              'Acc_Valid : {:.2f}%\n'
-              '====> Loss_Batch : {:.4f} Loss_Valid : {:.4f} '
+              '====> Run_Loss : {:.4f} '
+              # '====> Loss_Batch : {:.4f} Loss_Valid : {:.4f} '
               .format(epoch, batch_idx,
                       args.batch_size * batch_idx,
                       args.dataset_size,
                       100. * batch_idx / args.dataloader_size,
-                      args.running_loss / args.log_interval,
-                      batch_met['acc'], vacc, loss.item(), vloss),
+                      args.running_loss / args.log_interval),
               end='\n\n')
 
         args.running_loss = 0.0
@@ -144,24 +142,21 @@ def unpack_batch(batch):
     return (inputs, targets)
 
 
-def train(trainset, validationset):
+def train(trainset):
     # Create dataset loader
-    train_loader = BucketIterator(trainset,
-                                  batch_size=args.batch_size,
-                                  device=args.device,
-                                  sort_key=lambda x: len(x.message),
-                                  sort_within_batch=False,
-                                  repeat=False)
+    train_loader = torch.utils.data.DataLoader(trainset,
+                                               batch_size=args.batch_size,
+                                               shuffle=True,
+                                               drop_last=False)
     args.dataset_size = len(train_loader.dataset)
     args.dataloader_size = len(train_loader)
 
-    # get some random training elements
-    dataiter = train_loader.__iter__()
-
     # Show sample of messages
-    if args.print:
-        inpts, trgts = unpack_batch(next(dataiter))
-        print_batch(inpts, trgts, trgts, args)
+    if args.plot:
+        # get some random training images
+        dataiter = iter(train_loader)
+        images, targets = dataiter.next()
+        imshow_bboxes(images, targets, args)
 
     # Define optimizer
     if args.optimizer == 'adam':
@@ -172,7 +167,7 @@ def train(trainset, validationset):
                                    lr=args.learning_rate)
 
     # Set loss function
-    args.criterion = loss_ner(args).loss
+    args.criterion = loss_yolo(args).loss
 
     # restore checkpoint
     restore_checkpoint(args)
@@ -183,17 +178,16 @@ def train(trainset, validationset):
     print('Started Training')
     # loop over the dataset multiple times
     for epoch in range(args.epochs):
-
-        # New epoch
-        train_loader.init_epoch()
-        dataiter = train_loader.__iter__()
-
         # reset running loss statistics
         args.train_loss = args.train_acc = args.running_loss = 0.0
 
-        for batch_idx, batch in enumerate(dataiter, 1):
+        for batch_idx, batch in enumerate(train_loader, 1):
             # Unpack batch
-            inputs, targets = unpack_batch(batch)
+            inputs, targets = batch
+
+            # Send to device
+            inputs = inputs.to(args.device)
+            targets = targets.to(args.device)
 
             # Calculate gradients and update
             with autograd.detect_anomaly():
@@ -201,14 +195,10 @@ def train(trainset, validationset):
                 args.optimizer.zero_grad()
 
                 # forward
-                if args.network == 'teacher':
-                    # pass targets to do 'Teacher Forcing'
-                    outputs = args.net(inputs, True, targets)
-                else:
-                    outputs = args.net(inputs)
+                outputs = args.net(inputs)
 
                 # calculate loss
-                loss = args.criterion(outputs, targets)
+                loss = args.criterion(outputs, targets.float())
 
                 # backward + step
                 loss.backward()
@@ -216,7 +206,7 @@ def train(trainset, validationset):
 
             # Log batch status
             batch_status(batch_idx, outputs, targets, epoch,
-                         train_loader, loss, validationset)
+                         train_loader, loss, trainset)
 
         print('Epoch: {} Average loss: {:.4f} Average acc {:.4f}%'
               .format(epoch, args.train_loss / len(train_loader),
@@ -364,23 +354,19 @@ def main():
         # Save as parameter
         args.writer = writer
 
+    # TODO : Set pretrained VGG16 or similar
     # Set glove embeddings parameters
-    if args.glove:
-        # posible glove dimensions
-        glove_dim = [25, 50, 100, 200]
+    # if args.glove:
+    #     # posible glove dimensions
+    #     glove_dim = [25, 50, 100, 200]
 
-        # force one of this dimensions
-        if args.embedding not in glove_dim:
-            args.embedding = glove_dim[2]
-
-    # Load dataset
-    if args.dataset == 'wnut':
-        train_path = 'emerging_entities_17/wnut17train.conll'
-        valid_path = 'emerging_entities_17/emerging.dev.conll'
-        test_path = 'emerging_entities_17/emerging.test.annotated'
+    #     # force one of this dimensions
+    #     if args.embedding not in glove_dim:
+    #         args.embedding = glove_dim[2]
 
     # Read dataset
-    trn, vld, tst = load_dataset(train_path, valid_path, test_path, args)
+    if args.dataset == 'voc_7':
+        trn = VOC2007(args.image_shape)
 
     # Get hparams from args
     args.hparams = get_hparams(args.__dict__)
@@ -389,47 +375,16 @@ def main():
     print()
 
     # Create network
-    if args.network == 'lstm':
-        net = LSTM_NER(args.embedding,
-                       args.hidden,
-                       args.lenword,
-                       args.layers,
-                       args.dropout,
-                       args.lentag)
-    elif args.network == 'teacher':
-        net = LSTM_NER_TF(args.embedding,
-                          args.hidden,
-                          args.lenword,
-                          args.layers,
-                          args.dropout,
-                          args.lentag,
-                          args.device)
-    elif args.network == 'mtl':
-        net = LSTM_NER_MTL(args.embedding,
-                           args.hidden,
-                           args.lenword,
-                           args.layers,
-                           args.dropout,
-                           args.lentag)
-    elif args.network == 'attention':
-        net = LSTM_NER_Attention(args.embedding,
-                                 args.hidden,
-                                 args.lenword,
-                                 args.layers,
-                                 args.dropout,
-                                 args.lentag)
-    elif args.network == 'prop':
-        net = LSTM_NER_Proposal(args.embedding,
-                                args.hidden,
-                                args.lenword,
-                                args.layers,
-                                args.dropout,
-                                args.lentag)
+    if args.network == 'yolo':
+        net = YOLO()
 
     # Load pretrained embeddings
-    if args.glove:
-        net.embedding.weight.data.copy_(args.WORD.vocab.vectors)
-        net.embedding.weight.requires_grad = False
+    # if args.glove:
+    #     net.embedding.weight.data.copy_(args.WORD.vocab.vectors)
+    for param in net.vgg.features.parameters():
+        param.requires_grad = False
+    for param in net.vgg.classifier.parameters():
+        param.requires_grad = False
 
     # Send networks to device
     args.net = net.to(args.device)
@@ -449,10 +404,10 @@ def main():
         predict_test(tst)
     else:
         # Train network
-        train(trn, vld)
+        train(trn)
 
         # Validate trainning
-        validate(vld, print_info=args.print)
+        # validate(vld, print_info=args.print)
 
     # (compatibility issues) Add hparams with metrics to tensorboard
     # args.writer.add_hparams(args.hparams, {'metrics': 0})
