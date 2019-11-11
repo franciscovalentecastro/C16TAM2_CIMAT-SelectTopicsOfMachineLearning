@@ -9,6 +9,9 @@ from torch.utils.data import Dataset
 
 class VOC2007(Dataset):
     def __init__(self, image_shape, subset='train'):
+        # Print message
+        print('Started loading VOC2007.')
+
         # Set dataset transform
         transform = transforms.Compose([
             transforms.Resize(image_shape),
@@ -46,7 +49,7 @@ class VOC2007(Dataset):
                 y_file = np.loadtxt(f, comments='#')
                 y_file = y_file.reshape((-1, S, S))
 
-            y_real.append(torch.tensor(y_file))
+            y_real.append(y_file)
 
             # file_names.append(f)
             # classes.append(y_file[5:].sum(axis=(1, 2)))
@@ -57,14 +60,14 @@ class VOC2007(Dataset):
         print(len(self.images))
 
         # Print message
-        print('VOC2007 was successfully loaded !')
+        print('VOC2007 was successfully loaded.')
 
     def __len__(self):
         return len(self.images)
 
     def __getitem__(self, idx):
         image, _ = self.images[idx]
-        target = self.annotations[idx]
+        target = torch.tensor(self.annotations[idx])
 
         # Only the following classes
         # bycicle :  1

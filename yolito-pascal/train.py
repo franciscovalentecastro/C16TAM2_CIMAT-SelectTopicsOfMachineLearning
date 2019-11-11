@@ -49,9 +49,9 @@ parser.add_argument('--learning-rate', '--lr',
                     type=float, default=.0001, metavar='N',
                     help='learning rate of model (default: .0001)')
 parser.add_argument('--dataset', '--data',
-                    default='voc_7',
-                    choices=['voc_7', 'voc_14'],
-                    help='pick a specific dataset (default: "voc_7")')
+                    default='voc7',
+                    choices=['voc7', 'voc14'],
+                    help='pick a specific dataset (default: "voc7")')
 parser.add_argument('--glove',
                     action='store_true',
                     help='use pretrained embeddings')
@@ -70,8 +70,8 @@ parser.add_argument('--summary', '--sm',
 args = parser.parse_args()
 
 
-def batch_status(batch_idx, outputs, targets, epoch,
-                 train_loader, loss, validationset):
+def batch_status(batch_idx, inputs, outputs, targets,
+                 epoch, train_loader, loss, validationset):
     # Global step
     global_step = batch_idx + len(train_loader) * epoch
 
@@ -91,6 +91,9 @@ def batch_status(batch_idx, outputs, targets, epoch,
                                     # predicted.cpu(),
                                     # args, False)
     # args.train_acc = batch_met['acc']
+
+    # Plot predictions
+    imshow_bboxes(inputs, targets, args, outputs)
 
     # Write tensorboard statistics
     args.writer.add_scalar('Train/loss', loss.item(), global_step)
@@ -205,8 +208,8 @@ def train(trainset):
                 args.optimizer.step()
 
             # Log batch status
-            batch_status(batch_idx, outputs, targets, epoch,
-                         train_loader, loss, trainset)
+            batch_status(batch_idx, inputs, outputs, targets,
+                         epoch, train_loader, loss, trainset)
 
         print('Epoch: {} Average loss: {:.4f} Average acc {:.4f}%'
               .format(epoch, args.train_loss / len(train_loader),
@@ -365,7 +368,7 @@ def main():
     #         args.embedding = glove_dim[2]
 
     # Read dataset
-    if args.dataset == 'voc_7':
+    if args.dataset == 'voc7':
         trn = VOC2007(args.image_shape)
 
     # Get hparams from args
