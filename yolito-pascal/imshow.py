@@ -53,13 +53,16 @@ def plot_bboxes(images, bboxes, args, color='r'):
         c4 = c4[px, py]
 
         for jdx in range(len(y)):
-            if c[jdx] > .8:
+            if c[jdx].item() > .8:
                 # Get class named
                 class_nms = ['bicycle', 'bus', 'car', 'person']
                 class_pred = [c1[jdx].item(), c2[jdx].item(),
                               c3[jdx].item(), c4[jdx].item()]
                 maxpos = class_pred.index(max(class_pred))
-                pred_name = class_nms[maxpos]
+
+                # Calculate bbox labex
+                pred_name = '{} {:.2f}'.format(class_nms[maxpos],
+                                               c[jdx].item())
 
                 w_bb = (img_h * h[jdx]).item()
                 h_bb = (img_w * w[jdx]).item()
@@ -126,5 +129,8 @@ def imshow_bboxes(images, targets, args, predictions=None):
     if args.plot:
         # Show image
         plt.show()
+
+    # Clear current figure
+    plt.clf()
 
     return img
