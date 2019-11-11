@@ -42,7 +42,8 @@ class loss_yolo():
             # Calculate loss
             for x in range(7):
                 for y in range(7):
-                    if c_trgt[x, y] == 1.0:
+                    if c1_trgt[x, y] == 1.0 or c2_trgt[x, y] == 1.0 or \
+                       c3_trgt[x, y] == 1.0 or c4_trgt[x, y] == 1.0:
                         loss = lmbd_coord * (x_out[x, y] - x_trgt[x, y]) ** 2
                         loss += lmbd_coord * (y_out[x, y] - y_trgt[x, y]) ** 2
                         loss += lmbd_coord * (w_out[x, y] - w_trgt[x, y]) ** 2

@@ -87,7 +87,8 @@ def get_hparams(dictionary):
     for key, value in dictionary.items():
         if isinstance(value, int) or \
            isinstance(value, str) or \
-           isinstance(value, float):
+           isinstance(value, float) or \
+           isinstance(value, list):
             hparams[key] = value
     return hparams
 

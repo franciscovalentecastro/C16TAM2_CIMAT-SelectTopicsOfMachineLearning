@@ -52,9 +52,9 @@ parser.add_argument('--dataset', '--data',
                     default='voc7',
                     choices=['voc7', 'voc14'],
                     help='pick a specific dataset (default: "voc7")')
-parser.add_argument('--glove',
+parser.add_argument('--pretrained',
                     action='store_true',
-                    help='use pretrained embeddings')
+                    help='use pretrained network weights')
 parser.add_argument('--checkpoint', '--check',
                     default='none',
                     help='path to checkpoint to be restored')
