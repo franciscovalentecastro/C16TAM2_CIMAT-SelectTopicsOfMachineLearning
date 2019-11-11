@@ -361,9 +361,7 @@ def main():
     if args.network == 'yolo':
         net = YOLO()
 
-    # Load pretrained embeddings
-    # if args.glove:
-    #     net.embedding.weight.data.copy_(args.WORD.vocab.vectors)
+    # Load pretrained vgg weights
     for param in net.vgg.features.parameters():
         param.requires_grad = False
     for param in net.vgg.classifier.parameters():

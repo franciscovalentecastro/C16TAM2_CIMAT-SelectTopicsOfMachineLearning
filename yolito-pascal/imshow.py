@@ -72,7 +72,7 @@ def plot_bboxes(images, bboxes, args, color='r'):
                                               linewidth=1,
                                               edgecolor=color,
                                               facecolor='none'))
-                plt.text(x_bb - 10, y_bb, pred_name,
+                plt.text(x_bb - w_bb / 2, y_bb - h_bb / 2 + 5, pred_name,
                          color='white', fontsize=10)
 
 
@@ -97,7 +97,7 @@ def imshow_bboxes(images, targets, args, predictions=None):
                                        padding=0)
 
     # Plot images
-    npimg = grid.detach().numpy()
+    npimg = grid.detach().cpu().numpy()
     plt.figure(figsize=(12, 10))
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
     plt.axis('off')
@@ -124,7 +124,7 @@ def imshow_bboxes(images, targets, args, predictions=None):
     img = torch.tensor(img.reshape(int(h), int(w), 4)).permute(2, 0, 1)
 
     # Drop borders of figure
-    img = img[:, 350:650, :]
+    img = img[:, 300:700, :]
 
     if args.plot:
         # Show image
