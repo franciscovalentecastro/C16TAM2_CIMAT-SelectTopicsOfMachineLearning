@@ -92,9 +92,6 @@ def batch_status(batch_idx, inputs, outputs, targets,
                                     # args, False)
     # args.train_acc = batch_met['acc']
 
-    # Plot predictions
-    imshow_bboxes(inputs, targets, args, outputs)
-
     # Write tensorboard statistics
     args.writer.add_scalar('Train/loss', loss.item(), global_step)
 
@@ -103,6 +100,10 @@ def batch_status(batch_idx, inputs, outputs, targets,
         # validate
         # vacc, vloss = validate(validationset, log_info=True,
         #                        global_step=global_step)
+
+        # Plot predictions
+        img = imshow_bboxes(inputs, targets, args, outputs)
+        args.writer.add_image('Predicted', img, global_step)
 
         # Process current checkpoint
         process_checkpoint(loss.item(), global_step, args)
@@ -123,28 +124,6 @@ def batch_status(batch_idx, inputs, outputs, targets,
     # args.writer.flush()
 
 
-def unpack_batch(batch):
-    inputs = targets = None
-
-    # Get text data
-    inputs = batch.__dict__['word']
-    targets = torch.t(batch.__dict__['tag'])
-
-    # Reshape tensor
-    inputs = torch.transpose(inputs, 0, 1)
-
-    # Send to device
-    inputs = inputs.to(args.device)
-    targets = targets.to(args.device)
-
-    # if multi-task generate is_named_entity
-    if args.network == 'mtl' or \
-       args.network == 'prop':
-        targets = (targets, targets > 4)
-
-    return (inputs, targets)
-
-
 def train(trainset):
     # Create dataset loader
     train_loader = torch.utils.data.DataLoader(trainset,
@@ -154,12 +133,13 @@ def train(trainset):
     args.dataset_size = len(train_loader.dataset)
     args.dataloader_size = len(train_loader)
 
-    # Show sample of messages
-    if args.plot:
-        # get some random training images
-        dataiter = iter(train_loader)
-        images, targets = dataiter.next()
-        imshow_bboxes(images, targets, args)
+    # get some random training images
+    dataiter = iter(train_loader)
+    images, targets = dataiter.next()
+    img = imshow_bboxes(images, targets, args)
+
+    # save sample into tensorboard
+    args.writer.add_image('Sample', img)
 
     # Define optimizer
     if args.optimizer == 'adam':

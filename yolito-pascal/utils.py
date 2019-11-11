@@ -11,58 +11,6 @@ from network import *
 warnings.filterwarnings(action='ignore', category=UndefinedMetricWarning)
 
 
-def load_dataset(train_path, valid_path, test_path, args):
-
-    # Create new fields on vocab
-    args.WORD = Field(init_token="<bos>", eos_token="<eos>", lower=True)
-    args.TAG = Field(init_token="<bos>", eos_token="<eos>")
-
-    # Data fields
-    data_fields = (('word', args.WORD), ('tag', args.TAG))
-
-    # Create datasets
-    trn_data = SequenceTaggingDataset(train_path, fields=data_fields)
-    vld_data = SequenceTaggingDataset(valid_path, fields=data_fields)
-    tst_data = SequenceTaggingDataset(test_path, fields=data_fields)
-
-    # Merge train + test to get full vocab
-    list_of_trn = [x for x in trn_data]
-    list_of_vld = [x for x in vld_data]
-    list_of_tst = [x for x in tst_data]
-    list_of_join = list_of_trn + list_of_vld + list_of_tst
-    full_dataset = Dataset(list_of_join, data_fields)
-
-    # build vocaboulary
-    if args.glove:
-        args.WORD.build_vocab(full_dataset,
-                              vectors=vocab.GloVe('twitter.27B',
-                                                  dim=args.embedding))
-    else:
-        args.WORD.build_vocab(full_dataset)
-
-    args.TAG.build_vocab(trn_data)
-
-    # Add parameters
-    args.lenword = len(args.WORD.vocab)
-    args.lentag = len(args.TAG.vocab)
-
-    print('vocabulary length : ', args.lenword)
-    print('number of tags : ', args.lentag)
-
-    total = 0
-    for key, value in args.TAG.vocab.freqs.items():
-        total += value
-    for key, value in args.TAG.vocab.freqs.items():
-        print('\t{} {} elems {:.2f}%'.format(key, value, 100 * value / total))
-
-    # Dataset information
-    print('train dataset : {} elements'.format(len(trn_data)))
-    print('validate dataset : {} elements'.format(len(vld_data)))
-    print('test dataset : {} elements'.format(len(tst_data)))
-
-    return (trn_data, vld_data, tst_data)
-
-
 def write_batch(inputs, predicted, file, tst, args):
     # print prediction
     for idx in range(predicted.shape[0]):
@@ -76,20 +24,6 @@ def write_batch(inputs, predicted, file, tst, args):
 
         line = tst.readline()
         print('', file=file)
-
-
-def print_batch(inputs, targets, predicted, args):
-    # print prediction
-    for idx in range(predicted.shape[0]):
-        for jdx in range(predicted.shape[1]):
-            word = args.WORD.vocab.itos[inputs[idx, jdx]].encode()[2: -1]
-            truth = args.TAG.vocab.itos[targets[idx, jdx]].encode()[2: -1]
-            pred = args.TAG.vocab.itos[predicted[idx, jdx]].encode()[2: -1]
-
-            if word not in['<pad>', '<bos>', '<eos>']:
-                print('{}\t{}\t{}'.format(str(word), str(truth), str(pred)),
-                      end='\n')
-        print('')
 
 
 def predict(outputs, targets):
@@ -167,7 +101,7 @@ def read_checkpoint(args):
     print('Read weights from {}.'.format(args.checkpoint))
 
     # Discard hparams
-    discard = ['run', 'predict', 'checkpoint', 'WORD', 'TAG', 'summary']
+    discard = ['run', 'predict', 'checkpoint', 'summary']
 
     # Restore past checkpoint
     hparams = checkpoint['hparams']
@@ -225,7 +159,7 @@ def process_checkpoint(loss, global_step, args):
 def create_run_name(args):
     run = '{}={}'.format('nw', args.network)
     run += '_{}={}'.format('ds', args.dataset)
-    # run += '_{}={}'.format('op', args.optimizer)
+    run += '_{}={}'.format('op', args.optimizer)
     run += '_{}={}'.format('ep', args.epochs)
     run += '_{}={}'.format('bs', args.batch_size)
     run += '_{}'.format(datetime.now().strftime("%m-%d-%Y-%H-%M-%S"))

@@ -18,14 +18,6 @@ class VOC2007(Dataset):
             transforms.ToTensor()
         ])
 
-        # Path to subset definiton
-        if subset == 'train':
-            subset_path = './VOC2007/ImageSets/Layout/train.txt'
-        elif subset == 'val':
-            subset_path = './VOC2007/ImageSets/Layout/val.txt'
-        elif subset == 'test':
-            subset_path = './VOC2007/ImageSets/Layout/test.txt'
-
         # Load images
         image_path = './VOC2007/JPEGImages'
 
@@ -44,15 +36,13 @@ class VOC2007(Dataset):
         # file_names = []
 
         # Travese all files in folder
-        for idx, instance_path in enumerate(os.listdir(yolo_path)):
-            with open(yolo_path + instance_path, 'r') as f:
-                y_file = np.loadtxt(f, comments='#')
-                y_file = y_file.reshape((-1, S, S))
+        filenames = [yolo_path + instance_path
+                     for instance_path in os.listdir(yolo_path)]
+        y_real = [np.loadtxt(f, comments='#').reshape((-1, S, S))
+                  for f in filenames]
 
-            y_real.append(y_file)
-
-            # file_names.append(f)
-            # classes.append(y_file[5:].sum(axis=(1, 2)))
+        # file_names.append(f)
+        # classes.append(y_file[5:].sum(axis=(1, 2)))
 
         self.annotations = y_real
 
@@ -70,7 +60,7 @@ class VOC2007(Dataset):
         target = torch.tensor(self.annotations[idx])
 
         # Only the following classes
-        # bycicle :  1
+        # bicycle :  1
         # bus     :  5
         # car     :  6
         # person  : 14

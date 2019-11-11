@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 import torchvision
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
@@ -10,10 +11,6 @@ def imshow(img):
     plt.figure(figsize=(12, 10))
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
     plt.axis('off')
-
-    # Save image
-    # filename = "imgs/savefig_{}.png".format(image_counter)
-    # plt.savefig(filename, bbox_inches='tight', pad_inches=0)
 
     # Show image
     plt.show()
@@ -50,9 +47,20 @@ def plot_bboxes(images, bboxes, args, color='r'):
         x = x[px, py]
         w = w[px, py]
         h = h[px, py]
+        c1 = c1[px, py]
+        c2 = c2[px, py]
+        c3 = c3[px, py]
+        c4 = c4[px, py]
 
         for jdx in range(len(y)):
-            if c[jdx] > .95:
+            if c[jdx] > .8:
+                # Get class named
+                class_nms = ['bicycle', 'bus', 'car', 'person']
+                class_pred = [c1[jdx].item(), c2[jdx].item(),
+                              c3[jdx].item(), c4[jdx].item()]
+                maxpos = class_pred.index(max(class_pred))
+                pred_name = class_nms[maxpos]
+
                 w_bb = (img_h * h[jdx]).item()
                 h_bb = (img_w * w[jdx]).item()
                 y_bb = (cell_h * (py[jdx] + y[jdx])).item()
@@ -64,7 +72,8 @@ def plot_bboxes(images, bboxes, args, color='r'):
                                               linewidth=1,
                                               edgecolor=color,
                                               facecolor='none'))
-                plt.text(x_bb - w_bb / 2, y_bb + h_bb / 2, 'lalala')
+                plt.text(x_bb - w_bb / 2, y_bb + h_bb / 2, pred_name,
+                         color='white', fontsize=10)
 
 
 def imshow_bboxes(images, targets, args, predictions=None):
@@ -100,9 +109,25 @@ def imshow_bboxes(images, targets, args, predictions=None):
     if predictions is not None:
         plot_bboxes(images, predictions, args, color='g')
 
-    # Save image
-    # filename = "imgs/savefig_{}.png".format(image_counter)
-    # plt.savefig(filename, bbox_inches='tight', pad_inches=0)
+    # Get current figure
+    fig = plt.gcf()
+    fig.tight_layout()
+    fig.canvas.draw()
 
-    # Show image
-    plt.show()
+    # grab the pixel buffer and dump it into a numpy array
+    buf = fig.canvas.buffer_rgba()
+    l, b, w, h = fig.bbox.bounds
+
+    # The array needs to be copied, because the underlying buffer
+    # may be reallocated when the window is resized.
+    img = np.frombuffer(buf, np.uint8).copy()
+    img = torch.tensor(img.reshape(int(h), int(w), 4)).permute(2, 0, 1)
+
+    # Drop borders of figure
+    img = img[:, 350:650, :]
+
+    if args.plot:
+        # Show image
+        plt.show()
+
+    return img
