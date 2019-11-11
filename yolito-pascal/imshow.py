@@ -75,8 +75,10 @@ def plot_bboxes(images, bboxes, args, color='r'):
                                               linewidth=1,
                                               edgecolor=color,
                                               facecolor='none'))
-                plt.text(x_bb - w_bb / 2, y_bb - h_bb / 2 + 5, pred_name,
-                         color='white', fontsize=10)
+                plt.text(x_bb - w_bb / 2, y_bb - h_bb / 2 + 4, pred_name,
+                         color='white', fontsize=8,
+                         bbox=dict(boxstyle='Square, pad=0.1',
+                                   facecolor=color, alpha=0.7))
 
 
 def imshow_bboxes(images, targets, args, predictions=None):

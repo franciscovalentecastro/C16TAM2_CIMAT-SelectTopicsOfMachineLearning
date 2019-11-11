@@ -56,19 +56,22 @@ class loss_yolo():
 
 class YOLO(nn.Module):
 
-    def __init__(self):
+    def __init__(self, args):
         super(YOLO, self).__init__()
+        self.lin_inpt = 512 * (args.image_shape[0] // 32) * \
+            (args.image_shape[1] // 32)
 
         self.vgg = models.vgg16(pretrained=True)
 
-        self.linear = nn.Sequential(nn.Linear(8192, 4096),
+        self.linear = nn.Sequential(nn.Linear(self.lin_inpt,
+                                              self.lin_inpt // 2),
                                     nn.ReLU(),
-                                    nn.Linear(4096, 9 * 7 * 7),
+                                    nn.Linear(self.lin_inpt // 2, 9 * 7 * 7),
                                     nn.Sigmoid())
 
     def forward(self, x):
         x1 = self.vgg.features(x)
-        x1 = x1.view(-1, 8192)
+        x1 = x1.view(-1, self.lin_inpt)
         x2 = self.linear(x1)
         y = x2.view([-1, 9, 7, 7])
 

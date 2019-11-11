@@ -359,10 +359,12 @@ def main():
 
     # Create network
     if args.network == 'yolo':
-        net = YOLO()
+        net = YOLO(args)
 
     # Load pretrained vgg weights
     for param in net.vgg.features.parameters():
+        param.requires_grad = False
+    for param in net.vgg.avgpool.parameters():
         param.requires_grad = False
     for param in net.vgg.classifier.parameters():
         param.requires_grad = False
