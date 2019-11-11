@@ -1,7 +1,10 @@
 import numpy as np
+
 import torch
 import torchvision
+
 import matplotlib.pyplot as plt
+from matplotlib.image import imread
 from matplotlib.patches import Rectangle
 
 
@@ -66,8 +69,10 @@ def plot_bboxes(images, bboxes, args, color='r'):
 
                 w_bb = (img_h * h[jdx]).item()
                 h_bb = (img_w * w[jdx]).item()
-                y_bb = (cell_h * (py[jdx] + y[jdx])).item()
-                x_bb = (img_w * idx + cell_w * (px[jdx] + x[jdx])).item()
+                y_bb = (img_h * (idx // 4) +
+                        cell_h * (py[jdx] + y[jdx])).item()
+                x_bb = (img_w * (idx % 4) +
+                        cell_w * (px[jdx] + x[jdx])).item()
 
                 plt.gca().add_patch(Rectangle((x_bb - w_bb / 2,
                                                y_bb - h_bb / 2),
@@ -98,7 +103,7 @@ def imshow_bboxes(images, targets, args, predictions=None):
 
     # Create images grid
     grid = torchvision.utils.make_grid(images,
-                                       nrow=args.batch_size,
+                                       nrow=4,
                                        padding=0)
 
     # Plot images
@@ -114,19 +119,10 @@ def imshow_bboxes(images, targets, args, predictions=None):
     if predictions is not None:
         plot_bboxes(images, predictions, args, color='g')
 
-    # Get current figure
-    fig = plt.gcf()
-    fig.tight_layout()
-    fig.canvas.draw()
-
-    # grab the pixel buffer and dump it into a numpy array
-    buf = fig.canvas.buffer_rgba()
-    l, b, w, h = fig.bbox.bounds
-
-    # The array needs to be copied, because the underlying buffer
-    # may be reallocated when the window is resized.
-    img = np.frombuffer(buf, np.uint8).copy()
-    img = torch.tensor(img.reshape(int(h), int(w), 4)).permute(2, 0, 1)
+    # Get current figure as tensor
+    plt.axis('off')
+    plt.savefig("imgs/temp.png", bbox_inches='tight')
+    img = torch.tensor(imread('imgs/temp.png')).permute(2, 0, 1)
 
     if args.plot:
         # Show image
