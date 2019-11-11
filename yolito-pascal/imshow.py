@@ -123,9 +123,6 @@ def imshow_bboxes(images, targets, args, predictions=None):
     img = np.frombuffer(buf, np.uint8).copy()
     img = torch.tensor(img.reshape(int(h), int(w), 4)).permute(2, 0, 1)
 
-    # Drop borders of figure
-    img = img[:, 300:700, :]
-
     if args.plot:
         # Show image
         plt.show()

@@ -37,7 +37,7 @@ class VOC2007(Dataset):
 
         # Travese all files in folder
         filenames = [yolo_path + instance_path
-                     for instance_path in os.listdir(yolo_path)]
+                     for instance_path in sorted(os.listdir(yolo_path))]
         y_real = [np.loadtxt(f, comments='#').reshape((-1, S, S))
                   for f in filenames]
 
