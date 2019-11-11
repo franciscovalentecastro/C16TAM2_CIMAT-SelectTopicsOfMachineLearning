@@ -66,7 +66,8 @@ class YOLO(nn.Module):
         self.linear = nn.Sequential(nn.Linear(self.lin_inpt,
                                               self.lin_inpt // 2),
                                     nn.ReLU(),
-                                    nn.Linear(self.lin_inpt // 2, 9 * 7 * 7),
+                                    nn.Linear(self.lin_inpt // 2,
+                                              9 * 7 * 7),
                                     nn.Sigmoid())
 
     def forward(self, x):
