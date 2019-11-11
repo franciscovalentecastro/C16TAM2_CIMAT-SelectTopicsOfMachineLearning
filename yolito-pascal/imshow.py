@@ -72,7 +72,7 @@ def plot_bboxes(images, bboxes, args, color='r'):
                                               linewidth=1,
                                               edgecolor=color,
                                               facecolor='none'))
-                plt.text(x_bb - w_bb / 2, y_bb + h_bb / 2, pred_name,
+                plt.text(x_bb - 10, y_bb, pred_name,
                          color='white', fontsize=10)
 
 
