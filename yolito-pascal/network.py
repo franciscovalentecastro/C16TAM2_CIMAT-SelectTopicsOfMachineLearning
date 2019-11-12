@@ -9,6 +9,9 @@ class loss_yolo():
         # Network to train
         self.device = args.device
 
+    def IOU():
+        pass
+
     def loss(self, outputs, targets):
         batch_size = outputs.shape[0]
         lmbd_coord = 5
@@ -73,7 +76,7 @@ class YOLO(nn.Module):
     def forward(self, x):
         x1 = self.vgg.features(x)
         x1 = x1.view(-1, self.lin_inpt)
-        x2 = self.linear(x1)
+        x2 = self.linear(x1) 
         y = x2.view([-1, 9, 7, 7])
 
         return y
