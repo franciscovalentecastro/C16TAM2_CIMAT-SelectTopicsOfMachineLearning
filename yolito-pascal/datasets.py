@@ -30,14 +30,21 @@ class VOC2007(Dataset):
         # YOLO annotations path
         yolo_path = './VOC2007/yolo1_train_7/'
 
-        # Helping lists
-        y_real = []
+        if os.path.exists('y_real.npy'):
+            # Load npy array
+            y_real = np.load('y_real.npy')
+        else:
+            # Helping lists
+            y_real = []
 
-        # Travese all files in folder
-        filenames = [yolo_path + instance_path
-                     for instance_path in sorted(os.listdir(yolo_path))]
-        y_real = [np.loadtxt(f, comments='#').reshape((-1, S, S))
-                  for f in filenames]
+            # Travese all files in folder
+            filenames = [yolo_path + instance_path
+                         for instance_path in sorted(os.listdir(yolo_path))]
+            y_real = np.array([np.loadtxt(f, comments='#').reshape((-1, S, S))
+                               for f in filenames])
+
+            # Save npy array
+            np.save('y_real.npy', y_real)
 
         self.annotations = y_real
 
