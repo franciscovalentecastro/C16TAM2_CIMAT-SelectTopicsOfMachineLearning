@@ -17,11 +17,11 @@ from imshow import *
 # Parser arguments
 parser = argparse.ArgumentParser(description='Train YOLO on PASCAL VOC2007')
 parser.add_argument('--train-percentage', '--t',
-                    type=float, default=.2, metavar='N',
-                    help='porcentage of the training set to use (default: .2)')
+                    type=float, default=.9, metavar='N',
+                    help='porcentage of the training set to use (default: .9)')
 parser.add_argument('--batch-size', '--b',
-                    type=int, default=32, metavar='N',
-                    help='input batch size for training (default: 32)')
+                    type=int, default=16, metavar='N',
+                    help='input batch size for training (default: 16)')
 parser.add_argument('--log-interval', '--li',
                     type=int, default=50, metavar='N',
                     help='how many batches to wait' +
@@ -74,7 +74,7 @@ args = parser.parse_args()
 
 
 def batch_status(batch_idx, inputs, outputs, targets,
-                 epoch, train_loader, loss, validationset):
+                 epoch, train_loader, loss, validset):
     # Global step
     global_step = batch_idx + len(train_loader) * epoch
 
@@ -90,9 +90,9 @@ def batch_status(batch_idx, inputs, outputs, targets,
     # predicted = predicted.reshape(-1)
 
     # Calculate metrics
-    # batch_met = calculate_metrics(targets.cpu(), 
-                                    # predicted.cpu(),
-                                    # args, False)
+    # batch_met = calculate_metrics(targets.cpu(),
+    # predicted.cpu(),
+    # args, False)
     # args.train_acc = batch_met['acc']
 
     # Write tensorboard statistics
@@ -100,24 +100,25 @@ def batch_status(batch_idx, inputs, outputs, targets,
 
     # print every args.log_interval of batches
     if global_step % args.log_interval == 0:
-        # validate vacc, vloss =
-        validate(validationset, log_info=True, global_step=global_step)
+        # validate vacc,
+        vloss = validate(validset, log_info=True, global_step=global_step)
 
         # Plot predictions
         img = imshow_bboxes(inputs, targets, args, outputs)
-        args.writer.add_image('Predicted', img, global_step)
+        args.writer.add_image('Train/predicted', img, global_step)
 
         # Process current checkpoint
         process_checkpoint(loss.item(), global_step, args)
 
         print('Epoch : {} Batch : {} [{}/{} ({:.0f}%)]\n'
-              '====> Run_Loss : {:.4f} '
+              '====> Run_Loss : {:.4f} Valid_Loss : {:.4f}'
               # '====> Loss_Batch : {:.4f} Loss_Valid : {:.4f} '
               .format(epoch, batch_idx,
                       args.batch_size * batch_idx,
                       args.dataset_size,
                       100. * batch_idx / args.dataloader_size,
-                      args.running_loss / args.log_interval),
+                      args.running_loss / args.log_interval,
+                      vloss),
               end='\n\n')
 
         args.running_loss = 0.0
@@ -126,7 +127,7 @@ def batch_status(batch_idx, inputs, outputs, targets,
     # args.writer.flush()
 
 
-def train(trainset):
+def train(trainset, validset):
     # Create dataset loader
     train_loader = torch.utils.data.DataLoader(trainset,
                                                batch_size=args.batch_size,
@@ -191,7 +192,7 @@ def train(trainset):
 
             # Log batch status
             batch_status(batch_idx, inputs, outputs, targets,
-                         epoch, train_loader, loss, trainset)
+                         epoch, train_loader, loss, validset)
 
         print('Epoch: {} Average loss: {:.4f} Average acc {:.4f}%'
               .format(epoch, args.train_loss / len(train_loader),
@@ -211,8 +212,8 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
         print('Started Validation')
 
     run_loss = 0
-    trgts = torch.tensor([0], dtype=torch.int)
-    preds = torch.tensor([0], dtype=torch.int)
+    # trgts = torch.tensor([0], dtype=torch.int)
+    # preds = torch.tensor([0], dtype=torch.int)
     for batch_idx, batch in enumerate(valid_loader, 1):
         # Unpack batch
         inputs, targets = batch
@@ -233,10 +234,10 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
         # preds = torch.cat((preds, predicted.reshape(-1).int().cpu()))
         # trgts = torch.cat((trgts, targets.reshape(-1).int().cpu()))
 
-        if batch_idx == 1 and print_info:
+        if batch_idx == 1:
             # Plot predictions
             img = imshow_bboxes(inputs, targets, args, outputs)
-            args.writer.add_image('Predicted', img, global_step)
+            args.writer.add_image('Valid/predicted', img, global_step)
 
             # print_batch(inputs, targets, predicted, args)
 
@@ -254,7 +255,7 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
         #                        met['rec'], global_step)
         # args.writer.add_scalar('Validation/f1',
         #                        met['f1'], global_step)
-        args.writer.add_scalar('Validation/loss',
+        args.writer.add_scalar('Valid/loss',
                                run_loss / len(valid_loader),
                                global_step)
 
@@ -266,6 +267,7 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
     #     print('Finished Validation')
 
     # return met['acc'], run_loss / len(valid_loader)
+    return run_loss / len(valid_loader)
 
 
 def predict_test(testset):
@@ -343,20 +345,8 @@ def main():
     if args.dataset == 'voc7':
         dataset = VOC2007(args.image_shape)
 
-    # Index of data subsets. 1000 test elems
-    trnvld_idx = list(range(0, len(dataset) - 1000))
-    tst_idx = list(range(len(dataset) - 1000, len(dataset)))
-
-    trn_size = int(args.train_percentage * len(trnvld_idx))
-    vld_size = len(trnvld_idx) - trn_size
-
-    print(trn_size)
-    print(vld_size)
-
-    # Subset train, valid, test dataset 
-    trnvld_sub = torch.utils.data.Subset(dataset, trnvld_idx)
-    trn, vld = torch.utils.data.random_split(trnvld_sub, [trn_size, vld_size])
-    tst = torch.utils.data.Subset(dataset, dataset)
+    # Split dataset
+    trn, vld, tst = split_dataset(dataset, args)
 
     # Get hparams from args
     args.hparams = get_hparams(args.__dict__)

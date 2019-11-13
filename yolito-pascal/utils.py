@@ -11,6 +11,27 @@ from network import *
 warnings.filterwarnings(action='ignore', category=UndefinedMetricWarning)
 
 
+def split_dataset(dataset, args):
+    # Index of data subsets. 1000 test elems
+    trnvld_idx = list(range(0, len(dataset) - 1000))
+    tst_idx = list(range(len(dataset) - 1000, len(dataset)))
+
+    trn_size = int(args.train_percentage * len(trnvld_idx))
+    vld_size = len(trnvld_idx) - trn_size
+
+    # Subset train, valid, test dataset
+    trnvld_sub = torch.utils.data.Subset(dataset, trnvld_idx)
+    trn, vld = torch.utils.data.random_split(trnvld_sub, [trn_size, vld_size])
+    tst = torch.utils.data.Subset(dataset, tst_idx)
+
+    # Dataset information
+    print('train dataset : {} elements'.format(len(trn)))
+    print('validate dataset : {} elements'.format(len(vld)))
+    print('test dataset : {} elements'.format(len(tst)))
+
+    return trn, vld, tst
+
+
 def predict(outputs, targets):
     if type(outputs) is tuple:
         ne, is_ne = outputs

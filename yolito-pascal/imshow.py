@@ -108,7 +108,7 @@ def imshow_bboxes(images, targets, args, predictions=None):
 
     # Plot images
     npimg = grid.detach().cpu().numpy()
-    plt.figure(figsize=(12, 10))
+    plt.figure(figsize=(15, 15))
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
     plt.axis('off')
 

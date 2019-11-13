@@ -31,9 +31,7 @@ class VOC2007(Dataset):
         yolo_path = './VOC2007/yolo1_train_7/'
 
         # Helping lists
-        # classes = []
         y_real = []
-        # file_names = []
 
         # Travese all files in folder
         filenames = [yolo_path + instance_path
@@ -41,13 +39,7 @@ class VOC2007(Dataset):
         y_real = [np.loadtxt(f, comments='#').reshape((-1, S, S))
                   for f in filenames]
 
-        # file_names.append(f)
-        # classes.append(y_file[5:].sum(axis=(1, 2)))
-
         self.annotations = y_real
-
-        print(len(self.annotations))
-        print(len(self.images))
 
         # Print message
         print('VOC2007 was successfully loaded.')

@@ -68,6 +68,10 @@ class YOLO(nn.Module):
 
     def __init__(self, args):
         super(YOLO, self).__init__()
+        # Number of bboxes per cell
+        self.bboxes = args.bboxes
+
+        # Classifier input dimension
         self.lin_inpt = 512 * (args.image_shape[0] // 32) * \
             (args.image_shape[1] // 32)
 
@@ -77,13 +81,13 @@ class YOLO(nn.Module):
                                               self.lin_inpt // 2),
                                     nn.ReLU(),
                                     nn.Linear(self.lin_inpt // 2,
-                                              (5 * args.bboxes + 4) * 7 * 7),
+                                              (5 * self.bboxes + 4) * 7 * 7),
                                     nn.Sigmoid())
 
     def forward(self, x):
         x1 = self.vgg.features(x)
         x1 = x1.view(-1, self.lin_inpt)
-        x2 = self.linear(x1) 
-        y = x2.view([-1, (5 * args.bboxes + 4), 7, 7])
+        x2 = self.linear(x1)
+        y = x2.view([-1, (5 * self.bboxes + 4), 7, 7])
 
         return y
