@@ -9,13 +9,20 @@ class loss_yolo():
         # Network to train
         self.device = args.device
 
-    def IOU():
+        # Number of bboxes per cell
+        self.bboxes = args.bboxes
+
+    def IOU(outputs, targets):
         pass
 
     def loss(self, outputs, targets):
+        # Needed parameters
         batch_size = outputs.shape[0]
         lmbd_coord = 5
         lmbd_noobj = .5
+
+        # Calculate IOU
+        # Missing case B = 2
 
         # Get output elements
         c_out = outputs[:, 0].reshape(batch_size * 49)
@@ -70,13 +77,13 @@ class YOLO(nn.Module):
                                               self.lin_inpt // 2),
                                     nn.ReLU(),
                                     nn.Linear(self.lin_inpt // 2,
-                                              9 * 7 * 7),
+                                              (5 * args.bboxes + 4) * 7 * 7),
                                     nn.Sigmoid())
 
     def forward(self, x):
         x1 = self.vgg.features(x)
         x1 = x1.view(-1, self.lin_inpt)
         x2 = self.linear(x1) 
-        y = x2.view([-1, 9, 7, 7])
+        y = x2.view([-1, (5 * args.bboxes + 4), 7, 7])
 
         return y

@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 
 
 class VOC2007(Dataset):
-    def __init__(self, image_shape, subset='train'):
+    def __init__(self, image_shape):
         # Print message
         print('Started loading VOC2007.')
 

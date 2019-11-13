@@ -16,6 +16,9 @@ from imshow import *
 
 # Parser arguments
 parser = argparse.ArgumentParser(description='Train YOLO on PASCAL VOC2007')
+parser.add_argument('--train-percentage', '--t',
+                    type=float, default=.2, metavar='N',
+                    help='porcentage of the training set to use (default: .2)')
 parser.add_argument('--batch-size', '--b',
                     type=int, default=32, metavar='N',
                     help='input batch size for training (default: 32)')
@@ -33,6 +36,9 @@ parser.add_argument('--network', '--n',
                     default='yolo',
                     choices=['yolo'],
                     help='pick a specific network to train (default: "yolo")')
+parser.add_argument('--bboxes', '--bb',
+                    type=int, default=1, metavar='N',
+                    help='number of bboxes per cell (default: 1)')
 parser.add_argument('--image-shape', '--imshape',
                     type=int, nargs='+',
                     default=[140, 140],
@@ -52,9 +58,6 @@ parser.add_argument('--dataset', '--data',
                     default='voc7',
                     choices=['voc7', 'voc14'],
                     help='pick a specific dataset (default: "voc7")')
-parser.add_argument('--pretrained',
-                    action='store_true',
-                    help='use pretrained network weights')
 parser.add_argument('--checkpoint', '--check',
                     default='none',
                     help='path to checkpoint to be restored')
@@ -97,9 +100,8 @@ def batch_status(batch_idx, inputs, outputs, targets,
 
     # print every args.log_interval of batches
     if global_step % args.log_interval == 0:
-        # validate
-        # vacc, vloss = validate(validationset, log_info=True,
-        #                        global_step=global_step)
+        # validate vacc, vloss =
+        validate(validationset, log_info=True, global_step=global_step)
 
         # Plot predictions
         img = imshow_bboxes(inputs, targets, args, outputs)
@@ -199,70 +201,71 @@ def train(trainset):
     print('Finished Training')
 
 
-def validate(validationset, print_info=False, log_info=False, global_step=0):
+def validate(validset, print_info=False, log_info=False, global_step=0):
     # Create dataset loader
-    valid_loader = BucketIterator(validationset,
-                                  batch_size=args.batch_size,
-                                  device=args.device,
-                                  sort_key=lambda x: len(x.message),
-                                  sort_within_batch=False,
-                                  repeat=False)
-
-    # iterator
-    dataiter = valid_loader.__iter__()
-
+    valid_loader = torch.utils.data.DataLoader(validset,
+                                               batch_size=args.batch_size,
+                                               shuffle=True,
+                                               drop_last=False)
     if print_info:
         print('Started Validation')
 
     run_loss = 0
     trgts = torch.tensor([0], dtype=torch.int)
     preds = torch.tensor([0], dtype=torch.int)
-    for batch_idx, batch in enumerate(dataiter, 1):
+    for batch_idx, batch in enumerate(valid_loader, 1):
         # Unpack batch
-        inputs, targets = unpack_batch(batch)
+        inputs, targets = batch
 
-        # forward
-        outputs = args.net(inputs)
+        # Send to device
+        inputs = inputs.to(args.device)
+        targets = targets.to(args.device)
 
-        # calculate loss
-        run_loss += args.criterion(outputs, targets).item()
+        # Calculate gradients and update
+        with autograd.detect_anomaly():
+            # forward
+            outputs = args.net(inputs)
 
-        # predict
-        predicted, targets = predict(outputs, targets)
+            # calculate loss
+            run_loss += args.criterion(outputs, targets.float()).item()
 
         # concatenate prediction and truth
-        preds = torch.cat((preds, predicted.reshape(-1).int().cpu()))
-        trgts = torch.cat((trgts, targets.reshape(-1).int().cpu()))
+        # preds = torch.cat((preds, predicted.reshape(-1).int().cpu()))
+        # trgts = torch.cat((trgts, targets.reshape(-1).int().cpu()))
 
         if batch_idx == 1 and print_info:
-            print_batch(inputs, targets, predicted, args)
+            # Plot predictions
+            img = imshow_bboxes(inputs, targets, args, outputs)
+            args.writer.add_image('Predicted', img, global_step)
+
+            # print_batch(inputs, targets, predicted, args)
 
     # Calculate metrics
-    met = calculate_metrics(trgts, preds, args)
+    # met = calculate_metrics(trgts, preds, args)
 
     if log_info:
-        args.writer.add_scalar('Validation/accuracy',
-                               met['acc'], global_step)
-        args.writer.add_scalar('Validation/balanced_accuracy',
-                               met['bacc'], global_step)
-        args.writer.add_scalar('Validation/precision',
-                               met['prec'], global_step)
-        args.writer.add_scalar('Validation/recall',
-                               met['rec'], global_step)
-        args.writer.add_scalar('Validation/f1',
-                               met['f1'], global_step)
+        # args.writer.add_scalar('Validation/accuracy',
+        #                        met['acc'], global_step)
+        # args.writer.add_scalar('Validation/balanced_accuracy',
+        #                        met['bacc'], global_step)
+        # args.writer.add_scalar('Validation/precision',
+        #                        met['prec'], global_step)
+        # args.writer.add_scalar('Validation/recall',
+        #                        met['rec'], global_step)
+        # args.writer.add_scalar('Validation/f1',
+        #                        met['f1'], global_step)
         args.writer.add_scalar('Validation/loss',
                                run_loss / len(valid_loader),
                                global_step)
 
-    if print_info:
-        print('Accuracy of the network on %d validation messages: %d %%' % (
-            len(validationset), 100 * met['acc']))
+    # if print_info:
+    #     print('Accuracy of the network on %d validation messages: %d %%' % (
+    #         len(validationset), 100 * met['acc']))
 
-        # Add trained model
-        print('Finished Validation')
+    #     # Add trained model
+    #     print('Finished Validation')
 
-    return met['acc'], run_loss / len(valid_loader)
+    # return met['acc'], run_loss / len(valid_loader)
 
 
 def predict_test(testset):
@@ -316,8 +319,7 @@ def main():
                                    if torch.cuda.is_available()
                                    else 'cpu')
 
-    # Assuming that we are on a CUDA machine, this should print a CUDA device:
-    # Dataset information
+    # Selected device for trainning or inference
     print('device : {}'.format(args.device))
 
     # Read parameters from checkpoint
@@ -337,19 +339,24 @@ def main():
         # Save as parameter
         args.writer = writer
 
-    # TODO : Set pretrained VGG16 or similar
-    # Set glove embeddings parameters
-    # if args.glove:
-    #     # posible glove dimensions
-    #     glove_dim = [25, 50, 100, 200]
-
-    #     # force one of this dimensions
-    #     if args.embedding not in glove_dim:
-    #         args.embedding = glove_dim[2]
-
     # Read dataset
     if args.dataset == 'voc7':
-        trn = VOC2007(args.image_shape)
+        dataset = VOC2007(args.image_shape)
+
+    # Index of data subsets. 1000 test elems
+    trnvld_idx = list(range(0, len(dataset) - 1000))
+    tst_idx = list(range(len(dataset) - 1000, len(dataset)))
+
+    trn_size = int(args.train_percentage * len(trnvld_idx))
+    vld_size = len(trnvld_idx) - trn_size
+
+    print(trn_size)
+    print(vld_size)
+
+    # Subset train, valid, test dataset 
+    trnvld_sub = torch.utils.data.Subset(dataset, trnvld_idx)
+    trn, vld = torch.utils.data.random_split(trnvld_sub, [trn_size, vld_size])
+    tst = torch.utils.data.Subset(dataset, dataset)
 
     # Get hparams from args
     args.hparams = get_hparams(args.__dict__)
@@ -361,13 +368,13 @@ def main():
     if args.network == 'yolo':
         net = YOLO(args)
 
-    # Load pretrained vgg weights
-    for param in net.vgg.features.parameters():
-        param.requires_grad = False
-    for param in net.vgg.avgpool.parameters():
-        param.requires_grad = False
-    for param in net.vgg.classifier.parameters():
-        param.requires_grad = False
+        # Load pretrained vgg weights. Drop gradients.
+        for param in net.vgg.features.parameters():
+            param.requires_grad = False
+        for param in net.vgg.avgpool.parameters():
+            param.requires_grad = False
+        for param in net.vgg.classifier.parameters():
+            param.requires_grad = False
 
     # Send networks to device
     args.net = net.to(args.device)
@@ -387,10 +394,10 @@ def main():
         predict_test(tst)
     else:
         # Train network
-        train(trn)
+        train(trn, vld)
 
         # Validate trainning
-        # validate(vld, print_info=args.print)
+        validate(vld, print_info=args.print)
 
     # (compatibility issues) Add hparams with metrics to tensorboard
     # args.writer.add_hparams(args.hparams, {'metrics': 0})

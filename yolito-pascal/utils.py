@@ -11,21 +11,6 @@ from network import *
 warnings.filterwarnings(action='ignore', category=UndefinedMetricWarning)
 
 
-def write_batch(inputs, predicted, file, tst, args):
-    # print prediction
-    for idx in range(predicted.shape[0]):
-        for jdx in range(predicted.shape[1]):
-            word = args.WORD.vocab.itos[inputs[idx, jdx]]
-            pred = args.TAG.vocab.itos[predicted[idx, jdx]]
-
-            if word not in['<pad>', '<bos>', '<eos>']:
-                line = tst.readline()[:-1]
-                file.write('{}\t{}\n'.format(line, pred))
-
-        line = tst.readline()
-        print('', file=file)
-
-
 def predict(outputs, targets):
     if type(outputs) is tuple:
         ne, is_ne = outputs
