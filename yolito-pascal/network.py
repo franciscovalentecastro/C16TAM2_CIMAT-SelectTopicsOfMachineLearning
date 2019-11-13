@@ -18,16 +18,16 @@ class loss_yolo():
         self.img_w, self.img_h = args.image_shape
         self.cell_w, self.cell_h = (self.img_w / 7.0, self.img_h / 7.0)
 
-    def IOU_ind_bbox(self, bbox_1, bbox_2):
-        x1 = bbox_1[0].item() * self.cell_w
-        y1 = bbox_1[1].item() * self.cell_h
-        w1 = bbox_1[2].item() * self.img_w
-        h1 = bbox_1[3].item() * self.img_h
+    def IOU_bbox(self, bbox_1, bbox_2):
+        x1 = (bbox_1[:, 0] * self.cell_w).squeeze(1)
+        y1 = (bbox_1[:, 1] * self.cell_h).squeeze(1)
+        w1 = (bbox_1[:, 2] * self.img_w).squeeze(1)
+        h1 = (bbox_1[:, 3] * self.img_h).squeeze(1)
 
-        x2 = bbox_2[0].item() * self.cell_w
-        y2 = bbox_2[1].item() * self.cell_h
-        w2 = bbox_2[2].item() * self.img_w
-        h2 = bbox_2[3].item() * self.img_h
+        x2 = (bbox_2[:, 0] * self.cell_w).squeeze(1)
+        y2 = (bbox_2[:, 1] * self.cell_h).squeeze(1)
+        w2 = (bbox_2[:, 2] * self.img_w).squeeze(1)
+        h2 = (bbox_2[:, 3] * self.img_h).squeeze(1)
 
         # print(x1, y1, w1, h1)
         # print(x2, y2, w2, h2)
@@ -45,19 +45,16 @@ class loss_yolo():
         # print(b1_x1, b1_x2, b1_y1, b1_y2)
         # print(b2_x1, b2_x2, b2_y1, b2_y2)
 
-        if b1_x2 < b2_x1 or b2_x2 < b1_x1 or \
-           b1_y2 < b2_y1 or b2_y2 < b1_y1:
-            return 0
-
-        x1_int = max(b1_x1, b2_x1)
-        x2_int = min(b1_x2, b2_x2)
-        y1_int = max(b1_y1, b2_y1)
-        y2_int = min(b1_y2, b2_y2)
+        x1_int = torch.max(b1_x1, b2_x1)
+        x2_int = torch.min(b1_x2, b2_x2)
+        y1_int = torch.max(b1_y1, b2_y1)
+        y2_int = torch.min(b1_y2, b2_y2)
 
         # print(x1_int, x2_int, y1_int, y2_int)
 
         inter = (x2_int - x1_int) * (y2_int - y1_int)
         union = (w1 * h1) + (w2 * h2) - inter
+        iou = inter / union
 
         # print(inter / union)
         # if inter / union != 0:
@@ -69,7 +66,16 @@ class loss_yolo():
         #     # plt.xlim(0, self.img_w)
         #     plt.show()
 
-        return inter / union
+        no_inter = torch.nonzero((b1_x2 < b2_x1) + (b2_x2 < b1_x1) +
+                                 (b1_y2 < b2_y1) + (b2_y2 < b1_y1))
+        iou[no_inter] = torch.zeros(1)
+
+        # if torch.nonzero(iou).sum() > 0:
+        #     print(iou.shape)
+        #     print(iou)
+        #     input()
+
+        return iou
 
     def IOU(self, outputs, targets):
         batch_size = outputs.shape[0]
@@ -78,17 +84,13 @@ class loss_yolo():
         if self.bboxes == 1:
             # print('bboxes ', self.bboxes)
 
-            bbox1_idx = [1, 2, 3, 4]
+            bbox_idx = [1, 2, 3, 4]
             iou = torch.zeros([batch_size, 7, 7])
 
-            for idx in range(batch_size):
-                for jdx in range(7):
-                    for kdx in range(7):
-                        bbox = outputs[idx, bbox1_idx, jdx, kdx].reshape(4)
-                        bbox_trg = targets[idx, bbox1_idx, jdx, kdx].reshape(4)
-
-                        iou[idx, jdx, kdx] = self.IOU_ind_bbox(bbox, bbox_trg)
-                        # print('iou ', idx, jdx, kdx, iou[idx, jdx, kdx].item())
+            bbox = outputs[:, bbox_idx].reshape(batch_size, 4, 7, 7)
+            bbox_trg = targets[:, bbox_idx].reshape(batch_size, 4, 7, 7)
+            iou = self.IOU_bbox(bbox, bbox_trg)
+            # print('iou ', idx, jdx, kdx, iou[idx, jdx, kdx].item())
 
             # print(iou.shape)
             # print(iou)
