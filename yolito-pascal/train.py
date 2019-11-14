@@ -230,42 +230,40 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
 
 def predict_test(testset):
     # Create dataset loader
-    test_loader = BucketIterator(testset,
-                                 batch_size=args.batch_size,
-                                 device=args.device,
-                                 train=False,
-                                 sort=False)
-
-    # iterator
-    dataiter = test_loader.__iter__()
+    # Create dataset loader
+    test_loader = torch.utils.data.DataLoader(testset,
+                                              batch_size=args.batch_size,
+                                              shuffle=False,
+                                              drop_last=False)
 
     # restore checkpoint
     restore_checkpoint(args)
 
-    # Complete Cased test set
-    tst_pth = 'emerging_entities_17/emerging.test.annotated'
-    tst = open(tst_pth, 'r', encoding='utf8')
-
-    # Output file
-    f = open('predictions/pred_{}.txt'.format(args.run), 'w', encoding='utf8')
-
-    print('Generating Test Predictions')
-    for batch_idx, batch in enumerate(dataiter, 1):
+    # Predict all test elements and measure
+    run_loss = 0
+    for batch_idx, batch in enumerate(test_loader, 1):
         # Unpack batch
-        inputs, targets = unpack_batch(batch)
+        inputs, targets = batch
 
-        # forward
-        outputs = args.net(inputs)
+        # Send to device
+        inputs = inputs.to(args.device)
+        targets = targets.to(args.device)
 
-        # predict
-        predicted, targets = predict(outputs, targets)
+        # Calculate gradients and update
+        with autograd.detect_anomaly():
+            # forward
+            outputs = args.net(inputs)
 
-        # print batch
-        write_batch(inputs, predicted, f, tst, args)
+            # calculate loss
+            loss, t_outputs = args.criterion(outputs, targets.float())
+            run_loss += loss.item()
 
-    f.close()
-    tst.close()
-    print('Finished')
+        if batch_idx < 10:
+            # Plot predictions
+            img = imshow_bboxes(inputs, targets, args, t_outputs)
+            args.writer.add_image('Test/predicted', img, batch_idx)
+        else:
+            break
 
 
 def main():
@@ -343,10 +341,6 @@ def main():
     else:
         # Train network
         train(trn, vld)
-
-        return
-        # Validate trainning
-        validate(vld, print_info=args.print)
 
     # (compatibility issues) Add hparams with metrics to tensorboard
     # args.writer.add_hparams(args.hparams, {'metrics': 0})
