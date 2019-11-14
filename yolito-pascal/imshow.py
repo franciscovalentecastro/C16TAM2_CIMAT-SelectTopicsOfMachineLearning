@@ -57,7 +57,7 @@ def plot_bboxes(images, bboxes, args, color='r'):
         c4 = c4[px, py]
 
         for jdx in range(len(y)):
-            if c[jdx].item() > .5:
+            if c[jdx].item() > args.confidence:
                 # Get class named
                 class_nms = ['bicycle', 'bus', 'car', 'person']
                 class_pred = [c1[jdx].item(), c2[jdx].item(),

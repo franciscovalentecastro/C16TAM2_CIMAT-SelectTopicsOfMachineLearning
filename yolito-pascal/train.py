@@ -39,6 +39,9 @@ parser.add_argument('--network', '--n',
 parser.add_argument('--bboxes', '--bb',
                     type=int, default=1, metavar='N',
                     help='number of bboxes per cell (default: 1)')
+parser.add_argument('--confidence', '--c',
+                    type=float, default=.5, metavar='N',
+                    help='confidence level to pick bboxes (default: .5)')
 parser.add_argument('--image-shape', '--imshape',
                     type=int, nargs='+',
                     default=[140, 140],
