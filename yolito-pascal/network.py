@@ -4,6 +4,35 @@ import torch.nn as nn
 import torchvision.models as models
 
 
+class YOLO(nn.Module):
+
+    def __init__(self, args):
+        super(YOLO, self).__init__()
+        # Number of bboxes per cell
+        self.bboxes = args.bboxes
+
+        # Classifier input dimension
+        self.lin_inpt = 512 * (args.image_shape[0] // 32) * \
+            (args.image_shape[1] // 32)
+
+        self.vgg = models.vgg16(pretrained=True)
+
+        self.linear = nn.Sequential(nn.Linear(self.lin_inpt,
+                                              self.lin_inpt // 2),
+                                    nn.ReLU(),
+                                    nn.Linear(self.lin_inpt // 2,
+                                              (5 * self.bboxes + 4) * 7 * 7),
+                                    nn.Sigmoid())
+
+    def forward(self, x):
+        x1 = self.vgg.features(x)
+        x1 = x1.view(-1, self.lin_inpt)
+        x2 = self.linear(x1)
+        y = x2.view([-1, (5 * self.bboxes + 4), 7, 7])
+
+        return y
+
+
 class loss_yolo():
     def __init__(self, args):
         self.counter = 0
@@ -161,31 +190,79 @@ class loss_yolo():
 
         return loss / batch_size, outputs
 
+    def measure(self, outputs, targets, args):
+            # Needed parameters
+            batch_size = outputs.shape[0]
+            lmbd_coord = 5
+            lmbd_noobj = .5
 
-class YOLO(nn.Module):
+            # Caclulate iou and select best bbox
+            iou = self.IOU(outputs, targets)
 
-    def __init__(self, args):
-        super(YOLO, self).__init__()
-        # Number of bboxes per cell
-        self.bboxes = args.bboxes
+            # Pick best bbox
+            if self.bboxes == 2:
+                iou_1, iou_2 = iou
 
-        # Classifier input dimension
-        self.lin_inpt = 512 * (args.image_shape[0] // 32) * \
-            (args.image_shape[1] // 32)
+                # Comparisons to find best confidence
+                comp_1 = torch.nonzero((outputs[:, 0] >= outputs[:, 5]))
+                comp_2 = torch.nonzero((outputs[:, 5] > outputs[:, 0]))
 
-        self.vgg = models.vgg16(pretrained=True)
+                # Indexes of larger inputs
+                b1, x1, y1 = (comp_1[:, 0], comp_1[:, 1], comp_1[:, 2])
+                b2, x2, y2 = (comp_2[:, 0], comp_2[:, 1], comp_2[:, 2])
 
-        self.linear = nn.Sequential(nn.Linear(self.lin_inpt,
-                                              self.lin_inpt // 2),
-                                    nn.ReLU(),
-                                    nn.Linear(self.lin_inpt // 2,
-                                              (5 * self.bboxes + 4) * 7 * 7),
-                                    nn.Sigmoid())
+                # Copy necessary values to smaller [b, 9, 7, 7] tensor
+                t_outputs = torch.zeros([batch_size, 9, 7, 7]).to(self.device)
+                t_outputs[b1, :5, x1, y1] = outputs[b1, :5, x1, y1]
+                t_outputs[b1, 5:, x1, y1] = outputs[b1, 10:, x1, y1]
+                t_outputs[b2, :, x2, y2] = outputs[b2, 5:, x2, y2]
+                outputs = t_outputs
 
-    def forward(self, x):
-        x1 = self.vgg.features(x)
-        x1 = x1.view(-1, self.lin_inpt)
-        x2 = self.linear(x1)
-        y = x2.view([-1, (5 * self.bboxes + 4), 7, 7])
+                # Save correct iou
+                iou = torch.zeros(batch_size, 7, 7)
+                iou[comp_1] = iou_1[comp_1]
+                iou[comp_2] = iou_2[comp_2]
 
-        return y
+            # Get output elements
+            c_out = outputs[:, 0]
+            y_out = outputs[:, 1]
+            x_out = outputs[:, 2]
+            w_out = torch.sqrt(outputs[:, 3])
+            h_out = torch.sqrt(outputs[:, 4])
+            c1_out = outputs[:, 5]
+            c2_out = outputs[:, 6]
+            c3_out = outputs[:, 7]
+            c4_out = outputs[:, 8]
+
+            # Ger target elements
+            y_trgt = targets[:, 1]
+            x_trgt = targets[:, 2]
+            w_trgt = torch.sqrt(targets[:, 3])
+            h_trgt = torch.sqrt(targets[:, 4])
+            c1_trgt = targets[:, 5]
+            c2_trgt = targets[:, 6]
+            c3_trgt = targets[:, 7]
+            c4_trgt = targets[:, 8]
+            c_trgt = (c1_trgt + c2_trgt + c3_trgt + c4_trgt) * iou
+
+            # Calculate loss
+            obj = c1_trgt + c2_trgt + c3_trgt + c4_trgt
+            noobj = torch.ones(batch_size, 7, 7).to(self.device) - obj
+
+            # Loss function calculation
+            loss = lmbd_coord * ((obj * (x_out - x_trgt)) ** 2).sum()
+            loss += lmbd_coord * ((obj * (y_out - y_trgt)) ** 2).sum()
+            loss += lmbd_coord * ((obj * (w_out - w_trgt)) ** 2).sum()
+            loss += lmbd_coord * ((obj * (h_out - h_trgt)) ** 2).sum()
+            loss += ((obj * (c_out - c_trgt)) ** 2).sum()
+            loss += ((obj * (c1_out - c1_trgt)) ** 2).sum()
+            loss += ((obj * (c2_out - c2_trgt)) ** 2).sum()
+            loss += ((obj * (c3_out - c3_trgt)) ** 2).sum()
+            loss += ((obj * (c4_out - c4_trgt)) ** 2).sum()
+            loss += lmbd_noobj * (noobj * (c_out - c_trgt) ** 2).sum()
+
+            # Get mean iou of predictions
+            conf = (c_out > .5).float()
+            print('Mean IOU : {}'.format((conf * iou).mean().item()))
+
+            return loss / batch_size, outputs

@@ -242,6 +242,9 @@ def predict_test(testset):
     # restore checkpoint
     restore_checkpoint(args)
 
+    # Set loss function
+    args.criterion = loss_yolo(args).measure
+
     # Predict all test elements and measure
     run_loss = 0
     for batch_idx, batch in enumerate(test_loader, 1):
@@ -258,7 +261,7 @@ def predict_test(testset):
             outputs = args.net(inputs)
 
             # calculate loss
-            loss, t_outputs = args.criterion(outputs, targets.float())
+            loss, t_outputs = args.criterion(outputs, targets.float(), args)
             run_loss += loss.item()
 
         if batch_idx < 10:
@@ -293,12 +296,12 @@ def main():
     # print run name
     print('execution name : {}'.format(args.run))
 
-    if args.predict is not None:
-        # Tensorboard summary writer
-        writer = SummaryWriter('runs/' + args.run)
+    # if not args.predict:
+    # Tensorboard summary writer
+    writer = SummaryWriter('runs/' + args.run)
 
-        # Save as parameter
-        args.writer = writer
+    # Save as parameter
+    args.writer = writer
 
     # Read dataset
     if args.dataset == 'voc7':
@@ -352,9 +355,9 @@ def main():
     del args.net
     torch.cuda.empty_cache()
 
-    if args.predict is not None:
-        # Close tensorboard writer
-        args.writer.close()
+    # if not args.predict:
+    # Close tensorboard writer
+    args.writer.close()
 
 
 if __name__ == "__main__":

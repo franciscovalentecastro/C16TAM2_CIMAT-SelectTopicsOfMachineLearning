@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import torch
 import warnings
 from datetime import datetime
 from sklearn import metrics
@@ -30,62 +31,6 @@ def split_dataset(dataset, args):
     print('test dataset : {} elements'.format(len(tst)))
 
     return trn, vld, tst
-
-
-def predict(outputs, targets):
-    if type(outputs) is tuple:
-        ne, is_ne = outputs
-        targets, _ = targets
-
-        # predict by getting max from dist
-        predicted = (ne.argmax(dim=1)).type(torch.long)
-
-        # Use other task to predict
-        predicted[is_ne < 0.5] = 4
-
-    else:
-        # predict by getting max from dist
-        predicted = (outputs.argmax(dim=1)).type(torch.long)
-
-    # Change unwanted tag predictions
-    for idx in range(4):
-        predicted[predicted == idx] = 4
-
-    return predicted, targets
-
-
-def calculate_metrics(targets, predictions, args, report=True):
-    # Calculate metrics
-    avg = 'macro'
-
-    # remove unwanted tags
-    for idx in range(4):
-        dif = targets != idx
-        targets = targets[dif]
-        predictions = predictions[dif]
-
-    # ignore scikit-learn metrics warnings
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-
-        # calculate metrics
-        met = {
-            'acc': metrics.accuracy_score(targets, predictions),
-            'bacc': metrics.balanced_accuracy_score(targets, predictions),
-            'prec': metrics.precision_score(targets, predictions, average=avg),
-            'rec': metrics.recall_score(targets, predictions, average=avg),
-            'f1': metrics.f1_score(targets, predictions, average=avg)}
-
-    # Classification report
-    if report:
-        # Labels to predict and names
-        labels = range(4, 17)
-        names = args.TAG.vocab.itos[4:]
-
-        # Print classification report
-        print(metrics.classification_report(targets, predictions,
-                                            labels, names))
-    return met
 
 
 def get_hparams(dictionary):
