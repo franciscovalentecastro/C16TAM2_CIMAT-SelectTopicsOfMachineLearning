@@ -3,8 +3,6 @@ import torch
 import torch.nn as nn
 import torchvision.models as models
 
-from pprint import pprint
-
 
 class loss_yolo():
     def __init__(self, args):
@@ -19,18 +17,6 @@ class loss_yolo():
         # Input image shape
         self.img_w, self.img_h = args.image_shape
         self.cell_w, self.cell_h = (self.img_w / 7.0, self.img_h / 7.0)
-
-        # Test iou
-        # a = torch.tensor([[0.4, 0.4, 0.05, 0.1]]).unsqueeze(2).unsqueeze(3)
-        # b = torch.tensor([[0.6, 0.6, 0.05, 0.1]]).unsqueeze(2).unsqueeze(3)
-        # pprint(a.shape)
-        # pprint(a.numpy())
-        # pprint(b.shape)
-        # pprint(b.numpy())
-
-        # iou = self.IOU_bbox(a, b)
-        # pprint(iou.shape)
-        # pprint(iou.numpy)
 
     def IOU_bbox(self, bbox_1, bbox_2):
         # Unpack first bbox elements
@@ -63,7 +49,7 @@ class loss_yolo():
         y1_int = torch.max(b1_y1, b2_y1)
         y2_int = torch.min(b1_y2, b2_y2)
 
-        # Calculate intersection
+        # Calculate intersection (negative values means no intersecation)
         inter = (x2_int - x1_int) * (y2_int - y1_int)
         positive_inter = (inter > 0.0).float()
         inter = inter * positive_inter
@@ -71,31 +57,6 @@ class loss_yolo():
         # Calculate iou
         union = (w1 * h1) + (w2 * h2) - inter
         iou = inter / union
-
-        # pprint('inter {}'.format(inter.shape))
-        # pprint('inter {}'.format(inter.item()))
-        # pprint('union {}'.format(union.shape))
-        # pprint('union {}'.format(union.item()))
-        # pprint('iou {}'.format(iou.shape))
-        # pprint('iou {}'.format(iou.item()))
-
-        # pprint(positive_inter.shape)
-        # pprint(positive_inter.item())
-        # pprint(iou.shape)
-        # pprint(iou.item())
-
-        # import matplotlib.pyplot as plt
-        # plt.xlim(0, self.cell_w)
-        # plt.ylim(0, self.cell_h)
-        # plt.plot([x1], [y1], 'v', color='red')
-        # plt.plot([x2], [y2], 'v', color='blue')
-        # plt.plot([b1_x1, b1_x2, b1_x2, b1_x1, b1_x1],
-        #          [b1_y1, b1_y1, b1_y2, b1_y2, b1_y1], '.-', color='red')
-        # plt.plot([b2_x1, b2_x2, b2_x2, b2_x1, b2_x1],
-        #          [b2_y1, b2_y1, b2_y2, b2_y2, b2_y1], '.-', color='blue')
-        # plt.plot([x1_int, x2_int, x2_int, x1_int, x1_int],
-        #          [y1_int, y1_int, y2_int, y2_int, y1_int], '.-', color='green')
-        # plt.show()
 
         return iou
 
@@ -142,47 +103,23 @@ class loss_yolo():
         if self.bboxes == 2:
             iou_1, iou_2 = iou
 
-            # print(iou_1.shape)
-            # print(iou_2.shape)
-
-            # print((iou_1 >= iou_2).shape)
-            # print((iou_2 > iou_1).shape)
-
+            # Comparisons to find largest
             comp_1 = torch.nonzero((iou_1 >= iou_2))
             comp_2 = torch.nonzero((iou_2 > iou_1))
 
-            # print(comp_1.shape)
-            # print(comp_2.shape)
-
+            # Indexes of larger inputs
             b1, x1, y1 = (comp_1[:, 0], comp_1[:, 1], comp_1[:, 2])
             b2, x2, y2 = (comp_2[:, 0], comp_2[:, 1], comp_2[:, 2])
 
-            t_outputs = torch.zeros([batch_size, 9, 7, 7])
-
-            # print(b1.shape)
-            # print(x1.shape)
-            # print(y1.shape)
-
-            # print(b2.shape)
-            # print(x2.shape)
-            # print(y2.shape)
-
-            # print(t_outputs[b1, :, x1, y1].shape)
-            # print(t_outputs[b2, :, x2, y2].shape)
-
-            # print(outputs[b1, slice1_idx, x1, y1].shape)
-            # print(outputs[b2, 5:, x2, y2].shape)
-
+            # Copy necessary values to smaller [b, 9, 7, 7] tensor
+            t_outputs = torch.zeros([batch_size, 9, 7, 7]).to(self.device)
             t_outputs[b1, :5, x1, y1] = outputs[b1, :5, x1, y1]
             t_outputs[b1, 5:, x1, y1] = outputs[b1, 10:, x1, y1]
             t_outputs[b2, :, x2, y2] = outputs[b2, 5:, x2, y2]
-
             outputs = t_outputs
-            # print(outputs.shape)
 
             # Save correct iou
             iou = torch.max(iou_1, iou_2)
-            # print(outputs.shape)
 
         # Get output elements
         c_out = outputs[:, 0]
@@ -209,29 +146,6 @@ class loss_yolo():
         # Calculate loss
         obj = c1_trgt + c2_trgt + c3_trgt + c4_trgt
         noobj = torch.ones(batch_size, 7, 7).to(self.device) - obj
-
-        self.counter += 1
-        if self.counter % 10 == 0:
-            # print('w_trgt', w_trgt.shape)
-            # print(w_trgt[0])
-            # print('w_out', w_out.shape)
-            # print(w_out[0])
-            # print('h_trgt', h_trgt.shape)
-            # print(h_trgt[0])
-            # print('h_out', h_out.shape)
-            # print(h_out[0])
-            # print('iou', iou.shape)
-            # print(iou[0])
-            # print('c_trgt', c_trgt.shape)
-            # print(c_trgt[0])
-            # print('c_out', c_out.shape)
-            # print(c_out[0])
-            # print('obj', obj.shape)
-            # print(obj[0])
-
-            # print('prod', (obj * (c_out - c_trgt)).shape)
-            # print((obj * (c_out - c_trgt))[0])
-
 
         # Loss function calculation
         loss = lmbd_coord * ((obj * (x_out - x_trgt)) ** 2).sum()

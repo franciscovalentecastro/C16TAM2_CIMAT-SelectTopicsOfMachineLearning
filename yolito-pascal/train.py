@@ -82,19 +82,6 @@ def batch_status(batch_idx, inputs, outputs, targets,
     args.running_loss += loss.item()
     args.train_loss += loss.item()
 
-    # predict
-    # predicted, targets = predict(outputs, targets)
-
-    # Reshape vectors
-    # targets = targets.reshape(-1)
-    # predicted = predicted.reshape(-1)
-
-    # Calculate metrics
-    # batch_met = calculate_metrics(targets.cpu(),
-    # predicted.cpu(),
-    # args, False)
-    # args.train_acc = batch_met['acc']
-
     # Write tensorboard statistics
     args.writer.add_scalar('Train/loss', loss.item(), global_step)
 
@@ -155,8 +142,6 @@ def train(trainset, validset):
     # Set loss function
     args.criterion = loss_yolo(args).loss
 
-    # return
-
     # restore checkpoint
     restore_checkpoint(args)
 
@@ -196,9 +181,8 @@ def train(trainset, validset):
             batch_status(batch_idx, inputs, t_outputs, targets,
                          epoch, train_loader, loss, validset)
 
-        print('Epoch: {} Average loss: {:.4f} Average acc {:.4f}%'
-              .format(epoch, args.train_loss / len(train_loader),
-                      100. * args.train_acc))
+        print('Epoch: {} Average loss: {:.4f}'
+              .format(epoch, args.train_loss / len(train_loader)))
 
     # Add trained model
     print('Finished Training')
@@ -214,8 +198,6 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
         print('Started Validation')
 
     run_loss = 0
-    # trgts = torch.tensor([0], dtype=torch.int)
-    # preds = torch.tensor([0], dtype=torch.int)
     for batch_idx, batch in enumerate(valid_loader, 1):
         # Unpack batch
         inputs, targets = batch
@@ -233,43 +215,16 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
             loss, t_outputs = args.criterion(outputs, targets.float())
             run_loss += loss.item()
 
-        # concatenate prediction and truth
-        # preds = torch.cat((preds, predicted.reshape(-1).int().cpu()))
-        # trgts = torch.cat((trgts, targets.reshape(-1).int().cpu()))
-
         if batch_idx == 1:
             # Plot predictions
             img = imshow_bboxes(inputs, targets, args, t_outputs)
             args.writer.add_image('Valid/predicted', img, global_step)
 
-            # print_batch(inputs, targets, predicted, args)
-
-    # Calculate metrics
-    # met = calculate_metrics(trgts, preds, args)
-
     if log_info:
-        # args.writer.add_scalar('Validation/accuracy',
-        #                        met['acc'], global_step)
-        # args.writer.add_scalar('Validation/balanced_accuracy',
-        #                        met['bacc'], global_step)
-        # args.writer.add_scalar('Validation/precision',
-        #                        met['prec'], global_step)
-        # args.writer.add_scalar('Validation/recall',
-        #                        met['rec'], global_step)
-        # args.writer.add_scalar('Validation/f1',
-        #                        met['f1'], global_step)
         args.writer.add_scalar('Valid/loss',
                                run_loss / len(valid_loader),
                                global_step)
 
-    # if print_info:
-    #     print('Accuracy of the network on %d validation messages: %d %%' % (
-    #         len(validationset), 100 * met['acc']))
-
-    #     # Add trained model
-    #     print('Finished Validation')
-
-    # return met['acc'], run_loss / len(valid_loader)
     return run_loss / len(valid_loader)
 
 

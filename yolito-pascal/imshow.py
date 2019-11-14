@@ -57,7 +57,7 @@ def plot_bboxes(images, bboxes, args, color='r'):
         c4 = c4[px, py]
 
         for jdx in range(len(y)):
-            if c[jdx].item() > .1:
+            if c[jdx].item() > .5:
                 # Get class named
                 class_nms = ['bicycle', 'bus', 'car', 'person']
                 class_pred = [c1[jdx].item(), c2[jdx].item(),
@@ -109,7 +109,7 @@ def imshow_bboxes(images, targets, args, predictions=None):
 
     # Plot images
     npimg = grid.detach().cpu().numpy()
-    plt.figure(figsize=(15, 15))
+    plt.figure(figsize=(30, 30))
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
     plt.axis('off')
 
