@@ -155,6 +155,8 @@ def train(trainset, validset):
     # Set loss function
     args.criterion = loss_yolo(args).loss
 
+    # return
+
     # restore checkpoint
     restore_checkpoint(args)
 
@@ -312,7 +314,7 @@ def predict_test(testset):
 
 def main():
     # Printing parameters
-    torch.set_printoptions(precision=10)
+    torch.set_printoptions(precision=2)
     torch.set_printoptions(edgeitems=5)
 
     # Set up GPU
@@ -386,6 +388,7 @@ def main():
         # Train network
         train(trn, vld)
 
+        return
         # Validate trainning
         validate(vld, print_info=args.print)
 

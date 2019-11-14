@@ -21,12 +21,13 @@ def imshow(img):
 
 def plot_bboxes(images, bboxes, args, color='r'):
     # Necessary values
+    batch_size = images.shape[0]
     img_w = images.shape[3]
     img_h = images.shape[2]
     cell_w = img_w / 7
     cell_h = img_h / 7
 
-    for idx in range(args.batch_size):
+    for idx in range(batch_size):
 
         # Get slices
         c, y, x, w, h, c1, c2, c3, c4 = bboxes[idx].split(1, 0)
@@ -56,7 +57,7 @@ def plot_bboxes(images, bboxes, args, color='r'):
         c4 = c4[px, py]
 
         for jdx in range(len(y)):
-            if c[jdx].item() > .8:
+            if c[jdx].item() > .1:
                 # Get class named
                 class_nms = ['bicycle', 'bus', 'car', 'person']
                 class_pred = [c1[jdx].item(), c2[jdx].item(),
@@ -129,6 +130,6 @@ def imshow_bboxes(images, targets, args, predictions=None):
         plt.show()
 
     # Clear current figure
-    plt.clf()
+    plt.close()
 
     return img
