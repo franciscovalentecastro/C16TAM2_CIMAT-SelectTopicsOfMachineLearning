@@ -178,11 +178,11 @@ class loss_yolo():
             t_outputs[b2, :, x2, y2] = outputs[b2, 5:, x2, y2]
 
             outputs = t_outputs
-            print(outputs.shape)
+            # print(outputs.shape)
 
             # Save correct iou
             iou = torch.max(iou_1, iou_2)
-            print(iou.shape)
+            # print(outputs.shape)
 
         # Get output elements
         c_out = outputs[:, 0]
@@ -212,25 +212,25 @@ class loss_yolo():
 
         self.counter += 1
         if self.counter % 10 == 0:
-            print('w_trgt', w_trgt.shape)
-            print(w_trgt[0])
-            print('w_out', w_out.shape)
-            print(w_out[0])
-            print('h_trgt', h_trgt.shape)
-            print(h_trgt[0])
-            print('h_out', h_out.shape)
-            print(h_out[0])
-            print('iou', iou.shape)
-            print(iou[0])
-            print('c_trgt', c_trgt.shape)
-            print(c_trgt[0])
-            print('c_out', c_out.shape)
-            print(c_out[0])
-            print('obj', obj.shape)
-            print(obj[0])
+            # print('w_trgt', w_trgt.shape)
+            # print(w_trgt[0])
+            # print('w_out', w_out.shape)
+            # print(w_out[0])
+            # print('h_trgt', h_trgt.shape)
+            # print(h_trgt[0])
+            # print('h_out', h_out.shape)
+            # print(h_out[0])
+            # print('iou', iou.shape)
+            # print(iou[0])
+            # print('c_trgt', c_trgt.shape)
+            # print(c_trgt[0])
+            # print('c_out', c_out.shape)
+            # print(c_out[0])
+            # print('obj', obj.shape)
+            # print(obj[0])
 
-            print('prod', (obj * (c_out - c_trgt)).shape)
-            print((obj * (c_out - c_trgt))[0])
+            # print('prod', (obj * (c_out - c_trgt)).shape)
+            # print((obj * (c_out - c_trgt))[0])
 
 
         # Loss function calculation
@@ -245,7 +245,7 @@ class loss_yolo():
         loss += ((obj * (c4_out - c4_trgt)) ** 2).sum()
         loss += lmbd_noobj * (noobj * (c_out - c_trgt) ** 2).sum()
 
-        return loss / batch_size
+        return loss / batch_size, outputs
 
 
 class YOLO(nn.Module):

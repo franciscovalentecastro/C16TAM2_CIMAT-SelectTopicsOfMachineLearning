@@ -186,14 +186,14 @@ def train(trainset, validset):
                 outputs = args.net(inputs)
 
                 # calculate loss
-                loss = args.criterion(outputs, targets.float())
+                loss, t_outputs = args.criterion(outputs, targets.float())
 
                 # backward + step
                 loss.backward()
                 args.optimizer.step()
 
             # Log batch status
-            batch_status(batch_idx, inputs, outputs, targets,
+            batch_status(batch_idx, inputs, t_outputs, targets,
                          epoch, train_loader, loss, validset)
 
         print('Epoch: {} Average loss: {:.4f} Average acc {:.4f}%'
@@ -230,7 +230,8 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
             outputs = args.net(inputs)
 
             # calculate loss
-            run_loss += args.criterion(outputs, targets.float()).item()
+            loss, t_outputs = args.criterion(outputs, targets.float())
+            run_loss += loss.item()
 
         # concatenate prediction and truth
         # preds = torch.cat((preds, predicted.reshape(-1).int().cpu()))
@@ -238,7 +239,7 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
 
         if batch_idx == 1:
             # Plot predictions
-            img = imshow_bboxes(inputs, targets, args, outputs)
+            img = imshow_bboxes(inputs, targets, args, t_outputs)
             args.writer.add_image('Valid/predicted', img, global_step)
 
             # print_batch(inputs, targets, predicted, args)
