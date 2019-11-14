@@ -263,6 +263,7 @@ class loss_yolo():
 
             # Get mean iou of predictions
             conf = (c_out > .5).float()
-            print('Mean IOU : {}'.format((conf * iou).mean().item()))
+            print('Mean IOU : {}'
+                  .format(((conf * iou).sum() / conf.sum()).item()))
 
             return loss / batch_size, outputs
