@@ -36,7 +36,8 @@ parser.add_argument('--device', '--d',
 parser.add_argument('--network', '--n',
                     default='resnet-posture',
                     choices=['resnet-posture'],
-                    help='pick a specific network to train (default: "resnet")')
+                    help='pick a specific network to train'
+                         '(default: "resnet-posture")')
 parser.add_argument('--bboxes', '--bb',
                     type=int, default=1, metavar='N',
                     help='number of bboxes per cell (default: 1)')
@@ -311,7 +312,7 @@ def main():
         trn = CocoDetection('{}/images/{}/'.format(dataDir, dataType,),
                             '{}/annotations/person_keypoints_{}.json'
                             .format(dataDir, dataType),
-                            transform = transforms.Compose([
+                            transform=transforms.Compose([
                                 transforms.Resize(args.image_shape),
                                 transforms.ToTensor()
                             ]))
@@ -327,14 +328,14 @@ def main():
 
     # Create network
     if args.network == 'resnet-posture':
-        net = YOLO(args)
+        net = Resnet_Posture(args)
 
-        # Load pretrained vgg weights. Drop gradients.
-        for param in net.vgg.features.parameters():
+        # Load pretrained resnet weights. Drop gradients.
+        for param in net.resnet.features.parameters():
             param.requires_grad = False
-        for param in net.vgg.avgpool.parameters():
+        for param in net.resnet.avgpool.parameters():
             param.requires_grad = False
-        for param in net.vgg.classifier.parameters():
+        for param in net.resnet.classifier.parameters():
             param.requires_grad = False
 
     # Send networks to device
