@@ -82,3 +82,6 @@ yolito-pascal/runs/*
 yolito-pascal/checkpoint/*
 yolito-pascal/__pycache__/*
 resnet-posture/coco/*
+resnet-posture/runs/*
+resnet-posture/checkpoint/*
+resnet-posture/__pycache__/*
