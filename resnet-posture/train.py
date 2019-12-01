@@ -16,7 +16,7 @@ from datasets import *
 from imshow import *
 
 # Parser arguments
-parser = argparse.ArgumentParser(description='Train YOLO Posture estimation')
+parser = argparse.ArgumentParser(description='Train Resnet Posture estimation')
 parser.add_argument('--train-percentage', '--t',
                     type=float, default=.9, metavar='N',
                     help='porcentage of the training set to use (default: .9)')
@@ -34,8 +34,8 @@ parser.add_argument('--device', '--d',
                     default='cpu', choices=['cpu', 'cuda'],
                     help='pick device to run the training (defalut: "cpu")')
 parser.add_argument('--network', '--n',
-                    default='resnet',
-                    choices=['resnet'],
+                    default='resnet-posture',
+                    choices=['resnet-posture'],
                     help='pick a specific network to train (default: "resnet")')
 parser.add_argument('--bboxes', '--bb',
                     type=int, default=1, metavar='N',
@@ -308,11 +308,13 @@ def main():
     if args.dataset == 'coco':
         dataDir = 'coco'
         dataType = 'train2017'
-        dataset = CocoDetection('/{}/images/{}'.format(dataDir, dataType,),
-                                '/{}/annotations/person_keypoints_{}.json'
-                                .format(dataDir, dataType))
-
-    print(dataset[0])
+        trn = CocoDetection('{}/images/{}/'.format(dataDir, dataType,),
+                            '{}/annotations/person_keypoints_{}.json'
+                            .format(dataDir, dataType),
+                            transform = transforms.Compose([
+                                transforms.Resize(args.image_shape),
+                                transforms.ToTensor()
+                            ]))
 
     # Split dataset
     trn = dataset
@@ -324,7 +326,7 @@ def main():
     print()
 
     # Create network
-    if args.network == 'yolo':
+    if args.network == 'resnet-posture':
         net = YOLO(args)
 
         # Load pretrained vgg weights. Drop gradients.
