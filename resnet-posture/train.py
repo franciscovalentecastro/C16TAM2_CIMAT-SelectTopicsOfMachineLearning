@@ -44,10 +44,10 @@ parser.add_argument('--confidence', '--c',
                     help='confidence level to pick bboxes (default: .5)')
 parser.add_argument('--image-shape', '--imshape',
                     type=int, nargs='+',
-                    default=[140, 140],
+                    default=[256, 192],
                     metavar='height width',
                     help='rectanlge size to crop input images '
-                         '(default: 140 140)')
+                         '(default: 256 192)')
 parser.add_argument('--dropout', '--drop',
                     type=float, default=.25, metavar='N',
                     help='dropout percentage in lstm layers (default: .25)')
@@ -58,9 +58,9 @@ parser.add_argument('--learning-rate', '--lr',
                     type=float, default=.0001, metavar='N',
                     help='learning rate of model (default: .0001)')
 parser.add_argument('--dataset', '--data',
-                    default='voc7',
-                    choices=['voc7', 'voc14'],
-                    help='pick a specific dataset (default: "voc7")')
+                    default='coco-sample',
+                    choices=['coco-sample', 'coco'],
+                    help='pick a specific dataset (default: "coco-sample")')
 parser.add_argument('--checkpoint', '--check',
                     default='none',
                     help='path to checkpoint to be restored')

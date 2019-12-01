@@ -81,3 +81,4 @@ yolito-pascal/VOC2007/*
 yolito-pascal/runs/*
 yolito-pascal/checkpoint/*
 yolito-pascal/__pycache__/*
+resnet-posture/coco/*
