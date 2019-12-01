@@ -6,7 +6,7 @@ import torch
 import torch.optim as optim
 import torch.autograd as autograd
 
-import torchvision
+from torchvision.datasets import CocoDetection
 from torch.utils.tensorboard import SummaryWriter
 
 # Import network
@@ -306,11 +306,12 @@ def main():
 
     # Read dataset
     if args.dataset == 'coco':
-        dataDir='coco'
-        dataType='train2017'
-        dataset = torchvision.datasets.CocoDetection('{}/{}/', '{}/annotations/person_keypoints_{}.json'.format(dataDir,dataType)
-        print('hello')
-                                                     
+        dataDir = 'coco'
+        dataType = 'train2017'
+        dataset = CocoDetection('/{}/images/{}'.format(dataDir, dataType,),
+                                '/{}/annotations/person_keypoints_{}.json'
+                                .format(dataDir, dataType))
+
     print(dataset[0])
 
     # Split dataset
