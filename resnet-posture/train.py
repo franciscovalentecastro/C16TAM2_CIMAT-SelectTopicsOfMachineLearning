@@ -6,6 +6,7 @@ import torch
 import torch.optim as optim
 import torch.autograd as autograd
 
+import torchvision
 from torch.utils.tensorboard import SummaryWriter
 
 # Import network
@@ -33,9 +34,9 @@ parser.add_argument('--device', '--d',
                     default='cpu', choices=['cpu', 'cuda'],
                     help='pick device to run the training (defalut: "cpu")')
 parser.add_argument('--network', '--n',
-                    default='yolo',
-                    choices=['yolo'],
-                    help='pick a specific network to train (default: "yolo")')
+                    default='resnet',
+                    choices=['resnet'],
+                    help='pick a specific network to train (default: "resnet")')
 parser.add_argument('--bboxes', '--bb',
                     type=int, default=1, metavar='N',
                     help='number of bboxes per cell (default: 1)')
@@ -58,9 +59,9 @@ parser.add_argument('--learning-rate', '--lr',
                     type=float, default=.0001, metavar='N',
                     help='learning rate of model (default: .0001)')
 parser.add_argument('--dataset', '--data',
-                    default='coco-sample',
-                    choices=['coco-sample', 'coco'],
-                    help='pick a specific dataset (default: "coco-sample")')
+                    default='coco',
+                    choices=['coco'],
+                    help='pick a specific dataset (default: "coco")')
 parser.add_argument('--checkpoint', '--check',
                     default='none',
                     help='path to checkpoint to be restored')
@@ -304,11 +305,16 @@ def main():
     args.writer = writer
 
     # Read dataset
-    if args.dataset == 'voc7':
-        dataset = VOC2007(args.image_shape)
+    if args.dataset == 'coco':
+        dataDir='coco'
+        dataType='train2017'
+        dataset = torchvision.datasets.CocoDetection('{}/{}/', '{}/annotations/person_keypoints_{}.json'.format(dataDir,dataType)
+        print('hello')
+                                                     
+    print(dataset[0])
 
     # Split dataset
-    trn, vld, tst = split_dataset(dataset, args)
+    trn = dataset
 
     # Get hparams from args
     args.hparams = get_hparams(args.__dict__)
