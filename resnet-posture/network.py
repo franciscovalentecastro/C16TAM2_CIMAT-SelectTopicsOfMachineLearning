@@ -13,7 +13,7 @@ class Resnet_Posture(nn.Module):
         self.lin_inpt = 512 * (args.image_shape[0] // 32) * \
             (args.image_shape[1] // 32)
 
-        self.resnet = models.resnet152(pretrained=True)
+        self.resnet = models.resnet18(pretrained=True)
 
         self.linear = nn.Sequential(nn.Linear(self.lin_inpt,
                                               self.lin_inpt // 2),

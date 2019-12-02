@@ -317,9 +317,6 @@ def main():
                                 transforms.ToTensor()
                             ]))
 
-    # Split dataset
-    trn = dataset
-
     # Get hparams from args
     args.hparams = get_hparams(args.__dict__)
     print('\nParameters :')
