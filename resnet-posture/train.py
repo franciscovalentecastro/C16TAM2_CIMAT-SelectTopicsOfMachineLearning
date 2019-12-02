@@ -328,12 +328,8 @@ def main():
         net = Resnet_Posture(args)
 
         # Load pretrained resnet weights. Drop gradients.
-        # for param in net.resnet.features.parameters():
-        #     param.requires_grad = False
-        # for param in net.resnet.avgpool.parameters():
-        #     param.requires_grad = False
-        # for param in net.resnet.classifier.parameters():
-        #     param.requires_grad = False
+        for param in net.resnet.parameters():
+            param.requires_grad = False
 
     # Send networks to device
     args.net = net.to(args.device)
