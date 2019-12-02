@@ -27,11 +27,13 @@ class Resnet_Posture(nn.Module):
         #                                       self.image_shape[1]))
 
     def forward(self, x):
-        # x1 = self.resnet.features(x)
+        print(x.shape)
+        x1 = self.resnet(x)
+        print(x1.shape)
         # x1 = x1.view(-1, self.lin_inpt)
         # x2 = self.linear(x1)
         # y = x2.view([-1, 10,
         #              self.image_shape[0],
         #              self.image_shape[1]])
 
-        return x
+        return x1

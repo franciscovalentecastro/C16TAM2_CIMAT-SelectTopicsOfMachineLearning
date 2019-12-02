@@ -307,9 +307,22 @@ def main():
 
     # Read dataset
     if args.dataset == 'coco':
+        # Initial parameters
         dataDir = 'coco'
+
+        # Load train
         dataType = 'train2017'
         trn = CocoDetection('{}/images/{}/'.format(dataDir, dataType,),
+                            '{}/annotations/person_keypoints_{}.json'
+                            .format(dataDir, dataType),
+                            transform=transforms.Compose([
+                                transforms.Resize(args.image_shape),
+                                transforms.ToTensor()
+                            ]))
+
+        # Load train
+        dataType = 'val2017'
+        vld = CocoDetection('{}/images/{}/'.format(dataDir, dataType,),
                             '{}/annotations/person_keypoints_{}.json'
                             .format(dataDir, dataType),
                             transform=transforms.Compose([
