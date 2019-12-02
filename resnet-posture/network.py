@@ -34,4 +34,4 @@ class Resnet_Posture(nn.Module):
         #              self.image_shape[0],
         #              self.image_shape[1]])
 
-        return y
+        return x
