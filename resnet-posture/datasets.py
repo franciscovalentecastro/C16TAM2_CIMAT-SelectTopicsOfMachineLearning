@@ -71,16 +71,25 @@ class CocoKeypoints(VisionDataset):
         x, y, w, h = bbox
         image = image[:, y:y + h, x:x + w]
 
-        # original image shape
-        image_tensor = transforms.ToTensor()(image)
-        image_shape = tuple(image_tensor.shape[1:3])
+        # Reescale and crop
+        self.transform = transforms.Compose([
+            transforms.Resize(self.image_size),
+            transforms.ToTensor()
+        ])
+
+        # Transform image
+        if self.transform is not None:
+            img = self.transform(image)
+            img = img[:, y:y + h, x:x + w]
+
+        image_shape = tuple(img.shape[1:3])
 
         # Exctract keypoints
         keypoints = torch.tensor(target[0]['keypoints'])
         keypoints = keypoints.reshape(17, 3)
         tmp_keypoints = keypoints.clone()
 
-        # Crop keypoints 
+        # Crop keypoints
         keypoints[:, 0] = keypoints[:, 0] - x
         keypoints[:, 1] = keypoints[:, 1] - y
 
@@ -97,16 +106,6 @@ class CocoKeypoints(VisionDataset):
         # Generate heatmaps
         trgt, trgt_weight = self.generate_target(keypoints)
         target_torch = torch.tensor(trgt)
-
-        # Reescale and crop
-        self.transform = transforms.Compose([
-            transforms.Resize(self.image_size),
-            transforms.ToTensor()
-        ])
-
-        # Transform image
-        if self.transform is not None:
-            img = self.transform(image)
 
         return img, target_torch
 
