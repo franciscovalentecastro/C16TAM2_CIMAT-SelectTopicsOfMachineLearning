@@ -22,7 +22,7 @@ class Resnet_Posture(nn.Module):
     def deconv_block(self, inpt, outpt, **kwargs):
         return nn.Sequential(
             nn.ConvTranspose2d(in_channels=inpt, out_channels=outpt, **kwargs),
-            nn.Sigmoid()
+            nn.ReLU()
         )
 
     def forward(self, x):

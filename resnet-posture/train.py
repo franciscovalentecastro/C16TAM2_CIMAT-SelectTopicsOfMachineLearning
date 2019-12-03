@@ -155,7 +155,7 @@ def train(trainset, validset):
                                    lr=args.learning_rate)
 
     # Set loss function
-    args.criterion = torch.nn.BCELoss()
+    args.criterion = torch.nn.MSELoss()
 
     # restore checkpoint
     restore_checkpoint(args)
@@ -186,8 +186,8 @@ def train(trainset, validset):
                 outputs = args.net(inputs)
 
                 # calculate loss
-                print('trgt ', targets.shape)
-                print('otpt ', outputs.shape)
+                # print('trgt ', targets.shape)
+                # print('otpt ', outputs.shape)
                 loss = args.criterion(outputs, targets)
 
                 # backward + step
