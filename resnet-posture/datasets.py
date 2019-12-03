@@ -75,18 +75,19 @@ class CocoKeypoints(VisionDataset):
         ])
 
         # Extract bounding box
-        pprint(target[0])
-        bbox = torch.tensor(target[0]['bbox'])
-        print(bbox)
-        x, y, w, h = bbox
-        x, y, w, h = int(x), int(y), int(w), int(h)
-        print(x, y, w, h)
+        print(type(target[0]))
+        if len(target[0]) > 0:
+            bbox = torch.tensor(target[0]['bbox'])
+            print(bbox)
+            x, y, w, h = bbox
+            x, y, w, h = int(x), int(y), int(w), int(h)
+            print(x, y, w, h)
 
-        grid = make_grid(self.transform(image), nrow=4,
-                         padding=2, pad_value=1)
-        imshow(grid)
+            grid = make_grid(self.transform(image), nrow=4,
+                             padding=2, pad_value=1)
+            imshow(grid)
 
-        image = image.crop((y, x, y + h, x + w))
+            image = image.crop((y, x, y + h, x + w))
 
         # Transform image
         img = self.transform(image)
