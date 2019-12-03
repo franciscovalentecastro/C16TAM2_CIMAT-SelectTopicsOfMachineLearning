@@ -95,9 +95,6 @@ class CocoKeypoints(VisionDataset):
         # Transform image
         img = self.transform(image)
 
-        grid = make_grid(img, nrow=4, padding=2, pad_value=1)
-        imshow(grid)
-
         # Exctract keypoints
         keypoints = torch.tensor(target[0]['keypoints'])
         keypoints = keypoints.reshape(17, 3)
@@ -124,6 +121,9 @@ class CocoKeypoints(VisionDataset):
         print(target_torch.shape)
         targets_slice = target_torch.sum(dim=0, keepdim=True)
         grid = make_grid(targets_slice, nrow=4, padding=2, pad_value=1)
+        imshow(grid)
+
+        grid = grid + make_grid(img, nrow=4, padding=2, pad_value=1)
         imshow(grid)
 
         return img, target_torch
