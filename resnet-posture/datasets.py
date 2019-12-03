@@ -89,7 +89,7 @@ class CocoKeypoints(VisionDataset):
             ax = plt.gca()
             coco.showAnns(target)
 
-            image = image.crop((y, x, y + h, x + w))
+            image = image.crop((x, y, x + w, y + h))
 
         # Transform image
         img = self.transform(image)
