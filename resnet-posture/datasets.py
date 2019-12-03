@@ -122,7 +122,7 @@ class CocoKeypoints(VisionDataset):
         target_torch = torch.tensor(trgt)
 
         print(target_torch.shape)
-        targets_slice = target_torch.sum(dim=2, keepdim=True)
+        targets_slice = target_torch.sum(dim=0, keepdim=True)
         grid = make_grid(targets_slice, nrow=4, padding=2, pad_value=1)
         imshow(grid)
 
