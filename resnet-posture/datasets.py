@@ -76,7 +76,7 @@ class CocoKeypoints(VisionDataset):
 
         # Extract bounding box
         print(type(target[0]))
-        if len(target[0]) > 0:
+        if len(target) > 0:
             bbox = torch.tensor(target[0]['bbox'])
             print(bbox)
             x, y, w, h = bbox
@@ -101,8 +101,8 @@ class CocoKeypoints(VisionDataset):
         tmp_keypoints = keypoints.clone()
 
         # Crop keypoints
-        keypoints[:, 0] = keypoints[:, 0] - y
-        keypoints[:, 1] = keypoints[:, 1] - x
+        keypoints[:, 0] = keypoints[:, 0] - x
+        keypoints[:, 1] = keypoints[:, 1] - y
 
         # Rescale keypoints
         keypoints[:, 0] = ((tmp_keypoints[:, 1] * self.heatmap_size[0]) /
