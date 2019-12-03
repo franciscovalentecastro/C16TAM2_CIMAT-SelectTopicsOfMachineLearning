@@ -104,8 +104,8 @@ class CocoKeypoints(VisionDataset):
         tmp_keypoints = keypoints.clone()
 
         # Crop keypoints
-        keypoints[:, 0] = keypoints[:, 0] - y
-        keypoints[:, 1] = keypoints[:, 1] - x
+        keypoints[:, 0] = keypoints[:, 0] - x
+        keypoints[:, 1] = keypoints[:, 1] - y
 
         # Rescale keypoints
         keypoints[:, 0] = ((tmp_keypoints[:, 1] * self.heatmap_size[0]) /
