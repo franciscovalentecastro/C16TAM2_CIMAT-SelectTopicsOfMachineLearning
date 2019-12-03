@@ -69,20 +69,17 @@ class CocoKeypoints(VisionDataset):
         bbox = torch.tensor(target[0]['bbox'])
         print(bbox)
         x, y, w, h = bbox
-        x, y, w, h = int(x), int(y), int(w), int(h)
+        x, y, w, h = int(x), int(y), int(w), (h)
+        image = image.crop(y, x, y + h, x + w)
 
         # Reescale and crop
         self.transform = transforms.Compose([
+            transforms.Resize(self.image_size),
             transforms.ToTensor()
         ])
 
         # Transform image
-        if self.transform is not None:
-            img = transforms.ToTensor()(image)
-            print(img.shape)
-            print(x, y, w, h)
-            img = img[:, y:y + h, x:x + w]
-            img = self.transform(img)
+        img = self.transform(image)
         image_shape = tuple(img.shape[1:3])
 
         # Exctract keypoints
