@@ -68,6 +68,12 @@ class CocoKeypoints(VisionDataset):
         path = coco.loadImgs(img_id)[0]['file_name']
         image = Image.open(os.path.join(self.root, path)).convert('RGB')
 
+        # Transform
+        self.transform = transforms.Compose([
+            transforms.Resize(self.image_size),
+            transforms.ToTensor()
+        ])
+
         # Extract bounding box
         pprint(target[0])
         bbox = torch.tensor(target[0]['bbox'])
@@ -81,12 +87,6 @@ class CocoKeypoints(VisionDataset):
         imshow(grid)
 
         image = image.crop((y, x, y + h, x + w))
-
-        # Reescale and crop
-        self.transform = transforms.Compose([
-            transforms.Resize(self.image_size),
-            transforms.ToTensor()
-        ])
 
         # Transform image
         img = self.transform(image)
