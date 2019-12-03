@@ -90,10 +90,10 @@ class CocoKeypoints(VisionDataset):
             coco.showAnns(target)
 
             image = image.crop((x, y, x + w, y + h))
+            image_shape = tuple(transforms.ToTensor()(image).shape[1:3])
 
         # Transform image
         img = self.transform(image)
-        image_shape = tuple(img.shape[1:3])
 
         grid = make_grid(img, nrow=4, padding=2, pad_value=1)
         imshow(grid)
