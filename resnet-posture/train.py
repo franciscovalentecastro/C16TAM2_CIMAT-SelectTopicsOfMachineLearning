@@ -6,13 +6,12 @@ import torch
 import torch.optim as optim
 import torch.autograd as autograd
 
-from torchvision.datasets import CocoDetection
+from torchvision.utils import make_grid
 from torch.utils.tensorboard import SummaryWriter
 
 # Import network
 from network import *
 from utils import *
-from datasets import *
 from imshow import *
 
 # Parser arguments
@@ -34,25 +33,16 @@ parser.add_argument('--device', '--d',
                     default='cpu', choices=['cpu', 'cuda'],
                     help='pick device to run the training (defalut: "cpu")')
 parser.add_argument('--network', '--n',
-                    default='resnet-posture',
-                    choices=['resnet-posture'],
+                    default='posture',
+                    choices=['posture'],
                     help='pick a specific network to train'
-                         '(default: "resnet-posture")')
-parser.add_argument('--bboxes', '--bb',
-                    type=int, default=1, metavar='N',
-                    help='number of bboxes per cell (default: 1)')
-parser.add_argument('--confidence', '--c',
-                    type=float, default=.5, metavar='N',
-                    help='confidence level to pick bboxes (default: .5)')
+                         '(default: "posture")')
 parser.add_argument('--image-shape', '--imshape',
                     type=int, nargs='+',
                     default=[256, 192],
                     metavar='height width',
                     help='rectanlge size to crop input images '
                          '(default: 256 192)')
-parser.add_argument('--dropout', '--drop',
-                    type=float, default=.25, metavar='N',
-                    help='dropout percentage in lstm layers (default: .25)')
 parser.add_argument('--optimizer', '--o',
                     default='adam', choices=['adam', 'sgd'],
                     help='pick a specific optimizer (default: "adam")')
@@ -92,12 +82,23 @@ def batch_status(batch_idx, inputs, outputs, targets,
 
     # print every args.log_interval of batches
     if global_step % args.log_interval == 0:
-        # validate vacc,
+        # validate
         vloss = validate(validset, log_info=True, global_step=global_step)
 
         # Plot predictions
-        img = imshow_bboxes(inputs, targets, args, outputs)
-        args.writer.add_image('Train/predicted', img, global_step)
+        grid = make_grid(inputs, nrow=4, padding=2, pad_value=1)
+
+        # Create Heatmaps grid
+        targets_slice = targets.sum(dim=1, keepdim=True)
+        grid = grid + make_grid(targets_slice, nrow=4, padding=2, pad_value=1)
+        args.writer.add_image('Train/image', grid, global_step)
+
+        grid = make_grid(targets_slice, nrow=4, padding=2, pad_value=1)
+        args.writer.add_image('Train/ground_truth', grid, global_step)
+
+        outputs_slice = outputs.sum(dim=1, keepdim=True)
+        grid = make_grid(outputs_slice, nrow=4, padding=2, pad_value=1)
+        args.writer.add_image('Train/predicted', grid, global_step)
 
         # Process current checkpoint
         process_checkpoint(loss.item(), global_step, args)
@@ -116,7 +117,7 @@ def batch_status(batch_idx, inputs, outputs, targets,
         args.running_loss = 0.0
 
     # (compatibility issues) Pass all pending items to disk
-    # args.writer.flush()
+    args.writer.flush()
 
 
 def train(trainset, validset):
@@ -130,11 +131,20 @@ def train(trainset, validset):
 
     # get some random training images
     dataiter = iter(train_loader)
+    batch = dataiter.next()
     images, targets = dataiter.next()
-    img = imshow_bboxes(images, targets, args)
 
-    # save sample into tensorboard
-    args.writer.add_image('Sample', img)
+    if args.plot:
+        # Create images grid
+        grid = make_grid(images, nrow=4, padding=2, pad_value=1)
+
+        # Create Heatmaps grid
+        targets_slice = targets.sum(dim=1, keepdim=True)
+        grid = grid + make_grid(targets_slice, nrow=4, padding=2, pad_value=1)
+        imshow(grid)
+
+        # save sample into tensorboard
+        args.writer.add_image('Sample', grid)
 
     # Define optimizer
     if args.optimizer == 'adam':
@@ -145,7 +155,7 @@ def train(trainset, validset):
                                    lr=args.learning_rate)
 
     # Set loss function
-    args.criterion = loss_yolo(args).loss
+    args.criterion = torch.nn.BCELoss()
 
     # restore checkpoint
     restore_checkpoint(args)
@@ -176,14 +186,16 @@ def train(trainset, validset):
                 outputs = args.net(inputs)
 
                 # calculate loss
-                loss, t_outputs = args.criterion(outputs, targets.float())
+                print('trgt ', targets.shape)
+                print('otpt ', outputs.shape)
+                loss = args.criterion(outputs, targets)
 
                 # backward + step
                 loss.backward()
                 args.optimizer.step()
 
             # Log batch status
-            batch_status(batch_idx, inputs, t_outputs, targets,
+            batch_status(batch_idx, inputs, outputs, targets,
                          epoch, train_loader, loss, validset)
 
         print('Epoch: {} Average loss: {:.4f}'
@@ -217,13 +229,14 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
             outputs = args.net(inputs)
 
             # calculate loss
-            loss, t_outputs = args.criterion(outputs, targets.float())
+            loss = args.criterion(outputs, targets)
             run_loss += loss.item()
 
         if batch_idx == 1:
             # Plot predictions
-            img = imshow_bboxes(inputs, targets, args, t_outputs)
-            args.writer.add_image('Valid/predicted', img, global_step)
+            outputs_slice = outputs.sum(dim=1, keepdim=True)
+            grid = make_grid(outputs_slice, nrow=4, padding=2, pad_value=1)
+            args.writer.add_image('Valid/predicted', grid, global_step)
 
     if log_info:
         args.writer.add_scalar('Valid/loss',
@@ -263,7 +276,7 @@ def predict_test(testset):
             outputs = args.net(inputs)
 
             # calculate loss
-            loss, t_outputs = args.criterion(outputs, targets.float(), args)
+            loss, t_outputs = args.criterion(outputs, targets)
             run_loss += loss.item()
 
         if batch_idx < 10:
@@ -307,28 +320,7 @@ def main():
 
     # Read dataset
     if args.dataset == 'coco':
-        # Initial parameters
-        dataDir = 'coco'
-
-        # Load train
-        dataType = 'train2017'
-        trn = CocoDetection('{}/images/{}/'.format(dataDir, dataType,),
-                            '{}/annotations/person_keypoints_{}.json'
-                            .format(dataDir, dataType),
-                            transform=transforms.Compose([
-                                transforms.Resize(args.image_shape),
-                                transforms.ToTensor()
-                            ]))
-
-        # Load train
-        dataType = 'val2017'
-        vld = CocoDetection('{}/images/{}/'.format(dataDir, dataType,),
-                            '{}/annotations/person_keypoints_{}.json'
-                            .format(dataDir, dataType),
-                            transform=transforms.Compose([
-                                transforms.Resize(args.image_shape),
-                                transforms.ToTensor()
-                            ]))
+        trn, vld = load_dataset(args)
 
     # Get hparams from args
     args.hparams = get_hparams(args.__dict__)
@@ -337,7 +329,7 @@ def main():
     print()
 
     # Create network
-    if args.network == 'resnet-posture':
+    if args.network == 'posture':
         net = Resnet_Posture(args)
 
         # Load pretrained resnet weights. Drop gradients.

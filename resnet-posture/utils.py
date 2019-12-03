@@ -7,30 +7,37 @@ from sklearn.exceptions import UndefinedMetricWarning
 
 # Import network
 from network import *
+from datasets import *
 
 # Filter scikit-learn metric warnings
 warnings.filterwarnings(action='ignore', category=UndefinedMetricWarning)
 
 
-def split_dataset(dataset, args):
-    # Index of data subsets. 1000 test elems
-    trnvld_idx = list(range(0, len(dataset) - 1000))
-    tst_idx = list(range(len(dataset) - 1000, len(dataset)))
+def load_dataset(args):
+    # Initial parameters
+    dataDir = 'coco'
 
-    trn_size = int(args.train_percentage * len(trnvld_idx))
-    vld_size = len(trnvld_idx) - trn_size
+    # Load train
+    dataType = 'train2017'
+    trn = CocoKeypoints('{}/images/{}/'.format(dataDir, dataType,),
+                        '{}/annotations/person_keypoints_{}.json'
+                        .format(dataDir, dataType), args)
 
-    # Subset train, valid, test dataset
-    trnvld_sub = torch.utils.data.Subset(dataset, trnvld_idx)
-    trn, vld = torch.utils.data.random_split(trnvld_sub, [trn_size, vld_size])
-    tst = torch.utils.data.Subset(dataset, tst_idx)
+    # Load validation
+    dataType = 'val2017'
+    print('{}/annotations/person_keypoints_{}.json'
+          .format(dataDir, dataType))
+    vld = CocoKeypoints('{}/images/{}/'.format(dataDir, dataType,),
+                        '{}/annotations/person_keypoints_{}.json'
+                        .format(dataDir, dataType), args)
+    vld = torch.utils.data.Subset(vld, list(range(0, 100)))
 
     # Dataset information
     print('train dataset : {} elements'.format(len(trn)))
     print('validate dataset : {} elements'.format(len(vld)))
-    print('test dataset : {} elements'.format(len(tst)))
+    # print('test dataset : {} elements'.format(len(tst)))
 
-    return trn, vld, tst
+    return trn, vld
 
 
 def get_hparams(dictionary):

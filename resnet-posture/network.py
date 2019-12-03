@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import torch
 import torch.nn as nn
 import torchvision.models as models
 
@@ -12,28 +11,43 @@ class Resnet_Posture(nn.Module):
         # Parameters
         self.image_shape = args.image_shape
 
-        # Classifier input dimension
-        # self.lin_inpt = 512 * (args.image_shape[0] // 32) * \
-        #     (args.image_shape[1] // 32)
-
+        # Resnet
         self.resnet = models.resnet18(pretrained=True)
 
-        # self.linear = nn.Sequential(nn.Linear(self.lin_inpt,
-        #                                       self.lin_inpt // 2),
-        #                             nn.ReLU(),
-        #                             nn.Linear(self.lin_inpt // 2,
-        #                                       10 *
-        #                                       self.image_shape[0] *
-        #                                       self.image_shape[1]))
+        # Deconv
+        self.deconv1 = self.deconv_block(512, 128, kernel_size=4, stride=4)
+        self.deconv2 = self.deconv_block(128, 64, kernel_size=4, stride=4)
+        self.deconv3 = self.deconv_block(64, 17, kernel_size=2, stride=2)
+
+    def deconv_block(self, inpt, outpt, **kwargs):
+        return nn.Sequential(
+            nn.ConvTranspose2d(in_channels=inpt, out_channels=outpt, **kwargs),
+            nn.Sigmoid()
+        )
 
     def forward(self, x):
-        print(x.shape)
-        x1 = self.resnet(x)
-        print(x1.shape)
-        # x1 = x1.view(-1, self.lin_inpt)
-        # x2 = self.linear(x1)
-        # y = x2.view([-1, 10,
-        #              self.image_shape[0],
-        #              self.image_shape[1]])
+        # print('{} {}'.format(1, x.shape))
+        x = self.resnet.conv1(x)
+        # print('{} {}'.format(2, x.shape))
+        x = self.resnet.bn1(x)
+        # print('{} {}'.format(3, x.shape))
+        x = self.resnet.relu(x)
+        # print('{} {}'.format(4, x.shape))
+        x = self.resnet.maxpool(x)
+        # print('{} {}'.format(5, x.shape))
+        x = self.resnet.layer1(x)
+        # print('{} {}'.format(6, x.shape))
+        x = self.resnet.layer2(x)
+        # print('{} {}'.format(7, x.shape))
+        x = self.resnet.layer3(x)
+        # print('{} {}'.format(8, x.shape))
+        x = self.resnet.layer4(x)
+        # print('{} {}'.format(9, x.shape))
+        x = self.deconv1(x)
+        # print('{} {}'.format(10, x.shape))
+        x = self.deconv2(x)
+        # print('{} {}'.format(11, x.shape))
+        x = self.deconv3(x)
+        # print('{} {}'.format(12, x.shape))
 
-        return x1
+        return x
