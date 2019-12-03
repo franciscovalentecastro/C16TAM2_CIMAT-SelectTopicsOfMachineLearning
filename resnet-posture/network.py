@@ -12,16 +12,17 @@ class Resnet_Posture(nn.Module):
         self.image_shape = args.image_shape
 
         # Resnet
-        self.resnet = models.resnet18(pretrained=True)
+        self.resnet = models.resnet50(pretrained=True)
 
         # Deconv
-        self.deconv1 = self.deconv_block(512, 128, kernel_size=4, stride=4)
-        self.deconv2 = self.deconv_block(128, 64, kernel_size=4, stride=4)
-        self.deconv3 = self.deconv_block(64, 17, kernel_size=2, stride=2)
+        self.deconv1 = self.deconv_block(2048, 512, kernel_size=4, stride=4)
+        self.deconv2 = self.deconv_block(512, 128, kernel_size=4, stride=4)
+        self.deconv3 = self.deconv_block(128, 17, kernel_size=2, stride=2)
 
     def deconv_block(self, inpt, outpt, **kwargs):
         return nn.Sequential(
             nn.ConvTranspose2d(in_channels=inpt, out_channels=outpt, **kwargs),
+            nn.BatchNorm2d(outpt),
             nn.ReLU()
         )
 

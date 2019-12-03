@@ -50,8 +50,8 @@ parser.add_argument('--learning-rate', '--lr',
                     type=float, default=.0001, metavar='N',
                     help='learning rate of model (default: .0001)')
 parser.add_argument('--sigma', '--sg',
-                    type=float, default=5.0, metavar='N',
-                    help='sigma for gaussian on Heatmaps (default: 5.0)')
+                    type=float, default=2.0, metavar='N',
+                    help='sigma for gaussian on Heatmaps (default: 2.0)')
 parser.add_argument('--dataset', '--data',
                     default='coco',
                     choices=['coco'],
@@ -128,6 +128,7 @@ def train(trainset, validset):
     train_loader = torch.utils.data.DataLoader(trainset,
                                                batch_size=args.batch_size,
                                                shuffle=True,
+                                               num_workers=2,
                                                drop_last=False)
     args.dataset_size = len(train_loader.dataset)
     args.dataloader_size = len(train_loader)
@@ -189,8 +190,6 @@ def train(trainset, validset):
                 outputs = args.net(inputs)
 
                 # calculate loss
-                # print('trgt ', targets.shape)
-                # print('otpt ', outputs.shape)
                 loss = args.criterion(outputs, targets)
 
                 # backward + step

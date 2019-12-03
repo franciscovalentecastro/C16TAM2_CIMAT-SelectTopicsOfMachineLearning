@@ -8,6 +8,7 @@ import os
 import os.path
 import torch
 import numpy as np
+from pprint import pprint
 
 
 class CocoKeypoints(VisionDataset):
@@ -63,14 +64,12 @@ class CocoKeypoints(VisionDataset):
         path = coco.loadImgs(img_id)[0]['file_name']
         image = Image.open(os.path.join(self.root, path)).convert('RGB')
 
-        self.transform = transforms.Compose([
-            transforms.Resize(self.image_size),
-            transforms.ToTensor()
-        ])
-
-        # Transform image
-        if self.transform is not None:
-            img = self.transform(image)
+        # Extract bounding box
+        pprint(target[0])
+        bbox = torch.tensor(target[0]['bbox'])
+        print(bbox)
+        x, y, w, h = bbox
+        image = image[:, y:y + h, x:x + w]
 
         # original image shape
         image_tensor = transforms.ToTensor()(image)
@@ -80,6 +79,10 @@ class CocoKeypoints(VisionDataset):
         keypoints = torch.tensor(target[0]['keypoints'])
         keypoints = keypoints.reshape(17, 3)
         tmp_keypoints = keypoints.clone()
+
+        # Crop keypoints 
+        keypoints[:, 0] = keypoints[:, 0] - x
+        keypoints[:, 1] = keypoints[:, 1] - y
 
         # Rescale keypoints
         keypoints[:, 0] = ((tmp_keypoints[:, 1] * self.heatmap_size[0]) /
@@ -92,8 +95,18 @@ class CocoKeypoints(VisionDataset):
             keypoints = torch.zeros((17, 3), dtype=torch.float)
 
         # Generate heatmaps
-        target, target_weight = self.generate_target(keypoints)
-        target_torch = torch.tensor(target)
+        trgt, trgt_weight = self.generate_target(keypoints)
+        target_torch = torch.tensor(trgt)
+
+        # Reescale and crop
+        self.transform = transforms.Compose([
+            transforms.Resize(self.image_size),
+            transforms.ToTensor()
+        ])
+
+        # Transform image
+        if self.transform is not None:
+            img = self.transform(image)
 
         return img, target_torch
 

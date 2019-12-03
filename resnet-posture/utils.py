@@ -22,6 +22,9 @@ def load_dataset(args):
     trn = CocoKeypoints('{}/images/{}/'.format(dataDir, dataType,),
                         '{}/annotations/person_keypoints_{}.json'
                         .format(dataDir, dataType), args)
+    train_size = int(args.train_percentage * len(trn))
+    test_size = len(trn) - train_size
+    trn, _ = torch.utils.data.random_split(trn, [train_size, test_size])
 
     # Load validation
     dataType = 'val2017'

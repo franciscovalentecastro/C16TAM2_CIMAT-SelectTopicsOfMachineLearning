@@ -1,17 +1,18 @@
-mkdir coco
-cd coco
-mkdir images
-cd images
+# mkdir coco
+# cd coco
+# mkdir images
+# cd images
+cd coco/images
 
-wget http://images.cocodataset.org/zips/train2017.zip
-wget http://images.cocodataset.org/zips/val2017.zip
-wget http://images.cocodataset.org/zips/test2017.zip
-wget http://images.cocodataset.org/zips/unlabeled2017.zip
+# wget http://images.cocodataset.org/zips/train2017.zip
+# wget http://images.cocodataset.org/zips/val2017.zip
+# wget http://images.cocodataset.org/zips/test2017.zip
+# wget http://images.cocodataset.org/zips/unlabeled2017.zip
 
 unzip train2017.zip | awk 'BEGIN {ORS=" "} {if(NR%1000==0)print "."}'
 unzip val2017.zip | awk 'BEGIN {ORS=" "} {if(NR%1000==0)print "."}'
 unzip test2017.zip | awk 'BEGIN {ORS=" "} {if(NR%1000==0)print "."}'
-unzip unlabeled2017.zip | awk 'BEGIN {ORS=" "} {if(NR%1000==0)print "."}'
+# unzip unlabeled2017.zip | awk 'BEGIN {ORS=" "} {if(NR%1000==0)print "."}'
 
 rm train2017.zip
 rm val2017.zip
