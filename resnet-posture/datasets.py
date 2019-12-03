@@ -83,10 +83,8 @@ class CocoKeypoints(VisionDataset):
             x, y, w, h = int(x), int(y), int(w), int(h)
             print(x, y, w, h)
 
-            grid = make_grid(self.transform(image), nrow=4,
-                             padding=2, pad_value=1)
             # imshow(grid)
-            plt.imshow(I)
+            plt.imshow(image)
             plt.axis('off')
             ax = plt.gca()
             coco.showAnns(target)
