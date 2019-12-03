@@ -73,7 +73,6 @@ class CocoKeypoints(VisionDataset):
 
         # Reescale and crop
         self.transform = transforms.Compose([
-            transforms.Resize(self.image_size),
             transforms.ToTensor()
         ])
 
