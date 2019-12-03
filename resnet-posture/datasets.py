@@ -69,7 +69,7 @@ class CocoKeypoints(VisionDataset):
         bbox = torch.tensor(target[0]['bbox'])
         print(bbox)
         x, y, w, h = bbox
-        x, y, w, h = int(x), int(y), int(w), (h)
+        x, y, w, h = int(x), int(y), int(w), int(h)
         print(x, y, w, h)
         image = image.crop((y, x, y + h, x + w))
 
