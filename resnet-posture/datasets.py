@@ -95,7 +95,6 @@ class CocoKeypoints(VisionDataset):
         grid = make_grid(img, nrow=4,
                          padding=2, pad_value=1)
         imshow(grid)
-        input()
 
         # Exctract keypoints
         keypoints = torch.tensor(target[0]['keypoints'])
