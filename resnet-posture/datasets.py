@@ -78,10 +78,11 @@ class CocoKeypoints(VisionDataset):
 
         # Transform image
         if self.transform is not None:
-            img = self.transform(image)
+            img = torch.tensor(image)
             print(img.shape)
             print(x, y, w, h)
             img = img[:, y:y + h, x:x + w]
+            img = self.transform(img)
         image_shape = tuple(img.shape[1:3])
 
         # Exctract keypoints
