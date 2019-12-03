@@ -128,7 +128,7 @@ def train(trainset, validset):
     train_loader = torch.utils.data.DataLoader(trainset,
                                                batch_size=args.batch_size,
                                                shuffle=True,
-                                               num_workers=2,
+                                               num_workers=0,
                                                drop_last=False)
     args.dataset_size = len(train_loader.dataset)
     args.dataloader_size = len(train_loader)

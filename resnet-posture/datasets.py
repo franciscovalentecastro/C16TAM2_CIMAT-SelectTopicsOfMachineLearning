@@ -85,7 +85,11 @@ class CocoKeypoints(VisionDataset):
 
             grid = make_grid(self.transform(image), nrow=4,
                              padding=2, pad_value=1)
-            imshow(grid)
+            # imshow(grid)
+            plt.imshow(I)
+            plt.axis('off')
+            ax = plt.gca()
+            coco.showAnns(target)
 
             image = image.crop((y, x, y + h, x + w))
 
@@ -93,8 +97,7 @@ class CocoKeypoints(VisionDataset):
         img = self.transform(image)
         image_shape = tuple(img.shape[1:3])
 
-        grid = make_grid(img, nrow=4,
-                         padding=2, pad_value=1)
+        grid = make_grid(img, nrow=4, padding=2, pad_value=1)
         imshow(grid)
 
         # Exctract keypoints
