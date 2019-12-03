@@ -121,6 +121,9 @@ class CocoKeypoints(VisionDataset):
         trgt, trgt_weight = self.generate_target(keypoints)
         target_torch = torch.tensor(trgt)
 
+        grid = make_grid(target_torch, nrow=4, padding=2, pad_value=1)
+        imshow(grid)
+
         return img, target_torch
 
     def __len__(self):
