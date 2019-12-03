@@ -3,12 +3,16 @@
 
 from torchvision.datasets.vision import VisionDataset
 from torchvision import transforms
+from torchvision.utils import make_grid
+
 from PIL import Image
 import os
 import os.path
 import torch
 import numpy as np
 from pprint import pprint
+
+from imshow import *
 
 
 class CocoKeypoints(VisionDataset):
@@ -71,6 +75,11 @@ class CocoKeypoints(VisionDataset):
         x, y, w, h = bbox
         x, y, w, h = int(x), int(y), int(w), int(h)
         print(x, y, w, h)
+
+        grid = make_grid(self.transform(image), nrow=4,
+                         padding=2, pad_value=1)
+        imshow(grid)
+
         image = image.crop((y, x, y + h, x + w))
 
         # Reescale and crop
@@ -82,6 +91,11 @@ class CocoKeypoints(VisionDataset):
         # Transform image
         img = self.transform(image)
         image_shape = tuple(img.shape[1:3])
+
+        grid = make_grid(img, nrow=4,
+                         padding=2, pad_value=1)
+        imshow(grid)
+        input()
 
         # Exctract keypoints
         keypoints = torch.tensor(target[0]['keypoints'])
