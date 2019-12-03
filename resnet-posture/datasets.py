@@ -70,6 +70,7 @@ class CocoKeypoints(VisionDataset):
         print(bbox)
         x, y, w, h = bbox
         x, y, w, h = int(x), int(y), int(w), (h)
+        print(x, y, w, h)
         image = image.crop((y, x, y + h, x + w))
 
         # Reescale and crop
