@@ -49,6 +49,9 @@ parser.add_argument('--optimizer', '--o',
 parser.add_argument('--learning-rate', '--lr',
                     type=float, default=.0001, metavar='N',
                     help='learning rate of model (default: .0001)')
+parser.add_argument('--sigma', '--sg',
+                    type=float, default=5.0, metavar='N',
+                    help='sigma for gaussian on Heatmaps (default: 5.0)')
 parser.add_argument('--dataset', '--data',
                     default='coco',
                     choices=['coco'],

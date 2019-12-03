@@ -40,7 +40,7 @@ class CocoKeypoints(VisionDataset):
         self.transform = transform
 
         # Keypoints parameter
-        self.sigma = 2
+        self.sigma = args.sigma
         self.target_type = 'gaussian'
         self.num_joints = 17
         self.image_size = np.array(args.image_shape)
