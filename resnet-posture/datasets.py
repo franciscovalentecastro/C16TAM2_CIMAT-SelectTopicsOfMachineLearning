@@ -78,7 +78,7 @@ class CocoKeypoints(VisionDataset):
 
         # Transform image
         if self.transform is not None:
-            img = torch.tensor(image)
+            img = transforms.ToTensor()(image)
             print(img.shape)
             print(x, y, w, h)
             img = img[:, y:y + h, x:x + w]
