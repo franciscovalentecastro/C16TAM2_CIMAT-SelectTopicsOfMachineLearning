@@ -104,11 +104,8 @@ def batch_status(batch_idx, inputs, outputs, targets,
         outputs_heatmap = torch.zeros((args.batch_size, 3,
                                        args.image_shape[0],
                                        args.image_shape[1]))
-        for idx in range(args.batch_size):
-            print(outputs_slice[idx].shape)
-            print(outputs_heatmap[idx].shape)
-            outputs_heatmap[idx] = colorize(outputs_slice[idx])
-        grid = make_grid(outputs_slice, nrow=4, padding=2, pad_value=1)
+        outputs_heatmap = colorize(outputs_slice)
+        grid = make_grid(outputs_heatmap, nrow=4, padding=2, pad_value=1)
         args.writer.add_image('Train/predicted', grid, global_step)
 
         # Process current checkpoint
