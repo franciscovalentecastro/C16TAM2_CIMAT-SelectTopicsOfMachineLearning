@@ -95,19 +95,22 @@ def batch_status(batch_idx, inputs, outputs, targets,
         # Create Heatmaps grid
         targets_slice = targets.sum(dim=1, keepdim=True)
         grid = grid + make_grid(targets_slice, nrow=4, padding=2, pad_value=1)
-        args.writer.add_image('Train/image', grid, global_step)
+        args.writer.add_image('Train/gt_image', grid, global_step)
 
-        grid = make_grid(targets_slice, nrow=4, padding=2, pad_value=1)
-        args.writer.add_image('Train/ground_truth', grid, global_step)
+        # Ground truth
+        targets_heatmap = heatmap(targets_slice)
+        grid = make_grid(targets_heatmap, nrow=4, padding=2, pad_value=1)
+        args.writer.add_image('Train/gt', grid, global_step)
 
+        # Predictend heatmap
         outputs_slice = outputs.sum(dim=1, keepdim=True)
-        outputs_heatmap = torch.zeros((args.batch_size, 3,
-                                       args.image_shape[0],
-                                       args.image_shape[1]))
-        for idx in range(args.batch_size):
-            outputs_heatmap[idx] = colorize(outputs_slice[idx])
+        outputs_heatmap = heatmap(outputs_slice)
         grid = make_grid(outputs_heatmap, nrow=4, padding=2, pad_value=1)
-        args.writer.add_image('Train/predicted', grid, global_step)
+        args.writer.add_image('Train/pred', grid, global_step)
+
+        # Plot predictions over image
+        grid = grid + make_grid(inputs, nrow=4, padding=2, pad_value=1)
+        args.writer.add_image('Train/pred_image', grid, global_step)
 
         # Process current checkpoint
         process_checkpoint(loss.item(), global_step, args)
@@ -243,7 +246,11 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
             # Plot predictions
             outputs_slice = outputs.sum(dim=1, keepdim=True)
             grid = make_grid(outputs_slice, nrow=4, padding=2, pad_value=1)
-            args.writer.add_image('Valid/predicted', grid, global_step)
+            args.writer.add_image('Valid/pred', grid, global_step)
+
+            # Plot predictions over image
+            grid = grid + make_grid(inputs, nrow=4, padding=2, pad_value=1)
+            args.writer.add_image('Valid/pred_image', grid, global_step)
 
     if log_info:
         args.writer.add_scalar('Valid/loss',

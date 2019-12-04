@@ -19,6 +19,14 @@ def make_image(img, mean=(0,0,0), std=(1,1,1)):
 def gauss(x,a,b,c):
     return torch.exp(-torch.pow(torch.add(x,-b),2).div(2*c*c)).mul(a)
 
+def heatmap(x):
+    heatmap = torch.zeros((x.shape[0], 3,
+                           x.shape[2],
+                           x.shape[3]))
+    for idx in range(x.shape[0]):
+        heatmap[idx] = colorize(x[idx])
+    return heatmap
+
 def colorize(x):
     ''' Converts a one-channel grayscale image to a color heatmap image '''
     if x.dim() == 2:
