@@ -90,7 +90,7 @@ def batch_status(batch_idx, inputs, outputs, targets,
         vloss = validate(validset, log_info=True, global_step=global_step)
 
         # Add to tensorboard
-        add_tensorboard(inputs, targets, outputs, name='Train')
+        add_tensorboard(inputs, targets, outputs, global_step, name='Train')
 
         # Process current checkpoint
         process_checkpoint(loss.item(), global_step, args)
@@ -111,7 +111,7 @@ def batch_status(batch_idx, inputs, outputs, targets,
     args.writer.flush()
 
 
-def add_tensorboard(inputs, targets, outputs, name='Train'):
+def add_tensorboard(inputs, targets, outputs, global_step, name='Train'):
     # Make targets and output slices
     trgt_slice = targets.sum(dim=1, keepdim=True)
     otpt_slice = outputs.sum(dim=1, keepdim=True)
@@ -248,7 +248,8 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
 
         if batch_idx == 1:
             # Add to tensorboard
-            add_tensorboard(inputs, targets, outputs, name='Valid')
+            add_tensorboard(inputs, targets, outputs,
+                            global_step, name='Valid')
 
     if log_info:
         args.writer.add_scalar('Valid/loss',
