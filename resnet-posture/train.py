@@ -13,7 +13,7 @@ from torch.utils.tensorboard import SummaryWriter
 from network import *
 from utils import *
 from imshow import *
-from heatmap import colorize
+from heatmap import heatmap
 
 # Parser arguments
 parser = argparse.ArgumentParser(description='Train Resnet Posture estimation')
