@@ -89,28 +89,22 @@ def batch_status(batch_idx, inputs, outputs, targets,
         # validate
         vloss = validate(validset, log_info=True, global_step=global_step)
 
-        # Plot predictions
-        grid = make_grid(inputs, nrow=4, padding=2, pad_value=1)
+        # Make targets and output slices
+        trgt_htmp = heatmap(targets.sum(dim=1, keepdim=True))
+        otpt_htmp = heatmap(outputs.sum(dim=1, keepdim=True))
+
+        # Make grids
+        image_grid = make_grid(inputs, nrow=4, padding=2, pad_value=1)
+        trgt_htmp_grid = make_grid(trgt_htmp, nrow=4, padding=2, pad_value=1)
+        otpt_htmp_grid = make_grid(otpt_htmp, nrow=4, padding=2, pad_value=1)
 
         # Create Heatmaps grid
-        targets_slice = targets.sum(dim=1, keepdim=True)
-        grid = grid + make_grid(targets_slice, nrow=4, padding=2, pad_value=1)
-        args.writer.add_image('Train/gt_image', grid, global_step)
-
-        # Ground truth
-        targets_heatmap = heatmap(targets_slice)
-        grid = make_grid(targets_heatmap, nrow=4, padding=2, pad_value=1)
-        args.writer.add_image('Train/gt', grid, global_step)
-
-        # Predictend heatmap
-        outputs_slice = outputs.sum(dim=1, keepdim=True)
-        outputs_heatmap = heatmap(outputs_slice)
-        grid = make_grid(outputs_heatmap, nrow=4, padding=2, pad_value=1)
-        args.writer.add_image('Train/pred', grid, global_step)
-
-        # Plot predictions over image
-        grid = grid + make_grid(inputs, nrow=4, padding=2, pad_value=1)
-        args.writer.add_image('Train/pred_image', grid, global_step)
+        args.writer.add_image('Train/gt', trgt_htmp_grid, global_step)
+        args.writer.add_image('Train/gt_image', image_grid + trgt_htmp_grid,
+                              global_step)
+        args.writer.add_image('Train/pred', otpt_htmp_grid, global_step)
+        args.writer.add_image('Train/pred_image', image_grid + otpt_htmp_grid,
+                              global_step)
 
         # Process current checkpoint
         process_checkpoint(loss.item(), global_step, args)
@@ -243,14 +237,22 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
             run_loss += loss.item()
 
         if batch_idx == 1:
-            # Plot predictions
-            outputs_slice = outputs.sum(dim=1, keepdim=True)
-            grid = make_grid(outputs_slice, nrow=4, padding=2, pad_value=1)
-            args.writer.add_image('Valid/pred', grid, global_step)
+            # Make targets and output slices
+            trgt_htmp = heatmap(targets.sum(dim=1, keepdim=True))
+            otpt_htmp = heatmap(outputs.sum(dim=1, keepdim=True))
 
-            # Plot predictions over image
-            grid = grid + make_grid(inputs, nrow=4, padding=2, pad_value=1)
-            args.writer.add_image('Valid/pred_image', grid, global_step)
+            # Make grids
+            image_grid = make_grid(inputs, nrow=4, padding=2, pad_value=1)
+            trgt_htmp_grid = make_grid(trgt_htmp, nrow=4, padding=2, pad_value=1)
+            otpt_htmp_grid = make_grid(otpt_htmp, nrow=4, padding=2, pad_value=1)
+
+            # Create Heatmaps grid
+            args.writer.add_image('Valid/gt', trgt_htmp_grid, global_step)
+            args.writer.add_image('Valid/gt_image', image_grid + trgt_htmp_grid,
+                                  global_step)
+            args.writer.add_image('Valid/pred', otpt_htmp_grid, global_step)
+            args.writer.add_image('Valid/pred_image', image_grid + otpt_htmp_grid,
+                                  global_step)
 
     if log_info:
         args.writer.add_scalar('Valid/loss',
