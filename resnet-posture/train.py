@@ -107,8 +107,7 @@ def batch_status(batch_idx, inputs, outputs, targets,
         process_checkpoint(loss.item(), global_step, args)
 
         print('Epoch : {} Batch : {} [{}/{} ({:.0f}%)]\n'
-              '====> Run_Loss : {:.4f} Valid_Loss : {:.4f}'
-              # '====> Loss_Batch : {:.4f} Loss_Valid : {:.4f} '
+              '====> Run_Loss : {:.6f} Valid_Loss : {:.6f}'
               .format(epoch, batch_idx,
                       args.batch_size * batch_idx,
                       args.dataset_size,
