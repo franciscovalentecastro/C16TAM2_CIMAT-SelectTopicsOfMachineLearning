@@ -89,27 +89,8 @@ def batch_status(batch_idx, inputs, outputs, targets,
         # validate
         vloss = validate(validset, log_info=True, global_step=global_step)
 
-        # Make targets and output slices
-        trgt_slice = targets.sum(dim=1, keepdim=True)
-        otpt_slice = outputs.sum(dim=1, keepdim=True)
-
-        trgt_htmp = heatmap(trgt_slice).to(args.device)
-        otpt_htmp = heatmap(otpt_slice).to(args.device)
-
-        # Make grids
-        image_grid = make_grid(inputs, nrow=4, padding=2, pad_value=1)
-        trgt_slice_grid = make_grid(trgt_slice, nrow=4, padding=2, pad_value=1)
-        otpt_slice_grid = make_grid(otpt_slice, nrow=4, padding=2, pad_value=1)
-        trgt_htmp_grid = make_grid(trgt_htmp, nrow=4, padding=2, pad_value=1)
-        otpt_htmp_grid = make_grid(otpt_htmp, nrow=4, padding=2, pad_value=1)
-
-        # Create Heatmaps grid
-        args.writer.add_image('Train/gt', trgt_htmp_grid, global_step)
-        args.writer.add_image('Train/gt_image', image_grid + trgt_slice_grid,
-                              global_step)
-        args.writer.add_image('Train/pred', otpt_htmp_grid, global_step)
-        args.writer.add_image('Train/pred_image', image_grid + otpt_slice_grid,
-                              global_step)
+        # Add to tensorboard
+        add_tensorboard(inputs, targets, outputs, name='Train')
 
         # Process current checkpoint
         process_checkpoint(loss.item(), global_step, args)
@@ -128,6 +109,30 @@ def batch_status(batch_idx, inputs, outputs, targets,
 
     # (compatibility issues) Pass all pending items to disk
     args.writer.flush()
+
+
+def add_tensorboard(inputs, targets, outputs, name='Train'):
+    # Make targets and output slices
+    trgt_slice = targets.sum(dim=1, keepdim=True)
+    otpt_slice = outputs.sum(dim=1, keepdim=True)
+
+    trgt_htmp = heatmap(trgt_slice).to(args.device)
+    otpt_htmp = heatmap(otpt_slice).to(args.device)
+
+    # Make grids
+    image_grid = make_grid(inputs, nrow=4, padding=2, pad_value=1)
+    trgt_slice_grid = make_grid(trgt_slice, nrow=4, padding=2, pad_value=1)
+    otpt_slice_grid = make_grid(otpt_slice, nrow=4, padding=2, pad_value=1)
+    trgt_htmp_grid = make_grid(trgt_htmp, nrow=4, padding=2, pad_value=1)
+    otpt_htmp_grid = make_grid(otpt_htmp, nrow=4, padding=2, pad_value=1)
+
+    # Create Heatmaps grid
+    args.writer.add_image('{}/gt'.format(name), trgt_htmp_grid, global_step)
+    args.writer.add_image('{}/gt_image'.format(name),
+                          image_grid + trgt_slice_grid, global_step)
+    args.writer.add_image('{}/pred'.format(name), otpt_htmp_grid, global_step)
+    args.writer.add_image('{}/pred_image'.format(name),
+                          image_grid + otpt_slice_grid, global_step)
 
 
 def train(trainset, validset):
@@ -242,27 +247,8 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
             run_loss += loss.item()
 
         if batch_idx == 1:
-            # Make targets and output slices
-            trgt_slice = targets.sum(dim=1, keepdim=True)
-            otpt_slice = outputs.sum(dim=1, keepdim=True)
-
-            trgt_htmp = heatmap(trgt_slice).to(args.device)
-            otpt_htmp = heatmap(otpt_slice).to(args.device)
-
-            # Make grids
-            image_grid = make_grid(inputs, nrow=4, padding=2, pad_value=1)
-            trgt_slice_grid = make_grid(trgt_slice, nrow=4, padding=2, pad_value=1)
-            otpt_slice_grid = make_grid(otpt_slice, nrow=4, padding=2, pad_value=1)
-            trgt_htmp_grid = make_grid(trgt_htmp, nrow=4, padding=2, pad_value=1)
-            otpt_htmp_grid = make_grid(otpt_htmp, nrow=4, padding=2, pad_value=1)
-
-            # Create Heatmaps grid
-            args.writer.add_image('Valid/gt', trgt_htmp_grid, global_step)
-            args.writer.add_image('Valid/gt_image', image_grid + trgt_slice_grid,
-                                  global_step)
-            args.writer.add_image('Valid/pred', otpt_htmp_grid, global_step)
-            args.writer.add_image('Valid/pred_image', image_grid + otpt_slice_grid,
-                                  global_step)
+            # Add to tensorboard
+            add_tensorboard(inputs, targets, outputs, name='Valid')
 
     if log_info:
         args.writer.add_scalar('Valid/loss',
