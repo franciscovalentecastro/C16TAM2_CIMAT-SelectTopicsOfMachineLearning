@@ -13,6 +13,7 @@ from torch.utils.tensorboard import SummaryWriter
 from network import *
 from utils import *
 from imshow import *
+from heatmap import colorize
 
 # Parser arguments
 parser = argparse.ArgumentParser(description='Train Resnet Posture estimation')
@@ -100,6 +101,13 @@ def batch_status(batch_idx, inputs, outputs, targets,
         args.writer.add_image('Train/ground_truth', grid, global_step)
 
         outputs_slice = outputs.sum(dim=1, keepdim=True)
+        outputs_heatmap = torch.zeros((args.batch_size, 3,
+                                       args.image_shape[0],
+                                       args.image_shape[1]))
+        for idx in range(args.batch_size):
+            print(outputs_slice[idx].shape)
+            print(outputs_heatmap[idx].shape)
+            outputs_heatmap[idx] = colorize(outputs_slice[idx])
         grid = make_grid(outputs_slice, nrow=4, padding=2, pad_value=1)
         args.writer.add_image('Train/predicted', grid, global_step)
 
