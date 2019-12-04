@@ -90,8 +90,8 @@ def batch_status(batch_idx, inputs, outputs, targets,
         vloss = validate(validset, log_info=True, global_step=global_step)
 
         # Make targets and output slices
-        trgt_htmp = heatmap(targets.sum(dim=1, keepdim=True))
-        otpt_htmp = heatmap(outputs.sum(dim=1, keepdim=True))
+        trgt_htmp = heatmap(targets.sum(dim=1, keepdim=True)).to(args.device)
+        otpt_htmp = heatmap(outputs.sum(dim=1, keepdim=True)).to(args.device)
 
         # Make grids
         image_grid = make_grid(inputs, nrow=4, padding=2, pad_value=1)
@@ -238,8 +238,8 @@ def validate(validset, print_info=False, log_info=False, global_step=0):
 
         if batch_idx == 1:
             # Make targets and output slices
-            trgt_htmp = heatmap(targets.sum(dim=1, keepdim=True))
-            otpt_htmp = heatmap(outputs.sum(dim=1, keepdim=True))
+            trgt_htmp = heatmap(targets.sum(dim=1, keepdim=True)).to(args.device)
+            otpt_htmp = heatmap(outputs.sum(dim=1, keepdim=True)).to(args.device)
 
             # Make grids
             image_grid = make_grid(inputs, nrow=4, padding=2, pad_value=1)
