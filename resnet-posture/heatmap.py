@@ -1,10 +1,11 @@
+# https://github.com/bearpaw/pytorch-classification/blob/master/utils/visualize.py
+
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torchvision
 import torchvision.transforms as transforms
 import numpy as np
-from .misc import *   
 
 __all__ = ['make_image', 'show_batch', 'show_mask', 'show_mask_single']
 
