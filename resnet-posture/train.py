@@ -271,7 +271,7 @@ def predict_test(testset):
     restore_checkpoint(args)
 
     # Set loss function
-    args.criterion = loss_yolo(args).measure
+    args.criterion = torch.nn.MSELoss()
 
     # Predict all test elements and measure
     run_loss = 0
