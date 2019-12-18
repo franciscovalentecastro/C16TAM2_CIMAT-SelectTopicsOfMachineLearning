@@ -80,7 +80,7 @@ def restore_checkpoint(args):
         return
 
     # Load provided checkpoint
-    checkpoint = torch.load(args.checkpoint)
+    checkpoint = torch.load(args.checkpoint, map_location=args.device)
     print('Restored weights from {}.'.format(args.checkpoint))
 
     # Restore weights
