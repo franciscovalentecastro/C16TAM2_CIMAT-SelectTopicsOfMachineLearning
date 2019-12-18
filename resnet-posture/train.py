@@ -299,7 +299,7 @@ def predict_test(testset):
             input()
 
             # calculate loss
-            loss, t_outputs = args.criterion(outputs, targets)
+            loss = args.criterion(outputs, targets)
             run_loss += loss.item()
 
         if batch_idx < 10:
