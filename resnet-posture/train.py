@@ -330,12 +330,12 @@ def main():
     # print run name
     print('execution name : {}'.format(args.run))
 
-    # if not args.predict:
-    # Tensorboard summary writer
-    writer = SummaryWriter('runs/' + args.run)
+    if args.predict is None:
+        # Tensorboard summary writer
+        writer = SummaryWriter('runs/' + args.run)
 
-    # Save as parameter
-    args.writer = writer
+        # Save as parameter
+        args.writer = writer
 
     # Read dataset
     if args.dataset == 'coco':
@@ -382,9 +382,9 @@ def main():
     del args.net
     torch.cuda.empty_cache()
 
-    # if not args.predict:
-    # Close tensorboard writer
-    args.writer.close()
+    if args.predict is None:
+        # Close tensorboard writer
+        args.writer.close()
 
 
 if __name__ == "__main__":
