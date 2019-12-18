@@ -15,7 +15,7 @@ warnings.filterwarnings(action='ignore', category=UndefinedMetricWarning)
 def get_max(x, dim=(2, 3)):
     b = x.shape[0]
     j = x.shape[1]
-    d = tensor.shape[2]
+    d = x.shape[2]
     m = x.view(b, j, -1).argmax(1)
     indices = torch.cat(((m // d).view(-1, 1),
                          (m % d).view(-1, 1)),
