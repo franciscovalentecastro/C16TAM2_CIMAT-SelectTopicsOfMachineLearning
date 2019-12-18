@@ -289,6 +289,10 @@ def predict_test(testset):
             outputs = args.net(inputs)
 
             # get maximum from each layer
+            m = x.view(n, -1).argmax(1)
+            indices = torch.cat(((m // d).view(-1, 1),
+                                 (m % d).view(-1, 1)),
+                                dim=1)
             print(outputs.shape)
             max_inpt, idx_inpt = torch.max(inputs, dim=(2, 3))
             max_otpt, idx_otpt = torch.max(outputs, dim=(2, 3))

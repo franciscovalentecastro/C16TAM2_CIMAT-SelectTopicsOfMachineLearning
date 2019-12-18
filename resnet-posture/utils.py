@@ -2,7 +2,6 @@
 import torch
 import warnings
 from datetime import datetime
-from sklearn import metrics
 from sklearn.exceptions import UndefinedMetricWarning
 
 # Import network
@@ -11,6 +10,17 @@ from datasets import *
 
 # Filter scikit-learn metric warnings
 warnings.filterwarnings(action='ignore', category=UndefinedMetricWarning)
+
+
+def get_max(x, dim=(2, 3)):
+    b = x.shape[0]
+    j = x.shape[1]
+    d = tensor.shape[2]
+    m = x.view(b, j, -1).argmax(1)
+    indices = torch.cat(((m // d).view(-1, 1),
+                         (m % d).view(-1, 1)),
+                        dim=1)
+    return indices
 
 
 def load_dataset(args):
