@@ -43,7 +43,7 @@ def load_dataset(args):
     print('validate dataset : {} elements'.format(len(vld)))
     print('test dataset : {} elements'.format(len(tst)))
 
-    return trn, vld
+    return trn, vld, tst
 
 
 def get_hparams(dictionary):

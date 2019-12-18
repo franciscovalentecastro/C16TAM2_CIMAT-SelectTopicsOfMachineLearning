@@ -288,6 +288,12 @@ def predict_test(testset):
             # forward
             outputs = args.net(inputs)
 
+            # get maximum from each layer
+            print(outputs.shape)
+            maximum = outputs.argmax(dim=(2, 3))
+            print(maximum.shape)
+            input()
+
             # calculate loss
             loss, t_outputs = args.criterion(outputs, targets)
             run_loss += loss.item()
@@ -333,7 +339,7 @@ def main():
 
     # Read dataset
     if args.dataset == 'coco':
-        trn, vld = load_dataset(args)
+        trn, vld, tst = load_dataset(args)
 
     # Get hparams from args
     args.hparams = get_hparams(args.__dict__)
