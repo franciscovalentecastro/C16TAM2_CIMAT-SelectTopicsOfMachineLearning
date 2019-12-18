@@ -290,10 +290,10 @@ def predict_test(testset):
 
             # get maximum from each layer
             print(outputs.shape)
-            max_otpt = outputs.max(dim=(2, 3))
-            max_inpt = inputs.max(dim=(2,3))
-            print(max_out.shape)
+            max_inpt, idx_inpt = torch.max(inputs, dim=(2, 3))
+            max_otpt, idx_otpt = torch.max(outputs, dim=(2, 3))
             print(max_inpt.shape)
+            print(max_otpt.shape)
             input()
 
             # calculate loss
