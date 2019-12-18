@@ -27,28 +27,16 @@ class Resnet_Posture(nn.Module):
         )
 
     def forward(self, x):
-        # print('{} {}'.format(1, x.shape))
         x = self.resnet.conv1(x)
-        # print('{} {}'.format(2, x.shape))
         x = self.resnet.bn1(x)
-        # print('{} {}'.format(3, x.shape))
         x = self.resnet.relu(x)
-        # print('{} {}'.format(4, x.shape))
         x = self.resnet.maxpool(x)
-        # print('{} {}'.format(5, x.shape))
         x = self.resnet.layer1(x)
-        # print('{} {}'.format(6, x.shape))
         x = self.resnet.layer2(x)
-        # print('{} {}'.format(7, x.shape))
         x = self.resnet.layer3(x)
-        # print('{} {}'.format(8, x.shape))
         x = self.resnet.layer4(x)
-        # print('{} {}'.format(9, x.shape))
         x = self.deconv1(x)
-        # print('{} {}'.format(10, x.shape))
         x = self.deconv2(x)
-        # print('{} {}'.format(11, x.shape))
         x = self.deconv3(x)
-        # print('{} {}'.format(12, x.shape))
 
         return x

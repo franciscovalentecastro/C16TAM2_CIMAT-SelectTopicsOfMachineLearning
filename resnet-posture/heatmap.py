@@ -1,4 +1,4 @@
-# Tomado del github para hacer heatmaps en pytorch
+# Tomado de github para hacer heatmaps con pytorch
 # https://github.com/bearpaw/pytorch-classification/blob/master/utils/visualize.py
 
 import matplotlib.pyplot as plt

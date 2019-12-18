@@ -3,16 +3,12 @@
 
 from torchvision.datasets.vision import VisionDataset
 from torchvision import transforms
-from torchvision.utils import make_grid
 
 from PIL import Image
 import os
 import os.path
 import torch
 import numpy as np
-from pprint import pprint
-
-from imshow import *
 
 
 class CocoKeypoints(VisionDataset):
@@ -75,19 +71,10 @@ class CocoKeypoints(VisionDataset):
         ])
 
         # Extract bounding box
-        # print(type(target[0]))
         if len(target) > 0:
             bbox = torch.tensor(target[0]['bbox'])
-            # print(bbox)
             x, y, w, h = bbox
             x, y, w, h = int(x), int(y), int(w), int(h)
-            # print(x, y, w, h)
-
-            # imshow(grid)
-            # plt.imshow(image)
-            # plt.axis('off')
-            # ax = plt.gca()
-            # coco.showAnns(target)
 
             image = image.crop((x, y, x + w, y + h))
             image_shape = tuple(transforms.ToTensor()(image).shape[1:3])
@@ -117,14 +104,6 @@ class CocoKeypoints(VisionDataset):
         # Generate heatmaps
         trgt, trgt_weight = self.generate_target(keypoints)
         target_torch = torch.tensor(trgt)
-
-        # print(target_torch.shape)
-        # targets_slice = target_torch.sum(dim=0, keepdim=True)
-        # grid = make_grid(targets_slice, nrow=4, padding=2, pad_value=1)
-        # imshow(grid)
-
-        # grid = grid + make_grid(img, nrow=4, padding=2, pad_value=1)
-        # imshow(grid)
 
         return img, target_torch
 

@@ -35,10 +35,13 @@ def load_dataset(args):
                         .format(dataDir, dataType), args)
     vld = torch.utils.data.Subset(vld, list(range(0, 100)))
 
+    # Load test
+    tst = vld
+
     # Dataset information
     print('train dataset : {} elements'.format(len(trn)))
     print('validate dataset : {} elements'.format(len(vld)))
-    # print('test dataset : {} elements'.format(len(tst)))
+    print('test dataset : {} elements'.format(len(tst)))
 
     return trn, vld
 
