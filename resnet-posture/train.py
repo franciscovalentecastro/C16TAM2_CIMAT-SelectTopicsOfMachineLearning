@@ -290,8 +290,10 @@ def predict_test(testset):
 
             # get maximum from each layer
             print(outputs.shape)
-            maximum = outputs.argmax(dim=(2, 3))
-            print(maximum.shape)
+            max_otpt = outputs.max(dim=(2, 3))
+            max_inpt = inputs.max(dim=(2,3))
+            print(max_out.shape)
+            print(max_inpt.shape)
             input()
 
             # calculate loss
