@@ -304,8 +304,9 @@ def predict_test(testset):
 
         if batch_idx < 10:
             # Plot predictions
-            img = imshow_bboxes(inputs, targets, args, t_outputs)
-            args.writer.add_image('Test/predicted', img, batch_idx)
+            # img = imshow_bboxes(inputs, targets, args, t_outputs)
+            # args.writer.add_image('Test/predicted', img, batch_idx)
+            pass
         else:
             break
 
