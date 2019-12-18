@@ -62,7 +62,7 @@ def read_checkpoint(args):
         return
 
     # Load provided checkpoint
-    checkpoint = torch.load(args.checkpoint)
+    checkpoint = torch.load(args.checkpoint, map_location=args.device)
     print('Read weights from {}.'.format(args.checkpoint))
 
     # Discard hparams
